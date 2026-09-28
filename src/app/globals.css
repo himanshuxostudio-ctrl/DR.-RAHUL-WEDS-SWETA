@@ -179,7 +179,7 @@ body.is-locked {
   color: var(--gold-light);
   background: rgba(30, 7, 11, 0.35);
   overflow: hidden;
-  transition: color 0.5s var(--ease-luxe), background 0.5s var(--ease-luxe), border-color 0.5s var(--ease-luxe);
+  transition: color 0.5s var(--ease-luxe), background 0.5s var(--ease-luxe), border-color 0.5s var(--ease-luxe), transform 0.25s var(--ease-luxe);
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -194,6 +194,7 @@ body.is-locked {
 
 .btn-gold:hover::before { transform: translateX(120%); }
 .btn-gold:hover { background: rgba(201, 164, 92, 0.16); color: var(--ivory); }
+.btn-gold:active { transform: scale(0.97); }
 
 .btn-gold.solid {
   background: linear-gradient(135deg, var(--gold-light), var(--gold) 55%, var(--gold-deep));
@@ -249,26 +250,6 @@ body.is-locked {
   animation-delay: var(--sweep-delay, 0.8s);
   opacity: 0;
 }
-
-/* Form controls */
-.field {
-  width: 100%;
-  min-height: 52px;
-  padding: 1.1rem 0 0.55rem;
-  background: transparent;
-  border: 0;
-  border-bottom: 1px solid rgba(201, 164, 92, 0.45);
-  color: var(--ivory);
-  font-family: var(--font-sans);
-  font-size: 1rem;
-  border-radius: 0;
-  transition: border-color 0.4s var(--ease-luxe);
-}
-.field::placeholder { color: rgba(238, 220, 194, 0.4); }
-.field:focus { outline: none; border-bottom-color: var(--gold-light); }
-.field:focus-visible { outline: none; box-shadow: 0 2px 0 0 var(--gold-light); }
-select.field { appearance: none; }
-select.field option { background: var(--maroon); color: var(--ivory); }
 
 /* ── Reduced motion ───────────────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {

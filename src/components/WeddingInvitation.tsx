@@ -1,6 +1,6 @@
 "use client";
 
-import { MotionConfig } from "framer-motion";
+import { LazyMotion, MotionConfig, domAnimation } from "framer-motion";
 import { useState } from "react";
 import CoupleStory from "./CoupleStory";
 import FamilySection from "./FamilySection";
@@ -10,20 +10,25 @@ import Gallery from "./Gallery";
 import HeroSection from "./HeroSection";
 import InvitationOpening from "./InvitationOpening";
 import { MusicProvider } from "./MusicPlayer";
-import RSVPSection from "./RSVPSection";
 import VenueSection from "./VenueSection";
 import WeddingCountdown from "./WeddingCountdown";
 import WeddingTimeline from "./WeddingTimeline";
 import { SvgDefs } from "./decor/Ornaments";
 
 /**
- * INVITATION → COUPLE → FAMILY → CELEBRATIONS (Chheka · Matkor · Vivah)
- * → VENUE → COUNTDOWN → GALLERY → RSVP → FINAL
+ * The film, in order:
+ * Opening invitation → Dr. Rahul & Sweta → Two Hearts, One Journey →
+ * Family blessings → Celebrations (Chheka · Matkor · Vivaah) → Venue →
+ * Countdown → Gallery → Final wedding image → Thank You.
+ *
+ * LazyMotion + `m` components ship only the animation features used here
+ * (animations, variants, exit, in-view), keeping the initial bundle small.
  */
 export default function WeddingInvitation() {
   const [opened, setOpened] = useState(false);
 
   return (
+    <LazyMotion features={domAnimation} strict>
     <MotionConfig reducedMotion="user">
       <MusicProvider>
         <SvgDefs />
@@ -36,11 +41,11 @@ export default function WeddingInvitation() {
           <VenueSection />
           <WeddingCountdown />
           <Gallery />
-          <RSVPSection />
           <FinalSection />
         </main>
         <FloatingControls visible={opened} />
       </MusicProvider>
     </MotionConfig>
+    </LazyMotion>
   );
 }

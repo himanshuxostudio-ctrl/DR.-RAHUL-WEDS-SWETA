@@ -1,7 +1,7 @@
 "use client";
 
-import { motion, useMotionValue, useScroll, useTransform, type MotionValue } from "framer-motion";
-import { useEffect, useRef, type ReactNode } from "react";
+import { m, useScroll, useTransform, type MotionValue } from "framer-motion";
+import { useRef, type ReactNode } from "react";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -19,7 +19,7 @@ export function Reveal({
   className?: string;
   as?: "div" | "p" | "h2" | "h3" | "span" | "li";
 }) {
-  const M = motion[as];
+  const M = m[as];
   return (
     <M
       className={className}
@@ -41,7 +41,7 @@ export function Reveal({
 export function RevealWords({ text, className = "", delay = 0, stagger = 0.08 }: { text: string; className?: string; delay?: number; stagger?: number }) {
   const words = text.split(" ");
   return (
-    <motion.span
+    <m.span
       className={className}
       aria-label={text}
       initial="hidden"
@@ -51,16 +51,16 @@ export function RevealWords({ text, className = "", delay = 0, stagger = 0.08 }:
     >
       {words.map((w, i) => (
         <span key={i} aria-hidden className="-my-[0.3em] inline-block overflow-hidden py-[0.3em] align-bottom">
-          <motion.span
+          <m.span
             className="inline-block"
             variants={{ hidden: { y: "130%" }, show: { y: "0%", transition: { duration: 1.1, ease } } }}
           >
             {w}
             {i < words.length - 1 ? "\u00a0" : ""}
-          </motion.span>
+          </m.span>
         </span>
       ))}
-    </motion.span>
+    </m.span>
   );
 }
 
@@ -89,41 +89,41 @@ export function MaskReveal({
 
   if (from === "center") {
     return (
-      <motion.div
+      <m.div
         className={`relative overflow-hidden ${className}`}
         initial={{ opacity: 0, scale: 0.94 }}
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={viewport}
         transition={{ duration: 1.4, delay, ease }}
       >
-        <motion.div className="h-full w-full" initial={{ scale: 1.1 }} whileInView={{ scale: 1 }} viewport={viewport} transition={{ duration: 2.2, delay, ease }}>
+        <m.div className="h-full w-full" initial={{ scale: 1.1 }} whileInView={{ scale: 1 }} viewport={viewport} transition={{ duration: 2.2, delay, ease }}>
           {children}
-        </motion.div>
-      </motion.div>
+        </m.div>
+      </m.div>
     );
   }
 
   // The in-view trigger sits on the static outer box (the sliding window starts
   // outside its own mask, so it could never be "in view" by itself).
   return (
-    <motion.div className={`relative overflow-hidden ${className}`} initial="hidden" whileInView="show" viewport={viewport}>
-      <motion.div
+    <m.div className={`relative overflow-hidden ${className}`} initial="hidden" whileInView="show" viewport={viewport}>
+      <m.div
         className="absolute inset-0 overflow-hidden will-change-transform"
         variants={{ hidden: offset(dir), show: { ...settled, transition: film } }}
       >
-        <motion.div
+        <m.div
           className="absolute inset-0 will-change-transform"
           variants={{ hidden: offset(-dir), show: { ...settled, transition: film } }}
         >
-          <motion.div
+          <m.div
             className="h-full w-full"
             variants={{ hidden: { scale: 1.1 }, show: { scale: 1, transition: { duration: 2.2, delay, ease } } }}
           >
             {children}
-          </motion.div>
-        </motion.div>
-      </motion.div>
-    </motion.div>
+          </m.div>
+        </m.div>
+      </m.div>
+    </m.div>
   );
 }
 
@@ -139,42 +139,10 @@ export function Parallax({ children, distance = 50, className = "" }: { children
   const [ref, y] = useParallax(distance);
   return (
     <div ref={ref} className={className}>
-      <motion.div style={{ y }} className="relative h-full w-full">
+      <m.div style={{ y }} className="relative h-full w-full">
         {children}
-      </motion.div>
+      </m.div>
     </div>
   );
 }
 
-/**
- * Progress (0 → 1) of scrolling through a pinned section: 0 when its top
- * reaches the top of the viewport, 1 when its bottom reaches the bottom.
- * A plain passive listener feeding a motion value — deterministic even for
- * the very last section on the page.
- */
-export function usePinnedProgress(ref: React.RefObject<HTMLElement | null>) {
-  const progress = useMotionValue(0);
-  useEffect(() => {
-    let raf = 0;
-    const update = () => {
-      raf = 0;
-      const el = ref.current;
-      if (!el) return;
-      const r = el.getBoundingClientRect();
-      const span = r.height - window.innerHeight;
-      progress.set(span <= 0 ? 1 : Math.min(1, Math.max(0, -r.top / span)));
-    };
-    const schedule = () => {
-      if (!raf) raf = requestAnimationFrame(update);
-    };
-    update();
-    window.addEventListener("scroll", schedule, { passive: true });
-    window.addEventListener("resize", schedule);
-    return () => {
-      cancelAnimationFrame(raf);
-      window.removeEventListener("scroll", schedule);
-      window.removeEventListener("resize", schedule);
-    };
-  }, [ref, progress]);
-  return progress;
-}

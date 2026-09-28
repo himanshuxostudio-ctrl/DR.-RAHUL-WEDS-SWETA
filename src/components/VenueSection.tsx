@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import SectionBridge from "./decor/SectionBridge";
+import { m } from "framer-motion";
 import { weddingData } from "@/data/weddingData";
 import CalendarButton from "./CalendarButton";
 import MapButton from "./MapButton";
@@ -16,7 +17,7 @@ const film = [0.65, 0, 0.35, 1] as const;
 function IllustratedMap() {
   const view = { initial: "hidden", whileInView: "show", viewport: { once: true, margin: "-15% 0px" } } as const;
   return (
-    <motion.svg viewBox="0 0 360 440" className="h-full w-full" role="img" aria-label={`Illustrated map to ${venue.name}`} {...view}>
+    <m.svg viewBox="0 0 360 440" className="h-full w-full" role="img" aria-label={`Illustrated map to ${venue.name}`} {...view}>
       <rect width="360" height="440" fill="#f6ead8" />
       <g stroke="#e3cfae" strokeWidth="1">
         {Array.from({ length: 12 }, (_, i) => (
@@ -42,7 +43,7 @@ function IllustratedMap() {
         <text x="236" y="316" fontSize="8" opacity="0.8">RATANPURA</text>
       </g>
       {/* animated route */}
-      <motion.path
+      <m.path
         d="M20 420 C60 380 80 330 92 300 C104 270 130 255 175 250 C205 246 222 238 236 224"
         stroke="var(--wine)"
         strokeWidth="2.4"
@@ -52,27 +53,31 @@ function IllustratedMap() {
       />
       <circle cx="20" cy="420" r="4" fill="var(--wine)" />
       {/* pin */}
-      <motion.g variants={{ hidden: { opacity: 0, y: -20 }, show: { opacity: 1, y: 0, transition: { delay: 2.8, duration: 0.8, ease: [0.22, 1, 0.36, 1] } } }}>
+      <m.g variants={{ hidden: { opacity: 0, y: -20 }, show: { opacity: 1, y: 0, transition: { delay: 2.8, duration: 0.8, ease: [0.22, 1, 0.36, 1] } } }}>
         <circle cx="240" cy="220" r="10" fill="var(--gold)" opacity="0.35" className="origin-[240px_220px] [animation:pulse-ring_2.4s_ease-out_infinite]" />
         <path d="M240 222 C230 206 222 198 222 188 A18 18 0 0 1 258 188 C258 198 250 206 240 222Z" fill="var(--wine)" stroke="var(--gold)" strokeWidth="1.5" />
         <circle cx="240" cy="188" r="6" fill="var(--gold-light)" />
         <text x="240" y="168" textAnchor="middle" fontFamily="var(--font-serif)" fontSize="17" fontStyle="italic" fill="var(--wine)">
           {venue.name}
         </text>
-      </motion.g>
-    </motion.svg>
+      </m.g>
+    </m.svg>
   );
 }
 
 export default function VenueSection() {
   return (
     <section id="venue" aria-labelledby="venue-heading" className="grain relative overflow-hidden py-[var(--space-section)]" style={{ background: "linear-gradient(180deg,#f3e5d1,#ead6ba)" }}>
+      <SectionBridge from="var(--deep-maroon)" />
       <div className="relative mx-auto grid max-w-6xl items-center gap-14 px-[var(--gutter)] md:grid-cols-[1.05fr_1fr] md:gap-20">
         <div className="relative mx-auto w-full max-w-[360px] md:order-2">
-          <div className="relative aspect-[9/11] w-full overflow-hidden shadow-[0_30px_60px_-30px_rgba(61,13,22,0.5)] [clip-path:url(#arch-clip)]">
-            <IllustratedMap />
+          {/* outline wraps the map only, so the two arches line up exactly */}
+          <div className="relative">
+            <div className="relative aspect-[9/11] w-full overflow-hidden [clip-path:url(#arch-clip)]">
+              <IllustratedMap />
+            </div>
+            <ArchOutline tone="wine" className="pointer-events-none absolute -inset-3 h-[calc(100%+1.5rem)] w-[calc(100%+1.5rem)] opacity-70" />
           </div>
-          <ArchOutline tone="wine" className="pointer-events-none absolute -inset-3 h-[calc(100%+1.5rem)] w-[calc(100%+1.5rem)] opacity-70" />
           <p className="eyebrow mt-6 text-center text-[0.58rem] text-ink-soft/70">Illustration · not to scale</p>
         </div>
 

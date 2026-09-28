@@ -1,6 +1,7 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
+import SectionBridge from "./decor/SectionBridge";
+import { AnimatePresence, m } from "framer-motion";
 import { useEffect, useState } from "react";
 import { weddingData } from "@/data/weddingData";
 import GoldDust from "./decor/GoldDust";
@@ -29,7 +30,7 @@ function Rolling({ value, pad }: { value: number | null; pad: number }) {
   return (
     <span className="relative inline-flex overflow-hidden" aria-hidden>
       <AnimatePresence mode="popLayout" initial={false}>
-        <motion.span
+        <m.span
           key={text}
           initial={{ y: "60%", opacity: 0 }}
           animate={{ y: "0%", opacity: 1 }}
@@ -38,7 +39,7 @@ function Rolling({ value, pad }: { value: number | null; pad: number }) {
           className="gold-text inline-block tabular-nums"
         >
           {text}
-        </motion.span>
+        </m.span>
       </AnimatePresence>
     </span>
   );
@@ -59,6 +60,7 @@ export default function WeddingCountdown() {
 
   return (
     <section id="countdown" aria-labelledby="countdown-heading" className="surface-maroon grain relative overflow-hidden py-[var(--space-section)] text-center">
+      <SectionBridge from="#ead6ba" />
       <GoldDust density={26} />
       <div aria-hidden className="pointer-events-none absolute left-1/2 top-1/2 w-[120vmin] -translate-x-1/2 -translate-y-1/2 opacity-[0.06]">
         <Mandala className="animate-slow-spin h-full w-full" />

@@ -1,8 +1,9 @@
 "use client";
 
-import { motion, useReducedMotion, useScroll, useSpring } from "framer-motion";
+import { m, useReducedMotion, useScroll, useSpring } from "framer-motion";
 import { Fragment, useRef } from "react";
 import { weddingData } from "@/data/weddingData";
+import SectionBridge from "./decor/SectionBridge";
 import EventSection from "./EventSection";
 import { OrnamentDivider } from "./decor/Ornaments";
 import Photo from "./ui/Photo";
@@ -15,9 +16,19 @@ function Interlude() {
   return (
     <section aria-label={story.interludeTitle} className="relative h-[100svh] min-h-[560px] overflow-hidden bg-deep-maroon">
       <Parallax distance={70} className="absolute -inset-y-24 inset-x-0">
-        <Photo id={images.brideportrait.id} alt={images.brideportrait.alt} sizes="100vw" position="50% 22%" quality={70} className="md:!object-[50%_12%]" />
+        {/* slow Ken Burns: a full-screen photographic moment */}
+        <m.div
+          className="relative h-full w-full"
+          initial={{ scale: 1.1 }}
+          whileInView={{ scale: 1 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 8, ease: "easeOut" }}
+        >
+          <Photo id={images.brideportrait.id} alt={images.brideportrait.alt} sizes="100vw" position="50% 22%" quality={70} className="md:!object-[50%_12%]" />
+        </m.div>
       </Parallax>
-      <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-deep-maroon/70 via-transparent to-deep-maroon" />
+      <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-deep-maroon/40 via-transparent to-deep-maroon" />
+      <SectionBridge from="#dfc39c" variant="fade" line={false} />
       <div aria-hidden className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_40%,rgba(30,7,11,0.55))]" />
       <div className="relative z-10 flex h-full flex-col items-center justify-end pb-[14svh] text-center">
         <Reveal>
@@ -43,6 +54,7 @@ export default function WeddingTimeline() {
   return (
     <div id="celebrations" className="relative [--line-x:1.35rem] sm:[--line-x:2.5rem] lg:[--line-x:4vw]">
       <header className="surface-maroon relative overflow-hidden px-[var(--gutter)] pb-20 pt-[var(--space-section)] text-center">
+        <SectionBridge from="#f3e7d6" />
         <Reveal>
           <p className="eyebrow text-gold">{celebrations.eyebrow}</p>
         </Reveal>
@@ -74,7 +86,7 @@ export default function WeddingTimeline() {
       <div ref={ref} className="relative">
         {/* The gold line introduced in the opening, carried through the events */}
         <div aria-hidden className="pointer-events-none absolute inset-y-0 left-[var(--line-x)] z-10 w-px bg-gold/15">
-          <motion.div className="h-full w-full origin-top bg-gradient-to-b from-gold-light via-gold to-gold-deep" style={{ scaleY: reduce ? 1 : scaleY }} />
+          <m.div className="h-full w-full origin-top bg-gradient-to-b from-gold-light via-gold to-gold-deep" style={{ scaleY: reduce ? 1 : scaleY }} />
         </div>
 
         {events.map((ev) => (

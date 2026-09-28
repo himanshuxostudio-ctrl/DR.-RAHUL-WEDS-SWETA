@@ -5,7 +5,7 @@
  * lotus, cusped palace arches and a quiet mandala. Everything is inline SVG
  * (tiny, crisp at any size, animatable via stroke-dash).
  */
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 
 type Tone = "gold" | "wine";
 const stroke = (tone: Tone = "gold") => (tone === "gold" ? "var(--gold)" : "var(--wine)");
@@ -50,7 +50,7 @@ export function OrnamentDivider({ className = "", tone = "gold", animate = true 
     show: { pathLength: 1, opacity: 1, transition: { duration: 1.6, ease: [0.22, 1, 0.36, 1] as const } },
   };
   return (
-    <motion.svg
+    <m.svg
       viewBox="0 0 320 40"
       className={className}
       fill="none"
@@ -60,17 +60,17 @@ export function OrnamentDivider({ className = "", tone = "gold", animate = true 
       viewport={{ once: true, margin: "-10% 0px" }}
     >
       <g stroke={s} strokeWidth="0.9" strokeLinecap="round">
-        <motion.path variants={line} d="M136 22 H20 M20 22 l-6 -4 M20 22 l-6 4" />
-        <motion.path variants={line} d="M184 22 H300 M300 22 l6 -4 M300 22 l6 4" />
-        <motion.path variants={line} d="M128 22 c-6 -8 -14 -8 -18 -2" />
-        <motion.path variants={line} d="M192 22 c6 -8 14 -8 18 -2" />
+        <m.path variants={line} d="M136 22 H20 M20 22 l-6 -4 M20 22 l-6 4" />
+        <m.path variants={line} d="M184 22 H300 M300 22 l6 -4 M300 22 l6 4" />
+        <m.path variants={line} d="M128 22 c-6 -8 -14 -8 -18 -2" />
+        <m.path variants={line} d="M192 22 c6 -8 14 -8 18 -2" />
         <circle cx="104" cy="22" r="1.6" fill={s} />
         <circle cx="216" cy="22" r="1.6" fill={s} />
       </g>
       <g transform="translate(144 6) scale(0.5)">
         <LotusPaths stroke={s} />
       </g>
-    </motion.svg>
+    </m.svg>
   );
 }
 
@@ -138,7 +138,7 @@ export function Mandala({ className = "", tone = "gold" }: { className?: string;
 export function ArchOutline({ className = "", tone = "gold", delay = 0 }: { className?: string; tone?: Tone; delay?: number }) {
   const s = stroke(tone);
   return (
-    <motion.svg
+    <m.svg
       viewBox="0 0 200 300"
       preserveAspectRatio="none"
       className={className}
@@ -148,7 +148,7 @@ export function ArchOutline({ className = "", tone = "gold", delay = 0 }: { clas
       whileInView="show"
       viewport={{ once: true, margin: "-10% 0px" }}
     >
-      <motion.path
+      <m.path
         d="M1 299 L1 81 C1 39 40 21 72 13.5 C86 10.2 94 6 100 1 C106 6 114 10.2 128 13.5 C160 21 199 39 199 81 L199 299"
         stroke={s}
         strokeWidth="1"
@@ -158,6 +158,6 @@ export function ArchOutline({ className = "", tone = "gold", delay = 0 }: { clas
           show: { pathLength: 1, transition: { duration: 2.2, delay, ease: [0.65, 0, 0.35, 1] } },
         }}
       />
-    </motion.svg>
+    </m.svg>
   );
 }

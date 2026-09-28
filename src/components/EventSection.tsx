@@ -1,5 +1,6 @@
 "use client";
 
+import SectionBridge from "./decor/SectionBridge";
 import type { WeddingEvent } from "@/data/weddingData";
 import EventCard from "./EventCard";
 import { ChhekaArt, MatkorArt, PalaceArchCrown } from "./decor/EventArt";
@@ -31,6 +32,7 @@ export default function EventSection({ event }: { event: WeddingEvent }) {
   if (event.theme === "chheka") {
     return (
       <section aria-label={event.name} className="surface-ivory grain relative overflow-hidden py-[var(--space-section)]" style={{ background: "linear-gradient(180deg,#fbf5ec,#f5e6dc 60%,#f3e2d4)" }}>
+        <SectionBridge from="var(--deep-maroon)" />
         <TimelineNode tone="light" />
         <Watermark text={event.nameHindi} className="-right-6 top-10 text-[9rem] text-rose/20 sm:text-[16rem]" />
         <CornerFlourish tone="wine" className="absolute right-4 top-4 h-16 w-16 rotate-90 opacity-40" />

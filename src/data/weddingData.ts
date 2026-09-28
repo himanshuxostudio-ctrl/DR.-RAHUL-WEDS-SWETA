@@ -58,7 +58,8 @@ export const weddingData = {
 
   story: {
     eyebrow: "Our Story",
-    titleA: "Two Souls",
+    /** Rendered as one heading: "Two Hearts, One Journey". */
+    titleA: "Two Hearts,",
     titleB: "One Journey",
     groomLabel: "The Groom",
     brideLabel: "The Bride",
@@ -183,7 +184,6 @@ export const weddingData = {
       { ...img("gallery/detail-rahul-profile", "Dr. Rahul in profile, smiling softly"), layout: "offset-left" },
       { ...img("gallery/detail-sweta-profile", "Sweta in profile wearing diamond earrings"), layout: "offset-right" },
       { ...img("gallery/detail-hand-on-shoulder", "Sweta's hennaed hand and ring resting on Dr. Rahul's shoulder"), layout: "detail" },
-      { ...img("couple/rahul-sweta-formal", "Dr. Rahul and Sweta standing together in their wedding attire"), layout: "portrait-closing" },
     ] as (WeddingImage & { layout: string })[],
   },
 
@@ -199,20 +199,6 @@ export const weddingData = {
     storageKey: "rw-music-muted",
   },
 
-  rsvp: {
-    eyebrow: "Kindly Respond",
-    heading: "Will You Join Us?",
-    deadline: "[RSVP DEADLINE TO BE ADDED]",
-    /**
-     * Set NEXT_PUBLIC_RSVP_ENDPOINT (Google Apps Script web-app URL or a
-     * Supabase Edge Function) to collect responses. Without it responses are
-     * kept on the guest's device only (mock mode).
-     */
-    endpointEnv: "NEXT_PUBLIC_RSVP_ENDPOINT",
-    maxGuests: 10,
-    thankYou: "Thank you — your response means the world to us.",
-  },
-
   final: {
     heading: "Thank You",
     message: "Your presence will make our celebration even more special.",
@@ -226,7 +212,6 @@ export const weddingData = {
     { id: "venue", label: "Venue" },
     { id: "countdown", label: "Countdown" },
     { id: "gallery", label: "Gallery" },
-    { id: "rsvp", label: "RSVP" },
   ],
 
   seo: {

@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { m, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { weddingData } from "@/data/weddingData";
 import { ArtPicture } from "./ui/Photo";
@@ -25,24 +25,24 @@ export default function HeroSection({ revealed }: { revealed: boolean }) {
   return (
     <section ref={ref} id="top" aria-label={`${couple.groom} and ${couple.bride}`} className="surface-maroon relative flex min-h-[100svh] flex-col overflow-hidden md:block">
       {/* Photograph — revealed through a widening mask, settling from 1.1 → 1 */}
-      <motion.div
+      <m.div
         className="relative h-[64svh] min-h-[380px] w-full shrink-0 md:absolute md:inset-y-0 md:left-auto md:right-0 md:h-full md:w-[68%]"
         style={{ y: imgY }}
       >
-        <motion.div
+        <m.div
           className="relative h-full w-full overflow-hidden"
           initial={{ clipPath: "inset(18% 22% 30% 22%)" }}
           animate={state}
           variants={{
             hidden: { clipPath: "inset(18% 22% 30% 22%)" },
-            show: { clipPath: "inset(0% 0% 0% 0%)", transition: { duration: d(2.4), delay: d(0.2), ease: film } },
+            show: { clipPath: "inset(0% 0% 0% 0%)", transition: { duration: d(2.6), delay: d(0.9), ease: film } },
           }}
         >
-          <motion.div
+          <m.div
             className="h-full w-full"
             variants={{
-              hidden: { scale: 1.1 },
-              show: { scale: 1, transition: { duration: d(4.5), ease } },
+              hidden: { scale: 1.12 },
+              show: { scale: 1, transition: { duration: d(6.5), delay: d(0.9), ease } },
             }}
             initial="hidden"
             animate={state}
@@ -55,18 +55,18 @@ export default function HeroSection({ revealed }: { revealed: boolean }) {
               priority
               className="object-[48%_0%] md:object-[62%_30%]"
             />
-          </motion.div>
-          {revealed && !reduce && <div className="light-sweep" style={{ ["--sweep-delay" as string]: "1.6s" }} />}
+          </m.div>
+          {revealed && !reduce && <div className="light-sweep" style={{ ["--sweep-delay" as string]: "2.8s" }} />}
           {/* blend into the maroon */}
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-deep-maroon via-deep-maroon/10 to-transparent md:bg-gradient-to-r md:from-deep-maroon md:via-deep-maroon/5 md:to-transparent" />
           <div className="pointer-events-none absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-deep-maroon/60 to-transparent" />
-        </motion.div>
-      </motion.div>
+        </m.div>
+      </m.div>
 
       <GoldDust density={22} className="opacity-70" />
 
       {/* Card border */}
-      <motion.div
+      <m.div
         aria-hidden
         className="pointer-events-none absolute inset-3 z-10 border border-gold/40 sm:inset-5"
         initial={{ opacity: 0 }}
@@ -77,17 +77,17 @@ export default function HeroSection({ revealed }: { revealed: boolean }) {
         <CornerFlourish className="absolute right-1.5 top-1.5 h-14 w-14 rotate-90 sm:h-20 sm:w-20" />
         <CornerFlourish className="absolute bottom-1.5 right-1.5 h-14 w-14 rotate-180 sm:h-20 sm:w-20" />
         <CornerFlourish className="absolute bottom-1.5 left-1.5 h-14 w-14 -rotate-90 sm:h-20 sm:w-20" />
-      </motion.div>
+      </m.div>
 
       {/* Typography */}
-      <motion.div
+      <m.div
         style={{ y: textY, opacity: fadeOut }}
-        className="relative z-20 -mt-[17svh] flex flex-1 flex-col justify-end px-7 pb-[max(5rem,env(safe-area-inset-bottom))] text-center md:mt-0 md:min-h-[100svh] md:w-[46%] md:justify-center md:pb-24 md:pl-[7vw] md:pr-0 md:pt-24 md:text-left"
+        className="relative z-20 -mt-[17svh] flex flex-1 flex-col justify-end px-7 pb-[max(1.75rem,env(safe-area-inset-bottom))] text-center md:mt-0 md:min-h-[100svh] md:w-[46%] md:justify-center md:pb-24 md:pl-[7vw] md:pr-0 md:pt-24 md:text-left"
       >
-        <motion.div
+        <m.div
           initial="hidden"
           animate={state}
-          variants={{ hidden: {}, show: { transition: { staggerChildren: d(0.18), delayChildren: d(1.1) } } }}
+          variants={{ hidden: {}, show: {} }}
         >
           {[
             <p key="e" className="eyebrow mb-5 text-gold">The wedding of</p>,
@@ -107,32 +107,32 @@ export default function HeroSection({ revealed }: { revealed: boolean }) {
               {invitation.blessingLine}
             </p>,
           ].map((child, i) => (
-            <motion.div
+            <m.div
               key={i}
               variants={{
                 hidden: { opacity: 0, y: reduce ? 0 : 26 },
-                show: { opacity: 1, y: 0, transition: { duration: d(1.4), ease } },
+                show: { opacity: 1, y: 0, transition: { duration: d(1.5), delay: d([0.25, 0.45, 2.4, 2.8][i]), ease } },
               }}
             >
               {child}
-            </motion.div>
+            </m.div>
           ))}
-        </motion.div>
+        </m.div>
 
-        <motion.a
+        <m.a
           href="#story"
-          className="group mx-auto mt-10 hidden flex-col items-center gap-2 text-champagne/60 md:mx-0 md:flex md:items-start"
+          className="group mx-auto mt-6 flex flex-col items-center gap-2 text-champagne/60 md:mx-0 md:mt-10 md:items-start"
           initial={{ opacity: 0 }}
           animate={{ opacity: revealed ? 1 : 0 }}
-          transition={{ duration: 1.5, delay: d(2.6) }}
+          transition={{ duration: 1.5, delay: d(3.4) }}
         >
           <span className="eyebrow text-[0.62rem]">Scroll to begin</span>
-          <span className="relative h-10 w-px overflow-hidden bg-gold/25">
+          <span className="relative h-8 w-px overflow-hidden bg-gold/25 md:h-10">
             <span className="absolute inset-x-0 top-0 h-1/2 bg-gold-light [animation:scroll-cue_2.2s_ease-in-out_infinite]" />
           </span>
           <style>{`@keyframes scroll-cue{0%{transform:translateY(-100%)}100%{transform:translateY(220%)}}`}</style>
-        </motion.a>
-      </motion.div>
+        </m.a>
+      </m.div>
 
       <div className="absolute inset-x-0 bottom-0 z-10 translate-y-1/2">
         <OrnamentDivider className="mx-auto h-8 w-56 opacity-60" />

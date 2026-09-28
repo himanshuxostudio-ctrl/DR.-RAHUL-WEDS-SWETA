@@ -53,9 +53,10 @@ export default function EventCard({ event, align = "left" }: { event: WeddingEve
             <Clock className={`mt-0.5 h-4 w-4 shrink-0 ${t.accent}`} aria-hidden />
             <dd>{event.time}</dd>
           </div>
-          <div className={`flex items-start gap-3 ${center ? "justify-center" : ""}`}>
+          {/* centred cards stack the pin above the (multi-line) address */}
+          <div className={`flex ${center ? "flex-col items-center gap-2" : "items-start gap-3"}`}>
             <dt className="sr-only">Venue</dt>
-            <MapPin className={`mt-0.5 h-4 w-4 shrink-0 ${t.accent}`} aria-hidden />
+            <MapPin className={`h-4 w-4 shrink-0 ${center ? "" : "mt-0.5"} ${t.accent}`} aria-hidden />
             <dd className={center ? "text-center" : ""}>
               <span className="font-semibold">{event.venue}</span>
               <span className={`mt-1 block leading-relaxed ${t.body}`}>{event.address ?? event.location}</span>

@@ -152,7 +152,7 @@ export function MusicProvider({ children }: { children: ReactNode }) {
 }
 
 /** Circular ♫ / mute control with a quiet equaliser while playing. */
-export function MusicToggle({ className = "" }: { className?: string }) {
+export function MusicToggle({ className = "", bare = false }: { className?: string; bare?: boolean }) {
   const { playing, toggle } = useMusic();
   return (
     <button
@@ -161,7 +161,9 @@ export function MusicToggle({ className = "" }: { className?: string }) {
       aria-pressed={playing}
       aria-label={playing ? "Mute music" : "Play music"}
       title={weddingData.music.title}
-      className={`group relative grid h-12 w-12 place-items-center rounded-full border border-gold/60 bg-deep-maroon/85 text-gold-light transition hover:border-gold-light ${className}`}
+      className={`group relative grid place-items-center rounded-full text-gold-light transition active:scale-95 ${
+        bare ? "h-10 w-10 hover:bg-gold/10" : "h-12 w-12 border border-gold/60 bg-deep-maroon/85 hover:border-gold-light"
+      } ${className}`}
     >
       {playing ? (
         <span className="flex h-4 items-end gap-[3px]" aria-hidden>

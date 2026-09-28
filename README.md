@@ -3,9 +3,9 @@
 A cinematic, mobile-first invitation built with Next.js (App Router), React,
 TypeScript, Tailwind CSS v4 and Framer Motion.
 
-**Story:** Invitation card → hero reveal → Two Souls · One Journey → Families →
-The Celebrations (Chheka · Matkor · Vivah) → Venue → Countdown → Gallery →
-RSVP → Thank you → closing film shot.
+**Story:** Invitation card → Dr. Rahul & Sweta (hero reveal) → Two Hearts,
+One Journey → Family blessings → The Celebrations (Chheka · Matkor · Vivah) →
+Venue → Countdown → Gallery → final wedding image → Thank You (the last frame).
 
 ## Run locally
 
@@ -27,7 +27,7 @@ npm run build && npm start
 
 Everything shown on the site lives in **`src/data/weddingData.ts`**: names,
 families, events, times, venue, map links, countdown target, gallery order,
-music, RSVP settings and SEO. Components never hard-code content.
+music and SEO. Components never hard-code content.
 
 ## Photographs
 
@@ -55,13 +55,3 @@ guest switches apps. To change the track, replace the file and update
 Fonts are self-hosted (no Google Fonts request at build or runtime). The
 Devanagari font is subset to only the Hindi text used on the site (~5 KB). After
 adding or changing any Hindi text, run `pip install fonttools brotli && npm run fonts`.
-
-## RSVP
-
-Without configuration, the form runs in mock mode and stores responses in the
-guest's browser. To collect responses, set `NEXT_PUBLIC_RSVP_ENDPOINT` to a URL
-that accepts a JSON `POST` (see `src/lib/rsvp.ts` for the payload), for example:
-
-- **Google Sheets:** an Apps Script web app whose `doPost(e)` appends
-  `JSON.parse(e.postData.contents)` to a sheet (deploy as "Anyone").
-- **Supabase:** an Edge Function that inserts the payload into an `rsvps` table.
