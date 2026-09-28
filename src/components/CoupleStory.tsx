@@ -52,7 +52,7 @@ export default function CoupleStory() {
       id="story"
       ref={ref}
       aria-labelledby="story-heading"
-      className={`surface-maroon relative ${reduce ? "" : "h-[260svh]"}`}
+      className={`surface-maroon relative ${reduce ? "" : "h-[210svh]"}`}
     >
       <div className={`${reduce ? "py-24" : "sticky top-0 h-[100svh]"} flex flex-col items-center justify-center overflow-hidden px-[var(--gutter)]`}>
         <p className="eyebrow mb-5 text-gold">{story.eyebrow}</p>

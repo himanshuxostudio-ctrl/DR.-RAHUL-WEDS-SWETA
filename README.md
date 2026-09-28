@@ -40,12 +40,21 @@ detail crops with a light warm grade (no facial retouching), blur placeholders
 
 ## Music
 
-Instrumental only. By default the site plays a generative Raag Bhupali
-(bansuri over tanpura, with a soft swarmandal shimmer), synthesised in the
-browser, so there's no audio file to download and no licensing issue. It starts
-only after the guest taps **Open Invitation**; mute is remembered for the
-session. To use a recorded shehnai/sitar track instead, put a licensed
-instrumental file in `public/audio/` and set `music.src` in `weddingData.ts`.
+The couple's own instrumental track (`assets/audio/royal-wedding-procession-original.mp3`)
+is served as `public/audio/royal-wedding-procession.mp3`: re-encoded to 128 kbps
+MP3 (4.5 MB → 3.0 MB, cover art stripped) with a short fade in/out so the loop
+is seamless. The audio element is created only when the guest taps
+**Open Invitation**, so nothing is downloaded before then and the file streams
+without blocking the page. If a browser still blocks playback, it starts on the
+guest's next tap. Mute is remembered for the session; music pauses when the
+guest switches apps. To change the track, replace the file and update
+`music.src` in `weddingData.ts`.
+
+## Fonts
+
+Fonts are self-hosted (no Google Fonts request at build or runtime). The
+Devanagari font is subset to only the Hindi text used on the site (~5 KB). After
+adding or changing any Hindi text, run `pip install fonttools brotli && npm run fonts`.
 
 ## RSVP
 

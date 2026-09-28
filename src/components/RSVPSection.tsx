@@ -16,7 +16,7 @@ function Pill({ checked, children, ...rest }: React.InputHTMLAttributes<HTMLInpu
   return (
     <label className="relative cursor-pointer">
       <input {...rest} checked={checked} className="peer sr-only" />
-      <span className="flex min-h-11 items-center gap-2 rounded-full border border-gold/40 px-4 py-2 text-[0.8rem] tracking-wide text-champagne transition peer-checked:border-gold-light peer-checked:bg-gold/20 peer-checked:text-ivory peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-gold-light">
+      <span className="flex min-h-12 w-full items-center justify-center gap-2 whitespace-nowrap rounded-full border border-gold/40 px-5 py-2.5 text-[0.82rem] tracking-wide text-champagne transition peer-checked:border-gold-light peer-checked:bg-gold/20 peer-checked:text-ivory peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-gold-light">
         {checked && <Check className="h-3.5 w-3.5 text-gold-light" aria-hidden />}
         {children}
       </span>
@@ -80,9 +80,9 @@ export default function RSVPSection() {
         </header>
 
         <Reveal delay={0.2}>
-          <div className="relative mt-12 border border-gold/35 bg-deep-maroon/40 px-5 py-10 backdrop-blur-sm sm:px-12 sm:py-14">
-            <CornerFlourish className="absolute -left-px -top-px h-12 w-12" />
-            <CornerFlourish className="absolute -bottom-px -right-px h-12 w-12 rotate-180" />
+          <div className="relative mt-12 border border-gold/35 bg-deep-maroon/50 px-6 pb-11 pt-12 sm:px-12 sm:py-14">
+            <CornerFlourish className="pointer-events-none absolute left-1.5 top-1.5 h-14 w-14" />
+            <CornerFlourish className="pointer-events-none absolute bottom-1.5 right-1.5 h-14 w-14 rotate-180" />
 
             <AnimatePresence mode="wait">
               {status === "done" ? (
@@ -104,8 +104,8 @@ export default function RSVPSection() {
                   </button>
                 </motion.div>
               ) : (
-                <motion.form key="form" noValidate onSubmit={onSubmit} className="space-y-8" exit={{ opacity: 0 }} aria-describedby={error ? `${uid}-err` : undefined}>
-                  <div className="grid gap-8 sm:grid-cols-2">
+                <motion.form key="form" noValidate onSubmit={onSubmit} className="space-y-10" exit={{ opacity: 0 }} aria-describedby={error ? `${uid}-err` : undefined}>
+                  <div className="grid gap-9 sm:grid-cols-2 sm:gap-8">
                     <div>
                       <label htmlFor={`${uid}-name`} className={label}>Name</label>
                       <input id={`${uid}-name`} name="name" autoComplete="name" required className="field" placeholder="Your full name" />
@@ -118,7 +118,7 @@ export default function RSVPSection() {
 
                   <fieldset>
                     <legend className={label}>Will you attend?</legend>
-                    <div className="mt-3 flex flex-wrap gap-3">
+                    <div className="mt-4 grid grid-cols-1 gap-3 sm:flex sm:flex-wrap">
                       <Pill type="radio" name="attending" value="yes" checked={attending === "yes"} onChange={() => setAttending("yes")}>
                         Joyfully accept
                       </Pill>
@@ -131,7 +131,7 @@ export default function RSVPSection() {
                   <AnimatePresence initial={false}>
                     {attending !== "no" && (
                       <motion.div
-                        className="space-y-8 overflow-hidden"
+                        className="space-y-10 overflow-hidden"
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: "auto", opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
@@ -139,7 +139,7 @@ export default function RSVPSection() {
                       >
                         <fieldset>
                           <legend className={label}>Celebrations</legend>
-                          <div className="mt-3 flex flex-wrap gap-3">
+                          <div className="mt-4 grid grid-cols-1 gap-3 sm:flex sm:flex-wrap">
                             {events.map((ev) => (
                               <Pill
                                 key={ev.id}
@@ -154,7 +154,7 @@ export default function RSVPSection() {
                             ))}
                           </div>
                         </fieldset>
-                        <div className="max-w-[12rem]">
+                        <div className="max-w-[14rem]">
                           <label htmlFor={`${uid}-guests`} className={label}>Number of guests</label>
                           <select id={`${uid}-guests`} name="guests" defaultValue="1" className="field">
                             {Array.from({ length: rsvp.maxGuests }, (_, i) => i + 1).map((n) => (
@@ -179,8 +179,8 @@ export default function RSVPSection() {
                     </p>
                   )}
 
-                  <div className="pt-2 text-center">
-                    <button type="submit" className="btn-gold solid min-w-[14rem]" disabled={status === "sending"}>
+                  <div className="pt-3 text-center">
+                    <button type="submit" className="btn-gold solid min-h-[52px] w-full max-w-[18rem]" disabled={status === "sending"}>
                       {status === "sending" ? (
                         <>
                           <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> Sending

@@ -7,10 +7,10 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { getImage, weddingData } from "@/data/weddingData";
 import GalleryImage from "./GalleryImage";
 import { LotusMark, OrnamentDivider } from "./decor/Ornaments";
-import Photo from "./ui/Photo";
+import { ArtPicture } from "./ui/Photo";
 import { Reveal, RevealWords } from "./ui/Reveal";
 
-const { gallery, couple } = weddingData;
+const { gallery, couple, images } = weddingData;
 const items = gallery.items;
 const byLayout = (layout: string) => {
   const index = items.findIndex((i) => i.layout === layout);
@@ -37,13 +37,13 @@ function Lightbox({ index, onClose, onStep }: { index: number; onClose: () => vo
     };
   }, [onClose, onStep]);
 
-  const ctrl = "grid h-12 w-12 place-items-center rounded-full border border-gold/50 bg-deep-maroon/60 text-gold-light backdrop-blur transition hover:border-gold-light";
+  const ctrl = "grid h-12 w-12 place-items-center rounded-full border border-gold/50 bg-deep-maroon/80 text-gold-light transition hover:border-gold-light";
   return (
     <motion.div
       role="dialog"
       aria-modal="true"
       aria-label="Photograph viewer"
-      className="fixed inset-0 z-[90] flex items-center justify-center bg-deep-maroon/95 p-4 backdrop-blur-sm"
+      className="fixed inset-0 z-[90] flex items-center justify-center bg-deep-maroon/95 p-4"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -86,7 +86,7 @@ function CinematicBand({ onOpen }: { onOpen: (i: number) => void }) {
   const reduce = useReducedMotion();
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
-  const scale = useTransform(scrollYProgress, [0, 1], reduce ? [1, 1] : [1.14, 1]);
+  const scale = useTransform(scrollYProgress, [0, 1], reduce ? [1, 1] : [1.08, 1]);
   const item = byLayout("cinematic");
 
   return (
@@ -101,10 +101,17 @@ function CinematicBand({ onOpen }: { onOpen: (i: number) => void }) {
       <div ref={ref} className="relative h-[62svh] min-h-[340px] overflow-hidden sm:h-[88svh]">
         <button type="button" onClick={() => onOpen(item.index)} aria-label={`View photograph: ${item.alt}`} className="absolute inset-0 block cursor-zoom-in">
           <motion.div className="absolute inset-0" style={{ scale }}>
-            <Photo id={item.id} alt={item.alt} sizes="100vw" position="62% 35%" />
+            {/* phones get the tighter crop so both faces stay in the tall frame */}
+            <ArtPicture
+              mobile={images.togetherMobile.id}
+              desktop={item.id}
+              alt={item.alt}
+              desktopSizes="100vw"
+              className="object-[52%_15%] md:object-[62%_35%]"
+            />
           </motion.div>
         </button>
-        <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-1/3 bg-gradient-to-b from-[#f3e7d6] to-transparent" />
+        <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-1/3 bg-gradient-to-b from-[#f3e7d6] to-transparent md:h-[16%]" />
       </div>
     </div>
   );

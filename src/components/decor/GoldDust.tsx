@@ -16,7 +16,22 @@ export default function GoldDust({ density = 42, className = "" }: { density?: n
     if (!ctx) return;
 
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+
+    // One pre-rendered glow sprite, stamped with drawImage — far cheaper on
+    // phones than building a radial gradient per particle per frame.
+    const SPRITE = 32;
+    const sprite = document.createElement("canvas");
+    sprite.width = sprite.height = SPRITE;
+    const sctx = sprite.getContext("2d");
+    if (sctx) {
+      const g = sctx.createRadialGradient(SPRITE / 2, SPRITE / 2, 0, SPRITE / 2, SPRITE / 2, SPRITE / 2);
+      g.addColorStop(0, "rgba(240, 214, 150, 1)");
+      g.addColorStop(0.35, "rgba(226, 190, 120, 0.45)");
+      g.addColorStop(1, "rgba(201, 164, 92, 0)");
+      sctx.fillStyle = g;
+      sctx.fillRect(0, 0, SPRITE, SPRITE);
+    }
     let w = 0;
     let h = 0;
     let raf = 0;
@@ -31,7 +46,8 @@ export default function GoldDust({ density = 42, className = "" }: { density?: n
       canvas.width = w * dpr;
       canvas.height = h * dpr;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      const count = Math.round(density * Math.min(1.6, (w * h) / (390 * 844)));
+      const mobile = w < 768 ? 0.7 : 1;
+      const count = Math.round(density * mobile * Math.min(1.6, (w * h) / (390 * 844)));
       particles = Array.from({ length: count }, () => ({
         x: Math.random() * w,
         y: Math.random() * h,
@@ -53,15 +69,11 @@ export default function GoldDust({ density = 42, className = "" }: { density?: n
           if (p.x < -4) p.x = w + 4;
           if (p.x > w + 4) p.x = -4;
         }
-        const alpha = p.a * (0.55 + 0.45 * Math.sin(t / 900 + p.tw));
-        const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r * 4);
-        g.addColorStop(0, `rgba(240, 214, 150, ${alpha})`);
-        g.addColorStop(1, "rgba(201, 164, 92, 0)");
-        ctx.fillStyle = g;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r * 4, 0, Math.PI * 2);
-        ctx.fill();
+        ctx.globalAlpha = p.a * (0.55 + 0.45 * Math.sin(t / 900 + p.tw));
+        const size = p.r * 8;
+        ctx.drawImage(sprite, p.x - size / 2, p.y - size / 2, size, size);
       }
+      ctx.globalAlpha = 1;
     };
 
     const loop = (t: number) => {

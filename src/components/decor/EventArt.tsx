@@ -84,13 +84,18 @@ export function MatkorArt({ className = "" }: { className?: string }) {
   );
 }
 
-/** Vivah — a palace façade: cusped arch within arch, domes and jharokhas. */
-export function PalaceArch({ className = "" }: { className?: string }) {
+/**
+ * Vivah — the crown of a palace arch (dome, cusped arch, lamp, jaali dots),
+ * drawn at its true proportions. The arch's pillars continue below as plain
+ * borders on the content box (see EventSection), so no line crosses text.
+ * Pillar x-positions: outer 30/370, inner 52/348 of the 400-wide viewBox.
+ */
+export function PalaceArchCrown({ className = "" }: { className?: string }) {
   return (
-    <motion.svg viewBox="0 0 400 520" preserveAspectRatio="none" className={className} {...svgProps}>
-      <g stroke="var(--gold)" strokeWidth="1" strokeLinecap="round" vectorEffect="non-scaling-stroke">
-        <motion.path variants={draw()} d="M30 520 V200 C30 130 110 96 160 82 C182 76 194 66 200 52 C206 66 218 76 240 82 C290 96 370 130 370 200 V520" />
-        <motion.path variants={draw(0.2)} d="M52 520 V210 C52 150 122 118 166 106 C186 100 196 92 200 80 C204 92 214 100 234 106 C278 118 348 150 348 210 V520" opacity="0.55" />
+    <motion.svg viewBox="0 0 400 250" className={className} {...svgProps}>
+      <g stroke="var(--gold)" strokeWidth="1" strokeLinecap="round">
+        <motion.path variants={draw()} d="M30 250 V200 C30 130 110 96 160 82 C182 76 194 66 200 52 C206 66 218 76 240 82 C290 96 370 130 370 200 V250" />
+        <motion.path variants={draw(0.2)} d="M52 250 V210 C52 150 122 118 166 106 C186 100 196 92 200 80 C204 92 214 100 234 106 C278 118 348 150 348 210 V250" opacity="0.55" />
         {/* cusps */}
         <motion.path
           variants={draw(0.5)}
@@ -100,16 +105,17 @@ export function PalaceArch({ className = "" }: { className?: string }) {
         {/* crown dome */}
         <motion.path variants={draw(0.7)} d="M170 50 C170 22 230 22 230 50 M200 22 V6 M196 12 H204" />
         <motion.path variants={draw(0.8)} d="M160 52 H240" />
-        {/* side minarets */}
-        <motion.path variants={draw(0.9)} d="M6 520 V170 M24 520 V170 M4 170 H26 M6 170 C6 140 24 140 24 170 M15 140 V128" />
-        <motion.path variants={draw(0.9)} d="M376 520 V170 M394 520 V170 M374 170 H396 M376 170 C376 140 394 140 394 170 M385 140 V128" />
-        {/* hanging bell / lamp at centre */}
-        <motion.path variants={draw(1.3)} d="M200 108 V150 M190 150 H210 M192 150 C192 168 208 168 208 150 M200 166 V172" opacity="0.8" />
+        {/* side minaret tops (larger screens) */}
+        <g className="hidden sm:inline">
+          <motion.path variants={draw(0.9)} d="M6 250 V170 M24 250 V170 M4 170 H26 M6 170 C6 140 24 140 24 170 M15 140 V128" />
+          <motion.path variants={draw(0.9)} d="M376 250 V170 M394 250 V170 M374 170 H396 M376 170 C376 140 394 140 394 170 M385 140 V128" />
+        </g>
+        {/* hanging lamp at centre */}
+        <motion.path variants={draw(1.3)} d="M200 104 V128 M191 128 H209 M193 128 C193 142 207 142 207 128 M200 140 V146" opacity="0.8" />
       </g>
       {/* jaali dots along the arch */}
       {Array.from({ length: 13 }, (_, i) => {
-        const t = i / 12;
-        const angle = Math.PI * (1 - t);
+        const angle = Math.PI * (1 - i / 12);
         return <circle key={i} cx={200 + 150 * Math.cos(angle)} cy={210 - 110 * Math.sin(angle)} r="1.6" fill="var(--gold)" opacity="0.7" />;
       })}
     </motion.svg>

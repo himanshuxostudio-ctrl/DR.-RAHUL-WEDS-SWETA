@@ -2,13 +2,14 @@
   "name": "rahul-weds-sweta",
   "version": "1.0.0",
   "private": true,
-  "description": "Dr. Rahul weds Sweta — a cinematic digital wedding invitation.",
+  "description": "Dr. Rahul weds Sweta \u2014 a cinematic digital wedding invitation.",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "tsc --noEmit",
-    "images": "node scripts/process-images.mjs"
+    "images": "node scripts/process-images.mjs",
+    "fonts": "python3 scripts/subset-hindi-font.py"
   },
   "engines": {
     "node": ">=20.9"

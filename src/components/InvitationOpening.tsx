@@ -39,8 +39,8 @@ export default function InvitationOpening({ onOpen }: { onOpen: () => void }) {
   };
 
   const fade = (delay: number, y = 18) => ({
-    initial: { opacity: 0, y: reduce ? 0 : y, filter: reduce ? "none" : "blur(6px)" },
-    animate: { opacity: 1, y: 0, filter: "blur(0px)" },
+    initial: { opacity: 0, y: reduce ? 0 : y },
+    animate: { opacity: 1, y: 0 },
     transition: { duration: 1.4, delay: t(delay), ease },
   });
 
@@ -77,7 +77,7 @@ export default function InvitationOpening({ onOpen }: { onOpen: () => void }) {
           {/* Card face */}
           <motion.div
             className="relative flex h-full w-full items-center justify-center px-6"
-            animate={phase === "opening" ? { opacity: 0, scale: 1.06, filter: "blur(4px)" } : { opacity: 1, scale: 1 }}
+            animate={phase === "opening" ? { opacity: 0, scale: 1.06 } : { opacity: 1, scale: 1 }}
             transition={{ duration: t(0.7), ease }}
           >
             <GoldDust density={46} />

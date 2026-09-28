@@ -24,17 +24,20 @@ export default function EventCard({ event, align = "left" }: { event: WeddingEve
         <p className={`eyebrow ${t.accent}`}>Celebration {event.index}</p>
       </Reveal>
       <Reveal delay={0.08}>
-        <h3 id={`${event.id}-title`} className={`serif-display mt-3 text-[4.2rem] sm:text-8xl ${t.title}`}>
+        <h3 id={`${event.id}-title`} className={`serif-display mt-3 ${center ? "text-[3.4rem] sm:text-7xl" : "text-[4.2rem] sm:text-8xl"} ${t.title}`}>
           {event.name}
         </h3>
       </Reveal>
       <Reveal delay={0.14}>
-        <p lang="hi" className={`font-deva mt-2 text-2xl ${t.accent}`}>{event.nameHindi}</p>
+        {/* generous line-height so matras above/below the headline never clip */}
+        <p lang="hi" className={`font-deva mt-1 pt-1 leading-[1.7] ${center ? "text-[1.6rem]" : "text-2xl"} ${t.accent}`}>
+          {event.nameHindi}
+        </p>
       </Reveal>
 
-      <Reveal delay={0.2} className={`mt-8 flex items-end gap-5 ${center ? "justify-center" : ""}`}>
+      <Reveal delay={0.2} className={`${center ? "mt-6" : "mt-8"} flex items-end gap-5 ${center ? "justify-center" : ""}`}>
         <time dateTime={event.start} className="flex items-end gap-4">
-          <span className={`font-serif text-7xl leading-[0.8] ${t.meta}`}>{day}</span>
+          <span className={`font-serif leading-[0.8] ${center ? "text-6xl" : "text-7xl"} ${t.meta}`}>{day}</span>
           <span className="flex flex-col pb-1 text-left">
             <span className={`eyebrow text-[0.7rem] ${t.meta}`}>{month} {year}</span>
             <span className={`mt-1 text-sm ${t.body}`}>{event.weekday}</span>
@@ -43,8 +46,8 @@ export default function EventCard({ event, align = "left" }: { event: WeddingEve
       </Reveal>
 
       <Reveal delay={0.26}>
-        <div className={`my-7 h-px w-24 ${t.rule} ${center ? "mx-auto" : ""}`} />
-        <dl className={`space-y-3 text-[0.95rem] ${t.meta}`}>
+        <div className={`${center ? "my-6" : "my-7"} h-px w-24 ${t.rule} ${center ? "mx-auto" : ""}`} />
+        <dl className={`space-y-4 ${center ? "text-[0.92rem]" : "text-[0.95rem]"} ${t.meta}`}>
           <div className={`flex items-start gap-3 ${center ? "justify-center" : ""}`}>
             <dt className="sr-only">Time</dt>
             <Clock className={`mt-0.5 h-4 w-4 shrink-0 ${t.accent}`} aria-hidden />
@@ -55,19 +58,19 @@ export default function EventCard({ event, align = "left" }: { event: WeddingEve
             <MapPin className={`mt-0.5 h-4 w-4 shrink-0 ${t.accent}`} aria-hidden />
             <dd className={center ? "text-center" : ""}>
               <span className="font-semibold">{event.venue}</span>
-              <span className={`block ${t.body}`}>{event.address ?? event.location}</span>
+              <span className={`mt-1 block leading-relaxed ${t.body}`}>{event.address ?? event.location}</span>
             </dd>
           </div>
         </dl>
       </Reveal>
 
       <Reveal delay={0.32}>
-        <p className={`mt-7 max-w-md font-serif text-[1.2rem] italic leading-relaxed ${t.body} ${center ? "mx-auto" : ""}`}>
+        <p className={`max-w-md font-serif italic ${center ? "mx-auto mt-6 text-[1.08rem] leading-[1.7]" : "mt-7 text-[1.2rem] leading-relaxed"} ${t.body}`}>
           {event.description}
         </p>
       </Reveal>
 
-      <Reveal delay={0.38} className={`mt-9 flex flex-wrap gap-3 ${center ? "justify-center" : ""}`}>
+      <Reveal delay={0.38} className={`flex flex-wrap gap-3 ${center ? "mt-8 justify-center" : "mt-9"}`}>
         {event.mapsUrl && <MapButton href={event.mapsUrl} label="Map" variant={t.button} />}
         <CalendarButton events={[event]} variant={t.button} />
       </Reveal>

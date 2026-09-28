@@ -230,7 +230,7 @@ body.is-locked {
   100% { transform: scale(2.4); opacity: 0; }
 }
 
-.animate-slow-spin { animation: slow-spin 90s linear infinite; }
+.animate-slow-spin { animation: slow-spin 90s linear infinite; will-change: transform; }
 
 .light-sweep {
   position: absolute;

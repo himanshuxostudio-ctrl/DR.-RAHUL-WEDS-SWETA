@@ -23,10 +23,10 @@ export default function HeroSection({ revealed }: { revealed: boolean }) {
   const d = (s: number) => (reduce ? 0 : s);
 
   return (
-    <section ref={ref} id="top" aria-label={`${couple.groom} and ${couple.bride}`} className="surface-maroon relative min-h-[100svh] overflow-hidden">
+    <section ref={ref} id="top" aria-label={`${couple.groom} and ${couple.bride}`} className="surface-maroon relative flex min-h-[100svh] flex-col overflow-hidden md:block">
       {/* Photograph — revealed through a widening mask, settling from 1.1 → 1 */}
       <motion.div
-        className="absolute inset-x-0 top-0 h-[72svh] md:inset-y-0 md:left-auto md:right-0 md:h-full md:w-[68%]"
+        className="relative h-[64svh] min-h-[380px] w-full shrink-0 md:absolute md:inset-y-0 md:left-auto md:right-0 md:h-full md:w-[68%]"
         style={{ y: imgY }}
       >
         <motion.div
@@ -53,7 +53,7 @@ export default function HeroSection({ revealed }: { revealed: boolean }) {
               alt={images.heroWide.alt}
               desktopSizes="68vw"
               priority
-              className="object-[50%_20%] md:object-[62%_30%]"
+              className="object-[48%_0%] md:object-[62%_30%]"
             />
           </motion.div>
           {revealed && !reduce && <div className="light-sweep" style={{ ["--sweep-delay" as string]: "1.6s" }} />}
@@ -73,16 +73,16 @@ export default function HeroSection({ revealed }: { revealed: boolean }) {
         animate={{ opacity: revealed ? 1 : 0 }}
         transition={{ duration: 2, delay: d(1.4) }}
       >
-        <CornerFlourish className="absolute -left-px -top-px h-14 w-14 sm:h-20 sm:w-20" />
-        <CornerFlourish className="absolute -right-px -top-px h-14 w-14 rotate-90 sm:h-20 sm:w-20" />
-        <CornerFlourish className="absolute -bottom-px -right-px h-14 w-14 rotate-180 sm:h-20 sm:w-20" />
-        <CornerFlourish className="absolute -bottom-px -left-px h-14 w-14 -rotate-90 sm:h-20 sm:w-20" />
+        <CornerFlourish className="absolute left-1.5 top-1.5 h-14 w-14 sm:h-20 sm:w-20" />
+        <CornerFlourish className="absolute right-1.5 top-1.5 h-14 w-14 rotate-90 sm:h-20 sm:w-20" />
+        <CornerFlourish className="absolute bottom-1.5 right-1.5 h-14 w-14 rotate-180 sm:h-20 sm:w-20" />
+        <CornerFlourish className="absolute bottom-1.5 left-1.5 h-14 w-14 -rotate-90 sm:h-20 sm:w-20" />
       </motion.div>
 
       {/* Typography */}
       <motion.div
         style={{ y: textY, opacity: fadeOut }}
-        className="relative z-20 flex min-h-[100svh] flex-col justify-end px-7 pb-[max(4.5rem,env(safe-area-inset-bottom))] pt-24 text-center md:w-[46%] md:justify-center md:pb-24 md:pl-[7vw] md:pr-0 md:text-left"
+        className="relative z-20 -mt-[17svh] flex flex-1 flex-col justify-end px-7 pb-[max(5rem,env(safe-area-inset-bottom))] text-center md:mt-0 md:min-h-[100svh] md:w-[46%] md:justify-center md:pb-24 md:pl-[7vw] md:pr-0 md:pt-24 md:text-left"
       >
         <motion.div
           initial="hidden"
@@ -121,7 +121,7 @@ export default function HeroSection({ revealed }: { revealed: boolean }) {
 
         <motion.a
           href="#story"
-          className="group mx-auto mt-10 flex flex-col items-center gap-2 text-champagne/60 md:mx-0 md:items-start"
+          className="group mx-auto mt-10 hidden flex-col items-center gap-2 text-champagne/60 md:mx-0 md:flex md:items-start"
           initial={{ opacity: 0 }}
           animate={{ opacity: revealed ? 1 : 0 }}
           transition={{ duration: 1.5, delay: d(2.6) }}

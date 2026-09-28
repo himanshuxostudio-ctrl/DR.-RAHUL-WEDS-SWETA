@@ -2,7 +2,7 @@
 
 import type { WeddingEvent } from "@/data/weddingData";
 import EventCard from "./EventCard";
-import { ChhekaArt, MatkorArt, PalaceArch } from "./decor/EventArt";
+import { ChhekaArt, MatkorArt, PalaceArchCrown } from "./decor/EventArt";
 import { CornerFlourish, Mandala } from "./decor/Ornaments";
 import GoldDust from "./decor/GoldDust";
 import { Reveal } from "./ui/Reveal";
@@ -73,12 +73,18 @@ export default function EventSection({ event }: { event: WeddingEvent }) {
       <div aria-hidden className="pointer-events-none absolute left-1/2 top-1/2 w-[140vmin] -translate-x-1/2 -translate-y-1/2 opacity-[0.07]">
         <Mandala className="animate-slow-spin h-full w-full" />
       </div>
-      <div className="relative mx-auto max-w-[620px] pl-[calc(var(--line-x)+1.25rem)] pr-[var(--gutter)] md:px-[var(--gutter)]">
-        <div className="relative px-6 pb-16 pt-[42%] sm:px-12 sm:pt-[36%]">
-          <PalaceArch className="pointer-events-none absolute inset-0 h-full w-full" />
-          <div aria-hidden className="absolute inset-x-[14%] bottom-0 top-[24%] -z-10 rounded-t-full bg-[radial-gradient(ellipse_at_50%_30%,rgba(201,164,92,0.14),transparent_70%)]" />
+      <div className="relative mx-auto max-w-[540px] px-[var(--gutter)]">
+        <div aria-hidden className="absolute inset-x-[18%] bottom-10 top-[14%] rounded-t-full bg-[radial-gradient(ellipse_at_50%_30%,rgba(201,164,92,0.13),transparent_70%)]" />
+        <PalaceArchCrown className="pointer-events-none relative block w-full" />
+        {/* the arch's pillars continue as borders, framing the details */}
+        <div className="relative mx-[7.5%] border-x border-gold/90 px-5 pb-12 pt-3 sm:px-12">
+          <div aria-hidden className="pointer-events-none absolute inset-y-0 left-[6.47%] right-[6.47%] border-x border-gold/50" />
+          <div aria-hidden className="pointer-events-none absolute inset-y-0 -left-[7.06%] hidden w-[5.3%] border-x border-gold/70 sm:block" />
+          <div aria-hidden className="pointer-events-none absolute inset-y-0 -right-[7.06%] hidden w-[5.3%] border-x border-gold/70 sm:block" />
           <EventCard event={event} align="center" />
         </div>
+        <div aria-hidden className="mx-[4%] h-px bg-gold/70" />
+        <div aria-hidden className="mx-[1%] mt-1.5 h-px bg-gold/35" />
       </div>
     </section>
   );

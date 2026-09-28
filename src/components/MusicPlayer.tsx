@@ -2,7 +2,6 @@
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { weddingData } from "@/data/weddingData";
-import { createRagaEngine, type RagaEngine } from "@/lib/ragaEngine";
 
 interface MusicState {
   /** True once the guest has opened the invitation (audio is allowed). */
@@ -21,7 +20,7 @@ export function useMusic() {
   return ctx;
 }
 
-const { storageKey, src } = weddingData.music;
+const { storageKey, src, volume: TARGET_VOLUME } = weddingData.music;
 
 const readMuted = () => {
   try {
@@ -38,89 +37,115 @@ const writeMuted = (muted: boolean) => {
   }
 };
 
-/** Uniform interface over a real audio file or the generative raga. */
-interface Voice {
-  play: () => void;
+interface Track {
+  /** Resolves false if the browser refused to start playback. */
+  play: () => Promise<boolean>;
   pause: () => void;
 }
 
-function createVoice(): Voice | null {
-  if (src) {
-    const audio = new Audio(src);
-    audio.loop = true;
-    audio.volume = 0;
-    let fade: number | undefined;
-    const fadeTo = (target: number, after?: () => void) => {
-      window.clearInterval(fade);
-      fade = window.setInterval(() => {
-        const next = audio.volume + (target > audio.volume ? 0.04 : -0.06);
-        audio.volume = Math.min(1, Math.max(0, next));
-        if (Math.abs(audio.volume - target) < 0.05) {
-          audio.volume = target;
-          window.clearInterval(fade);
-          after?.();
-        }
-      }, 60);
+/**
+ * Background track. The <audio> element is created lazily on the guest's first
+ * tap, so nothing is downloaded before then; the file then streams
+ * progressively and never blocks rendering. Volume fades use rAF where the
+ * browser allows it (iOS Safari keeps volume fixed, so it just plays/pauses).
+ */
+function createTrack(url: string): Track {
+  const audio = new Audio();
+  audio.preload = "auto";
+  audio.loop = true;
+  audio.src = url;
+  audio.volume = 0.5;
+  const canFade = Math.abs(audio.volume - 0.5) < 0.01;
+  audio.volume = canFade ? 0 : 1;
+
+  let raf = 0;
+  const fadeTo = (target: number, ms: number, done?: () => void) => {
+    cancelAnimationFrame(raf);
+    if (!canFade) return done?.();
+    const from = audio.volume;
+    const start = performance.now();
+    const step = (now: number) => {
+      const t = Math.min(1, (now - start) / ms);
+      audio.volume = Math.min(1, Math.max(0, from + (target - from) * t));
+      if (t < 1) raf = requestAnimationFrame(step);
+      else done?.();
     };
-    return {
-      play: () => void audio.play().then(() => fadeTo(0.7)).catch(() => undefined),
-      pause: () => fadeTo(0, () => audio.pause()),
-    };
-  }
-  const engine: RagaEngine | null = createRagaEngine();
-  if (!engine) return null;
-  let begun = false;
+    raf = requestAnimationFrame(step);
+  };
+
   return {
-    play: () => {
-      if (!begun) {
-        begun = true;
-        void engine.start();
-      } else engine.fadeIn();
-    },
-    pause: () => engine.fadeOut(),
+    play: () =>
+      audio
+        .play()
+        .then(() => {
+          fadeTo(TARGET_VOLUME, 2400);
+          return true;
+        })
+        .catch(() => false),
+    pause: () => fadeTo(0, 700, () => audio.pause()),
   };
 }
 
 export function MusicProvider({ children }: { children: ReactNode }) {
-  const voice = useRef<Voice | null>(null);
+  const track = useRef<Track | null>(null);
+  const playingRef = useRef(false);
   const [unlocked, setUnlocked] = useState(false);
   const [playing, setPlaying] = useState(false);
 
-  const ensureVoice = useCallback(() => {
-    if (!voice.current) voice.current = createVoice();
-    return voice.current;
+  const ensureTrack = useCallback(() => {
+    if (!track.current && src) track.current = createTrack(src);
+    return track.current;
   }, []);
+
+  const setIntent = useCallback((on: boolean) => {
+    playingRef.current = on;
+    setPlaying(on);
+  }, []);
+
+  /**
+   * Start playback; if the browser blocks it (strict autoplay rules), retry
+   * on the guest's next tap / key press.
+   */
+  const start = useCallback(() => {
+    const t = ensureTrack();
+    if (!t) return;
+    void t.play().then((ok) => {
+      if (ok) return;
+      const retry = () => {
+        events.forEach((e) => window.removeEventListener(e, retry, true));
+        if (playingRef.current) void t.play();
+      };
+      const events = ["pointerdown", "touchend", "keydown"] as const;
+      events.forEach((e) => window.addEventListener(e, retry, { capture: true, passive: true }));
+    });
+  }, [ensureTrack]);
 
   const begin = useCallback(() => {
     setUnlocked(true);
     if (readMuted()) return;
-    ensureVoice()?.play();
-    setPlaying(true);
-  }, [ensureVoice]);
-
-  const playingRef = useRef(false);
-  playingRef.current = playing;
+    setIntent(true);
+    start();
+  }, [setIntent, start]);
 
   const toggle = useCallback(() => {
     setUnlocked(true);
     const was = playingRef.current;
-    const v = ensureVoice();
-    if (was) v?.pause();
-    else v?.play();
+    if (was) track.current?.pause();
+    else start();
     writeMuted(was);
-    setPlaying(!was);
-  }, [ensureVoice]);
+    setIntent(!was);
+  }, [setIntent, start]);
 
   // Pause politely when the guest switches apps (WhatsApp → back).
   useEffect(() => {
     const onVis = () => {
-      if (!voice.current || !playing) return;
-      if (document.hidden) voice.current.pause();
-      else voice.current.play();
+      if (!track.current || !playingRef.current) return;
+      if (document.hidden) track.current.pause();
+      else void track.current.play();
     };
     document.addEventListener("visibilitychange", onVis);
     return () => document.removeEventListener("visibilitychange", onVis);
-  }, [playing]);
+  }, []);
 
   const value = useMemo(() => ({ unlocked, playing, begin, toggle }), [unlocked, playing, begin, toggle]);
   return <MusicContext.Provider value={value}>{children}</MusicContext.Provider>;
@@ -136,7 +161,7 @@ export function MusicToggle({ className = "" }: { className?: string }) {
       aria-pressed={playing}
       aria-label={playing ? "Mute music" : "Play music"}
       title={weddingData.music.title}
-      className={`group relative grid h-12 w-12 place-items-center rounded-full border border-gold/60 bg-deep-maroon/70 text-gold-light backdrop-blur-md transition hover:border-gold-light ${className}`}
+      className={`group relative grid h-12 w-12 place-items-center rounded-full border border-gold/60 bg-deep-maroon/85 text-gold-light transition hover:border-gold-light ${className}`}
     >
       {playing ? (
         <span className="flex h-4 items-end gap-[3px]" aria-hidden>

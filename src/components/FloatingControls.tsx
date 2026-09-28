@@ -9,9 +9,58 @@ import { MusicToggle } from "./MusicPlayer";
 
 const { navigation, couple } = weddingData;
 
+/**
+ * Slides the controls out of the way while the guest scrolls down (so they
+ * never sit on top of buttons like MAP), and brings them back on scroll-up or
+ * once scrolling pauses. One passive listener; state only changes on flips.
+ */
+function useScrollAway() {
+  const [away, setAway] = useState(false);
+  useEffect(() => {
+    let lastY = window.scrollY;
+    let current = false;
+    let idle: number | undefined;
+    const set = (v: boolean) => {
+      if (v !== current) {
+        current = v;
+        setAway(v);
+      }
+    };
+    const onScroll = () => {
+      const y = window.scrollY;
+      if (y > lastY + 6) set(true);
+      else if (y < lastY - 6) set(false);
+      lastY = y;
+      window.clearTimeout(idle);
+      idle = window.setTimeout(() => set(false), 900);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.clearTimeout(idle);
+    };
+  }, []);
+  return away;
+}
+
+/** True while the closing (Thank You → finale) screens are on screen. */
+function useAtClosing() {
+  const [at, setAt] = useState(false);
+  useEffect(() => {
+    const el = document.getElementById("closing");
+    if (!el) return;
+    const io = new IntersectionObserver(([e]) => setAt(e.isIntersecting), { rootMargin: "0px 0px -40% 0px" });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+  return at;
+}
+
 /** Minimal floating controls: RSVP · Menu · Music. */
 export default function FloatingControls({ visible }: { visible: boolean }) {
   const [menu, setMenu] = useState(false);
+  const away = useScrollAway();
+  const closing = useAtClosing();
   const menuBtn = useRef<HTMLButtonElement>(null);
   const firstLink = useRef<HTMLAnchorElement>(null);
 
@@ -31,7 +80,7 @@ export default function FloatingControls({ visible }: { visible: boolean }) {
   }, [menu]);
 
   const round =
-    "grid h-12 w-12 place-items-center rounded-full border border-gold/60 bg-deep-maroon/70 text-gold-light backdrop-blur-md transition hover:border-gold-light";
+    "grid h-12 w-12 place-items-center rounded-full border border-gold/60 bg-deep-maroon/85 text-gold-light transition hover:border-gold-light";
 
   return (
     <>
@@ -44,16 +93,35 @@ export default function FloatingControls({ visible }: { visible: boolean }) {
             exit={{ opacity: 0, y: 20 }}
             transition={{ duration: 0.8, delay: 1.6, ease: [0.22, 1, 0.36, 1] }}
           >
-            <a
-              href="#rsvp"
-              className="flex h-12 items-center rounded-full border border-gold/60 bg-deep-maroon/70 px-5 text-[0.68rem] font-semibold tracking-[0.24em] text-gold-light backdrop-blur-md transition hover:border-gold-light"
+            <motion.div
+              className="flex items-center gap-2.5"
+              animate={{ y: away ? 96 : 0, opacity: away ? 0 : 1 }}
+              transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
             >
-              RSVP
-            </a>
-            <button ref={menuBtn} type="button" className={round} aria-label="Open menu" aria-expanded={menu} onClick={() => setMenu(true)}>
-              <Menu className="h-5 w-5" aria-hidden />
-            </button>
-            <MusicToggle />
+              <AnimatePresence initial={false}>
+                {!closing && (
+                  <motion.div
+                    key="nav"
+                    className="flex items-center gap-2.5"
+                    initial={{ opacity: 0, x: 12 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: 12 }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    <a
+                      href="#rsvp"
+                      className="flex h-12 items-center rounded-full border border-gold/60 bg-deep-maroon/85 px-5 text-[0.68rem] font-semibold tracking-[0.24em] text-gold-light transition hover:border-gold-light"
+                    >
+                      RSVP
+                    </a>
+                    <button ref={menuBtn} type="button" className={round} aria-label="Open menu" aria-expanded={menu} onClick={() => setMenu(true)}>
+                      <Menu className="h-5 w-5" aria-hidden />
+                    </button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+              <MusicToggle className={closing ? "opacity-70" : ""} />
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>

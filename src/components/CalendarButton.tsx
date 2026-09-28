@@ -61,7 +61,7 @@ export default function CalendarButton({
         <div
           id={menuId}
           role="menu"
-          className="absolute bottom-full left-1/2 z-30 mb-3 w-64 -translate-x-1/2 overflow-hidden rounded-xl border border-gold/40 bg-maroon/95 shadow-2xl backdrop-blur-md"
+          className="absolute bottom-full left-1/2 z-30 mb-3 w-64 -translate-x-1/2 overflow-hidden rounded-xl border border-gold/40 bg-maroon/95 shadow-2xl"
         >
           {single ? (
             <a role="menuitem" className={item} href={googleCalendarUrl(single)} target="_blank" rel="noopener noreferrer" onClick={() => setOpen(false)}>

@@ -189,13 +189,13 @@ export const weddingData = {
 
   music: {
     /**
-     * Instrumental only. Drop a licensed instrumental track (shehnai / sitar /
-     * bansuri — no vocals) at /public/audio/ and set `src` to use it; while
-     * `src` is null the site plays its own generative bansuri-and-tanpura
-     * raga (Bhupali), synthesised live in the browser.
+     * The couple's own instrumental track (no vocals). Re-encoded to 128 kbps
+     * MP3 with short fades so the loop is seamless; the untouched original is
+     * kept in assets/audio/. Loaded only after "Open Invitation" is tapped.
      */
-    src: null as string | null,
-    title: "Raag Bhupali · bansuri & tanpura",
+    src: "/audio/royal-wedding-procession.mp3" as string | null,
+    title: "Royal Wedding Procession · instrumental",
+    volume: 0.75,
     storageKey: "rw-music-muted",
   },
 
