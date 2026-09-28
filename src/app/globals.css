@@ -1,0 +1,281 @@
+@import "tailwindcss";
+
+/* ────────────────────────────────────────────────────────────────────────────
+   Design system — Royal Indian × Luxury Editorial × Cinematic
+   Palette drawn from the photographs: champagne lehenga, ivory walls,
+   warm-gold light, blush skin tones, set against deep wine and maroon.
+   ──────────────────────────────────────────────────────────────────────── */
+:root {
+  --deep-maroon: #1e070b;
+  --maroon: #3d0d16;
+  --wine: #6b1a28;
+  --burgundy: #82283a;
+  --gold: #c9a45c;
+  --gold-light: #e8d3a0;
+  --gold-deep: #9a7639;
+  --ivory: #f9f3ea;
+  --champagne: #eedcc2;
+  --beige: #dcc6a6;
+  --rose: #d9a292;
+  --earth: #8a5a3b;
+
+  --text-primary: #2b1115;
+  --text-secondary: #6d4e45;
+  --text-on-dark: #f9f3ea;
+  --text-on-dark-muted: rgba(238, 220, 194, 0.72);
+
+  --font-serif: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
+  --font-sans: var(--font-manrope), "Manrope", system-ui, sans-serif;
+  --font-deva: var(--font-tiro), "Tiro Devanagari Hindi", serif;
+
+  /* spacing scale */
+  --space-section: clamp(6rem, 14vw, 11rem);
+  --gutter: clamp(1.25rem, 5vw, 4rem);
+
+  --ease-luxe: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-film: cubic-bezier(0.65, 0, 0.35, 1);
+
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-deep-maroon: var(--deep-maroon);
+  --color-maroon: var(--maroon);
+  --color-wine: var(--wine);
+  --color-burgundy: var(--burgundy);
+  --color-gold: var(--gold);
+  --color-gold-light: var(--gold-light);
+  --color-gold-deep: var(--gold-deep);
+  --color-ivory: var(--ivory);
+  --color-champagne: var(--champagne);
+  --color-beige: var(--beige);
+  --color-rose: var(--rose);
+  --color-earth: var(--earth);
+  --color-ink: var(--text-primary);
+  --color-ink-soft: var(--text-secondary);
+
+  --font-serif: var(--font-serif);
+  --font-sans: var(--font-sans);
+  --font-deva: var(--font-deva);
+
+  /* type scale */
+  --text-eyebrow: 0.72rem;
+  --text-display: clamp(3.4rem, 13vw, 9rem);
+  --text-title: clamp(2.6rem, 8.5vw, 5.5rem);
+}
+
+html {
+  background: var(--deep-maroon);
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--deep-maroon);
+  color: var(--text-on-dark);
+  font-family: var(--font-sans);
+  overflow-x: clip;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body.is-locked {
+  overflow: hidden;
+  height: 100svh;
+}
+
+::selection {
+  background: var(--gold);
+  color: var(--deep-maroon);
+}
+
+:focus-visible {
+  outline: 2px solid var(--gold-light);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+/* ── Typography primitives ─────────────────────────────────────────────── */
+.eyebrow {
+  font-family: var(--font-sans);
+  font-size: var(--text-eyebrow);
+  font-weight: 600;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+}
+
+.serif-display {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  line-height: 0.92;
+  letter-spacing: -0.01em;
+}
+
+.gold-text {
+  background: linear-gradient(100deg, var(--gold-deep) 0%, var(--gold-light) 38%, var(--gold) 55%, var(--gold-light) 72%, var(--gold-deep) 100%);
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.gold-text-animate {
+  animation: gold-sheen 7s var(--ease-film) infinite;
+}
+
+@keyframes gold-sheen {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* ── Surfaces ─────────────────────────────────────────────────────────── */
+.surface-maroon {
+  background:
+    radial-gradient(120% 70% at 50% 0%, rgba(130, 40, 58, 0.45), transparent 60%),
+    radial-gradient(90% 60% at 50% 100%, rgba(107, 26, 40, 0.35), transparent 70%),
+    var(--deep-maroon);
+}
+
+.surface-ivory {
+  background:
+    radial-gradient(100% 60% at 50% 0%, #fffaf2, transparent 70%),
+    linear-gradient(180deg, var(--ivory), #f3e7d6);
+  color: var(--text-primary);
+}
+
+/* Paper grain — tiny inline SVG noise, adds physical-card texture */
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.07;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+/* Jaali — a quiet lattice used behind headings and in event panels */
+.jaali {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='56' height='56' viewBox='0 0 56 56'><g fill='none' stroke='%23c9a45c' stroke-width='0.6'><path d='M28 2 L54 28 L28 54 L2 28 Z'/><circle cx='28' cy='28' r='9'/><path d='M28 19 Q34 28 28 37 Q22 28 28 19Z'/><path d='M19 28 Q28 34 37 28 Q28 22 19 28Z'/></g></svg>");
+  background-size: 56px 56px;
+}
+
+/* ── Buttons ──────────────────────────────────────────────────────────── */
+.btn-gold {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  min-height: 48px;
+  padding: 0.85rem 1.6rem;
+  border: 1px solid var(--gold);
+  border-radius: 999px;
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--gold-light);
+  background: rgba(30, 7, 11, 0.35);
+  overflow: hidden;
+  transition: color 0.5s var(--ease-luxe), background 0.5s var(--ease-luxe), border-color 0.5s var(--ease-luxe);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btn-gold::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 20%, rgba(232, 211, 160, 0.35) 50%, transparent 80%);
+  transform: translateX(-120%);
+  transition: transform 0.9s var(--ease-luxe);
+}
+
+.btn-gold:hover::before { transform: translateX(120%); }
+.btn-gold:hover { background: rgba(201, 164, 92, 0.16); color: var(--ivory); }
+
+.btn-gold.solid {
+  background: linear-gradient(135deg, var(--gold-light), var(--gold) 55%, var(--gold-deep));
+  color: var(--deep-maroon);
+  border-color: transparent;
+}
+.btn-gold.solid:hover { color: var(--deep-maroon); filter: brightness(1.05); }
+
+.btn-gold.on-light {
+  color: var(--wine);
+  border-color: rgba(154, 118, 57, 0.7);
+  background: rgba(255, 255, 255, 0.4);
+}
+.btn-gold.on-light:hover { background: var(--wine); color: var(--ivory); border-color: var(--wine); }
+
+/* ── Motion helpers ───────────────────────────────────────────────────── */
+@keyframes float-dust {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(0, -40px, 0); }
+}
+
+@keyframes slow-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes light-sweep {
+  0% { transform: translateX(-130%) skewX(-18deg); opacity: 0; }
+  20% { opacity: 1; }
+  100% { transform: translateX(230%) skewX(-18deg); opacity: 0; }
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(0.6); opacity: 0.7; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+
+.animate-slow-spin { animation: slow-spin 90s linear infinite; }
+
+.light-sweep {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.light-sweep::after {
+  content: "";
+  position: absolute;
+  top: -10%;
+  bottom: -10%;
+  width: 40%;
+  background: linear-gradient(90deg, transparent, rgba(255, 236, 200, 0.28), transparent);
+  animation: light-sweep 2.8s var(--ease-film) forwards;
+  animation-delay: var(--sweep-delay, 0.8s);
+  opacity: 0;
+}
+
+/* Form controls */
+.field {
+  width: 100%;
+  min-height: 52px;
+  padding: 1.1rem 0 0.55rem;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid rgba(201, 164, 92, 0.45);
+  color: var(--ivory);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  border-radius: 0;
+  transition: border-color 0.4s var(--ease-luxe);
+}
+.field::placeholder { color: rgba(238, 220, 194, 0.4); }
+.field:focus { outline: none; border-bottom-color: var(--gold-light); }
+.field:focus-visible { outline: none; box-shadow: 0 2px 0 0 var(--gold-light); }
+select.field { appearance: none; }
+select.field option { background: var(--maroon); color: var(--ivory); }
+
+/* ── Reduced motion ───────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
