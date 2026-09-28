@@ -29,18 +29,37 @@ const tiro = localFont({
   display: "swap",
 });
 
-const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL ??
-  (process.env.VERCEL_PROJECT_PRODUCTION_URL
-    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-    : process.env.VERCEL_URL
-      ? `https://${process.env.VERCEL_URL}`
-      : "http://localhost:3000");
+/**
+ * Base URL for Open Graph / WhatsApp previews. Candidates are tried in order;
+ * empty or malformed values are skipped (an env var can exist but be blank),
+ * so the build can never crash on `new URL("")`.
+ *   1. NEXT_PUBLIC_SITE_URL           — explicit / custom domain
+ *   2. VERCEL_PROJECT_PRODUCTION_URL  — set automatically by Vercel
+ *   3. VERCEL_URL                     — set automatically by Vercel (per deployment)
+ *   4. http://localhost:3000          — local development
+ */
+function resolveSiteUrl(): URL {
+  const candidates = [
+    process.env.NEXT_PUBLIC_SITE_URL,
+    process.env.VERCEL_PROJECT_PRODUCTION_URL,
+    process.env.VERCEL_URL,
+  ];
+  for (const raw of candidates) {
+    const value = raw?.trim();
+    if (!value) continue;
+    try {
+      return new URL(/^https?:\/\//i.test(value) ? value : `https://${value}`);
+    } catch {
+      // malformed — try the next candidate
+    }
+  }
+  return new URL("http://localhost:3000");
+}
 
 const { seo, couple } = weddingData;
 
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
+  metadataBase: resolveSiteUrl(),
   title: seo.title,
   description: seo.description,
   applicationName: couple.title,
