@@ -86,13 +86,19 @@ export default function CelebrationSection() {
             <EventTile key={ev.id} ev={ev} featured={ev.theme === "vivah"} />
           ))}
         </m.ul>
-        {/* shehnai couple — phones: tucked under the cards, off to the left */}
-        <Vignette kind="shehnai" className="-mb-1 mt-3 w-[38%] max-w-[160px] sm:hidden" />
+        {/* phones: shehnai couple (left) and jaimala couple (right) flank the
+            top of the Vivah arch, tucked under the cards */}
+        <div className="-mb-7 mt-3 flex items-end justify-between sm:hidden">
+          <Vignette kind="shehnai" className="w-[35%] max-w-[150px]" />
+          <Vignette kind="jaimala" className="mr-1 w-[29%] max-w-[125px] translate-y-3" />
+        </div>
       </m.div>
 
       {/* The Wedding — Vivah details with the couple illustration */}
       <m.div id="wedding" aria-labelledby="wedding-heading" className="relative isolate mx-auto mt-10 max-w-5xl scroll-mt-10 lg:mt-20" {...inView}>
         <WeddingAtmosphere preset="wedding" bleed />
+        {/* tablet+: jaimala couple at the right shoulder of the Vivah arch */}
+        <Vignette kind="jaimala" className="absolute left-[calc(50%+150px)] top-3 hidden w-24 sm:block lg:left-[calc(50%+185px)] lg:top-1 lg:w-32" />
         <m.div variants={rise(0)} className="flex items-center justify-center gap-4">
           <span className="h-px w-16 bg-gradient-to-r from-transparent to-gold/60" />
           <p className="eyebrow text-gold">{celebrations.weddingEyebrow}</p>
@@ -148,8 +154,6 @@ export default function CelebrationSection() {
                 <CalendarButton events={[vivah]} />
               </div>
             </m.article>
-            {/* jaimala couple — stepping in beneath the details, off to the right */}
-            <Vignette kind="jaimala" className="-mb-12 mr-1 mt-3 w-[36%] max-w-[150px] self-end sm:w-36 lg:-mb-0 lg:mr-6 lg:mt-5 lg:w-40" />
           </div>
         </div>
       </m.div>
