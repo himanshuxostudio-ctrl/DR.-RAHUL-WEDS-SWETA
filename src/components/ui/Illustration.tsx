@@ -19,6 +19,7 @@ export default function Illustration({
   sizes,
   maxWidth,
   maxVh,
+  maxVhLg,
   priority = false,
   show,
   delay = 0,
@@ -32,6 +33,8 @@ export default function Illustration({
   maxWidth: number;
   /** Upper bound on height, as % of the small viewport height. */
   maxVh: number;
+  /** Optional larger height cap from the lg breakpoint (desktop). */
+  maxVhLg?: number;
   priority?: boolean;
   /** Controlled reveal (hero). Omit to reveal when scrolled into view. */
   show?: boolean;
@@ -52,8 +55,13 @@ export default function Illustration({
 
   return (
     <m.figure
-      className={`relative ${className}`}
-      style={{ width: `min(100%, ${maxWidth}px, calc(${maxVh}svh * ${ratio.toFixed(4)}))` }}
+      className={`relative w-[var(--w)] lg:w-[var(--w-lg)] ${className}`}
+      style={
+        {
+          "--w": `min(100%, ${maxWidth}px, calc(${maxVh}svh * ${ratio.toFixed(4)}))`,
+          "--w-lg": `min(100%, ${maxWidth}px, calc(${maxVhLg ?? maxVh}svh * ${ratio.toFixed(4)}))`,
+        } as React.CSSProperties
+      }
       variants={variants}
       {...trigger}
     >

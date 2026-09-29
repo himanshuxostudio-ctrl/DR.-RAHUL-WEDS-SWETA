@@ -3,10 +3,11 @@
 A cinematic, mobile-first invitation built with Next.js (App Router), React,
 TypeScript, Tailwind CSS v4 and Framer Motion.
 
-**Story (short, illustrated):** Invitation card → Dr. Rahul & Sweta (opening
-illustration) → Two Hearts, One Journey (staircase illustration + family
-blessings) → Vivah details with the bride's portrait (plus compact Chheka and
-Matkor rows and a live countdown) → Thank You (closing illustration).
+**Story (short, illustrated):** Invitation card → Opening (शुभ विवाह, names,
+date, the stage illustration, garland & drifting petals) → Two Souls, One
+Journey → With the Blessings of Our Families → The Celebrations (Chheka ·
+Matkor · Vivah) → The Wedding (venue, directions, calendar) → The Wait Is
+Almost Over (countdown) → closing.
 
 ## Run locally
 
@@ -32,9 +33,10 @@ music and SEO. Components never hard-code content.
 
 ## Illustrations
 
-The four illustrations live untouched in `assets/originals/illustrations/`.
+The illustrations live untouched in `assets/originals/illustrations/`.
 `npm run images` writes the public versions to `public/images/illustrations/`
-— the whole artwork (never cropped or re-coloured) with a faint ink monogram
+— trimmed only of empty paper (plus a closer phone crop of the hero), never
+stretched or re-coloured, with a faint ink monogram
 and copyright EXIF — plus blur placeholders
 (`src/data/imageManifest.generated.ts`) and the 1200×630 share card
 `public/og/rahul-sweta-og.jpg`. next/image serves AVIF/WebP at responsive

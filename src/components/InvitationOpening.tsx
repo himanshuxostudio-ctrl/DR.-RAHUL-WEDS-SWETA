@@ -167,7 +167,6 @@ export default function InvitationOpening({ onOpen }: { onOpen: () => void }) {
                   <span className="pointer-events-none absolute inset-0 rounded-full border border-gold-light [animation:pulse-ring_2.6s_ease-out_infinite]" aria-hidden />
                   {invitation.openButton}
                 </button>
-                <p className="mt-4 text-[0.68rem] tracking-[0.2em] text-champagne/50">♫ with music</p>
               </m.div>
             </div>
           </m.div>

@@ -243,6 +243,54 @@ body.is-locked {
   -webkit-user-drag: none;
 }
 
+/* ── Florals: drifting petals, breathing garland, soft glow ─────────────
+   Transform/opacity only (compositor-friendly). Reduced-motion users get the
+   static composition (petals simply don't appear). */
+.petal {
+  border-radius: 80% 0 80% 0;
+  opacity: 0;
+  filter: blur(0.3px);
+  will-change: transform, opacity;
+  animation-name: petal-drift;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+@keyframes petal-drift {
+  0% { transform: translate3d(0, 0, 0) rotate(0deg); opacity: 0; }
+  8% { opacity: 0.5; }
+  25% { transform: translate3d(22px, 26vh, 0) rotate(70deg); }
+  50% { transform: translate3d(-14px, 52vh, 0) rotate(150deg); }
+  75% { transform: translate3d(18px, 78vh, 0) rotate(230deg); }
+  90% { opacity: 0.4; }
+  100% { transform: translate3d(0, 104vh, 0) rotate(310deg); opacity: 0; }
+}
+.garland-sway {
+  transform-origin: top center;
+  animation: garland-sway 9s ease-in-out infinite alternate;
+}
+@keyframes garland-sway {
+  from { transform: translate3d(0, -2px, 0); }
+  to { transform: translate3d(0, 2px, 0); }
+}
+.glow-breathe {
+  animation: glow-breathe 12s ease-in-out infinite alternate;
+}
+@keyframes glow-breathe {
+  from { opacity: 0.55; }
+  to { opacity: 0.9; }
+}
+
+/* Feathered edge: artwork dissolves softly into the page instead of sitting
+   in a hard rectangle. */
+.feather {
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 5%, #000 95%, transparent),
+    linear-gradient(to bottom, transparent, #000 6%, #000 92%, transparent);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(to right, transparent, #000 5%, #000 95%, transparent),
+    linear-gradient(to bottom, transparent, #000 6%, #000 92%, transparent);
+  mask-composite: intersect;
+}
+
 /* ── Reduced motion ───────────────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }

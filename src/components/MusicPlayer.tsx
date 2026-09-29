@@ -160,7 +160,6 @@ export function MusicToggle({ className = "", bare = false }: { className?: stri
       onClick={toggle}
       aria-pressed={playing}
       aria-label={playing ? "Mute music" : "Play music"}
-      title={weddingData.music.title}
       className={`group relative grid place-items-center rounded-full text-gold-light transition active:scale-95 ${
         bare ? "h-10 w-10 hover:bg-gold/10" : "h-12 w-12 border border-gold/60 bg-deep-maroon/85 hover:border-gold-light"
       } ${className}`}

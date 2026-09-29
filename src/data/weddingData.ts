@@ -58,9 +58,11 @@ export const weddingData = {
 
   story: {
     eyebrow: "Our Story",
-    /** Rendered as one heading: "Two Hearts, One Journey". */
-    titleA: "Two Hearts,",
+    /** Rendered as one heading: "Two Souls, One Journey". */
+    titleA: "Two Souls,",
     titleB: "One Journey",
+    groomLabel: "The Groom",
+    brideLabel: "The Bride",
   },
 
   families: {
@@ -82,9 +84,9 @@ export const weddingData = {
   },
 
   celebrations: {
-    eyebrow: "The Celebrations",
-    heading: "Vivah",
-    alsoCelebrating: "Also celebrating",
+    eyebrow: "Three days of blessings",
+    heading: "The Celebrations",
+    weddingEyebrow: "The Wedding",
   },
 
   events: [
@@ -150,17 +152,18 @@ export const weddingData = {
   },
 
   countdown: {
-    heading: "The wait is almost over",
+    heading: "The Wait Is Almost Over",
     target: "2026-12-12T18:00:00+05:30",
     caption: "12 December 2026 · 6:00 PM onwards",
     arrived: "Today we celebrate",
   },
 
-  /** Illustrated artwork — always shown whole (original aspect ratio). */
+  /** Illustrated artwork — never distorted; crops only trim empty paper. */
   images: {
-    opening: img("illustrations/rahul-sweta-back-to-back", "Illustration of Dr. Rahul and Sweta standing back to back, arms folded"),
+    hero: img("illustrations/rahul-sweta-namaste", "Illustration of Dr. Rahul and Sweta greeting guests with folded hands on their flower-decked wedding stage"),
+    heroMobile: img("illustrations/rahul-sweta-namaste-mobile", "Illustration of Dr. Rahul and Sweta greeting guests with folded hands on their flower-decked wedding stage"),
     story: img("illustrations/rahul-sweta-staircase", "Illustration of Dr. Rahul smiling up at Sweta as she stands on the staircase"),
-    bride: img("illustrations/sweta-portrait", "Illustrated portrait of Sweta seated in her embroidered ivory lehenga"),
+    wedding: img("illustrations/rahul-sweta-embrace", "Illustration of Dr. Rahul with his hand on Sweta's shoulder as they smile at each other"),
     closing: img("illustrations/rahul-sweta-together", "Illustration of Dr. Rahul and Sweta standing together in their wedding attire"),
   },
 
@@ -171,7 +174,6 @@ export const weddingData = {
      * kept in assets/audio/. Loaded only after "Open Invitation" is tapped.
      */
     src: "/audio/royal-wedding-procession.mp3" as string | null,
-    title: "Royal Wedding Procession · instrumental",
     volume: 0.75,
     storageKey: "rw-music-muted",
   },
@@ -184,8 +186,10 @@ export const weddingData = {
 
   navigation: [
     { id: "story", label: "Our Story" },
+    { id: "family", label: "Families" },
     { id: "celebrations", label: "Celebrations" },
-    { id: "closing", label: "Thank You" },
+    { id: "wedding", label: "The Wedding" },
+    { id: "countdown", label: "Countdown" },
   ],
 
   seo: {

@@ -17,12 +17,18 @@ const root = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..")
 const originals = path.join(root, "assets/originals/illustrations");
 const publicDir = path.join(root, "public/images");
 
-/** Every image the site uses (whole artwork, original aspect ratio). */
+/**
+ * Every image the site uses. Crops only trim empty paper margins (or, for the
+ * phone hero, tighten on the couple) — the artwork itself is never scaled
+ * unevenly, re-coloured or retouched. Crops are in source pixels.
+ */
 const derivatives = [
-  { id: "illustrations/rahul-sweta-back-to-back", src: "rahul-sweta-back-to-back.jpg" },
-  { id: "illustrations/rahul-sweta-staircase", src: "rahul-sweta-staircase.webp" },
-  { id: "illustrations/sweta-portrait", src: "sweta-portrait.webp" },
-  { id: "illustrations/rahul-sweta-together", src: "rahul-sweta-together.webp" },
+  // Hero: the full stage for wider screens, a closer crop for phones.
+  { id: "illustrations/rahul-sweta-namaste", src: "rahul-sweta-namaste.jpg", crop: { left: 60, top: 48, width: 900, height: 600 } },
+  { id: "illustrations/rahul-sweta-namaste-mobile", src: "rahul-sweta-namaste.jpg", crop: { left: 150, top: 48, width: 680, height: 604 } },
+  { id: "illustrations/rahul-sweta-staircase", src: "rahul-sweta-staircase.webp", crop: { left: 45, top: 92, width: 1032, height: 1818 } },
+  { id: "illustrations/rahul-sweta-embrace", src: "rahul-sweta-embrace.webp", crop: { left: 44, top: 36, width: 612, height: 962 } },
+  { id: "illustrations/rahul-sweta-together", src: "rahul-sweta-together.webp", crop: { left: 50, top: 46, width: 1241, height: 1897 } },
 ];
 
 /**
@@ -56,9 +62,11 @@ async function build() {
   const manifest = {};
 
   for (const d of derivatives) {
-    const src = sharp(path.join(originals, d.src)).rotate();
-    const { width, height } = await src.metadata();
-    const marked = await src.composite([{ input: monogram(width, height), blend: "over" }]).png().toBuffer();
+    let src = sharp(path.join(originals, d.src)).rotate();
+    if (d.crop) src = src.extract(d.crop);
+    const cropped = await src.png().toBuffer({ resolveWithObject: true });
+    const { width, height } = cropped.info;
+    const marked = await sharp(cropped.data).composite([{ input: monogram(width, height), blend: "over" }]).png().toBuffer();
     const out = path.join(publicDir, `${d.id}.jpg`);
     await fs.mkdir(path.dirname(out), { recursive: true });
     // High quality + 4:4:4 keeps fine pen lines crisp.
@@ -92,9 +100,8 @@ async function buildOgImage() {
     { name: "Manrope", data: await fs.readFile(path.join(root, "assets/fonts/manrope-600.ttf")), weight: 600, style: "normal" },
   ];
 
-  // Closing illustration, upper portion (faces and attire), on its paper.
-  const photo = await sharp(path.join(publicDir, "illustrations/rahul-sweta-together.jpg"))
-    .extract({ left: 60, top: 130, width: 1212, height: 1193 })
+  // Hero stage illustration, centred on the couple.
+  const photo = await sharp(path.join(publicDir, "illustrations/rahul-sweta-namaste-mobile.jpg"))
     .resize(640, 630, { fit: "cover", position: "top" })
     .jpeg({ quality: 88 })
     .toBuffer();

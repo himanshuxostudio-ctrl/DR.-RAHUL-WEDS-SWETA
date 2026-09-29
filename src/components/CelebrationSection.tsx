@@ -2,87 +2,109 @@
 
 import { m, useReducedMotion } from "framer-motion";
 import { Clock, MapPin } from "lucide-react";
-import { useEffect, useState } from "react";
-import { weddingData } from "@/data/weddingData";
+import { weddingData, type WeddingEvent } from "@/data/weddingData";
 import CalendarButton from "./CalendarButton";
 import MapButton from "./MapButton";
-import { CornerFlourish, OrnamentDivider } from "./decor/Ornaments";
+import { CornerFlourish } from "./decor/Ornaments";
+import { DriftingPetals } from "./decor/FloralAmbience";
 import SectionBridge from "./decor/SectionBridge";
 import Illustration from "./ui/Illustration";
 
-const { celebrations, events, venue, countdown, images } = weddingData;
+const { celebrations, events, venue, images } = weddingData;
 const vivah = events.find((e) => e.theme === "vivah")!;
-const others = events.filter((e) => e.theme !== "vivah");
-const target = new Date(countdown.target).getTime();
 const ease = [0.22, 1, 0.36, 1] as const;
+// Fires as soon as the block's top edge is on screen — independent of block height.
+const inView = { initial: "hidden", whileInView: "show", viewport: { once: true, margin: "0px 0px -8% 0px" } } as const;
 
-/** One quiet line: "74 days · 12 hrs · 31 min to go". Empty on the server. */
-function Countdown() {
-  const [now, setNow] = useState<number | null>(null);
-  useEffect(() => {
-    setNow(Date.now());
-    const id = window.setInterval(() => setNow(Date.now()), 30_000);
-    return () => window.clearInterval(id);
-  }, []);
-  if (now === null) return <p className="h-6" aria-hidden />;
-  const diff = Math.max(0, target - now);
-  if (diff === 0) return <p className="eyebrow text-gold">{countdown.arrived}</p>;
-  const parts = [
-    [Math.floor(diff / 86_400_000), "days"],
-    [Math.floor(diff / 3_600_000) % 24, "hrs"],
-    [Math.floor(diff / 60_000) % 60, "min"],
-  ] as const;
+const iconBtn =
+  "grid h-11 w-11 place-items-center rounded-full border border-gold/50 text-gold-light transition hover:border-gold-light hover:bg-gold/10 active:scale-95";
+
+function EventTile({ ev, featured }: { ev: WeddingEvent; featured: boolean }) {
   return (
-    <p className="flex flex-wrap items-baseline justify-center gap-x-3 gap-y-1 text-champagne/75 lg:justify-start" role="timer">
-      {parts.map(([n, unit], i) => (
-        <span key={unit} className="flex items-baseline gap-1.5">
-          {i > 0 && <span className="mr-1.5 text-gold/50">·</span>}
-          <span className="gold-text font-serif text-3xl leading-none">{n}</span>
-          <span className="eyebrow text-[0.58rem]">{unit}</span>
-        </span>
-      ))}
-      <span className="eyebrow ml-1 text-[0.58rem]">to go</span>
-    </p>
+    <li
+      id={ev.id}
+      className={`relative flex items-center gap-4 border px-5 py-3 text-left sm:flex-col sm:items-center sm:gap-3 sm:py-7 sm:text-center ${
+        featured ? "border-gold/60 bg-gold/[0.06]" : "border-gold/25"
+      }`}
+    >
+      <div className="w-[5.6rem] shrink-0 sm:w-auto">
+        <p className="eyebrow text-[0.55rem] text-gold/80">{ev.index}</p>
+        <p className={`mt-0.5 font-serif text-[1.65rem] leading-none ${featured ? "gold-text" : "text-ivory"}`}>{ev.name}</p>
+        <p lang="hi" className="font-deva mt-0.5 text-sm leading-[1.7] text-gold-light">
+          {ev.nameHindi}
+        </p>
+      </div>
+      <div className="min-w-0 flex-1 text-[0.8rem] leading-relaxed text-champagne/80 sm:flex-none">
+        <p className="text-ivory">
+          {ev.date.replace(" 2026", "")} · {ev.weekday}
+        </p>
+        <p>{ev.time}</p>
+        <p>
+          {ev.venue}, {ev.location.replace(", Bihar", "")}
+        </p>
+      </div>
+      <div className="flex shrink-0 gap-2">
+        {ev.mapsUrl && (
+          <a href={ev.mapsUrl} target="_blank" rel="noopener noreferrer" aria-label={`Directions to ${ev.name} (opens Google Maps)`} className={iconBtn}>
+            <MapPin className="h-4 w-4" aria-hidden />
+          </a>
+        )}
+        <CalendarButton events={[ev]} compact />
+      </div>
+    </li>
   );
 }
 
 export default function CelebrationSection() {
   const reduce = useReducedMotion();
   const rise = (delay: number) => ({
-    hidden: { opacity: 0, y: reduce ? 0 : 18 },
-    show: { opacity: 1, y: 0, transition: { duration: 1.3, delay: reduce ? 0 : delay, ease } },
+    hidden: { opacity: 0, y: reduce ? 0 : 14 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.9, delay: reduce ? 0 : delay, ease } },
   });
   const [day, month, year] = vivah.date.split(" ");
 
   return (
-    <section id="celebrations" aria-labelledby="celebrations-heading" className="surface-maroon grain relative overflow-hidden px-[var(--gutter)] pb-20 pt-24 lg:py-28">
+    <section id="celebrations" aria-labelledby="celebrations-heading" className="surface-maroon grain relative overflow-hidden px-[var(--gutter)] pb-12 pt-16 lg:pb-24 lg:pt-28">
       <SectionBridge from="#f3e7d6" />
-      <m.div
-        className="relative mx-auto max-w-5xl"
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true, margin: "0px 0px -15% 0px" }}
-      >
+      <DriftingPetals count={3} className="opacity-70" />
+
+      {/* The Celebrations — compact cards */}
+      <m.div className="relative mx-auto max-w-5xl" {...inView}>
         <header className="text-center">
           <m.p variants={rise(0)} className="eyebrow text-gold">
             {celebrations.eyebrow}
           </m.p>
-          <m.h2 variants={rise(0.1)} id="celebrations-heading" className="serif-display gold-text mt-3 text-[3.6rem] sm:text-7xl">
+          <m.h2 variants={rise(0.08)} id="celebrations-heading" className="mt-3 font-serif text-[2.6rem] leading-none text-ivory sm:text-6xl">
             {celebrations.heading}
           </m.h2>
-          {/* generous line-height so the matras render whole */}
-          <m.p variants={rise(0.2)} lang="hi" className="font-deva mt-1 pt-1 text-[1.6rem] leading-[1.7] text-gold-light">
-            {vivah.nameHindi}
-          </m.p>
         </header>
+        <m.ul variants={rise(0.2)} className="mt-6 grid gap-2.5 sm:grid-cols-3 sm:gap-5">
+          {events.map((ev) => (
+            <EventTile key={ev.id} ev={ev} featured={ev.theme === "vivah"} />
+          ))}
+        </m.ul>
+      </m.div>
 
-        <div className="mt-8 grid items-center gap-10 lg:mt-12 lg:grid-cols-[auto_1fr] lg:gap-14">
+      {/* The Wedding — Vivah details with the couple illustration */}
+      <m.div id="wedding" aria-labelledby="wedding-heading" className="relative mx-auto mt-10 max-w-5xl scroll-mt-10 lg:mt-20" {...inView}>
+        <m.div variants={rise(0)} className="flex items-center justify-center gap-4">
+          <span className="h-px w-16 bg-gradient-to-r from-transparent to-gold/60" />
+          <p className="eyebrow text-gold">{celebrations.weddingEyebrow}</p>
+          <span className="h-px w-16 bg-gradient-to-l from-transparent to-gold/60" />
+        </m.div>
+        <m.h3 variants={rise(0.08)} id="wedding-heading" className="serif-display gold-text mt-3 text-center text-[3.4rem] sm:text-7xl">
+          {vivah.name}
+        </m.h3>
+        <m.p variants={rise(0.14)} lang="hi" className="font-deva text-center text-[1.5rem] leading-[1.7] text-gold-light">
+          {vivah.nameHindi}
+        </m.p>
+
+        <div className="mt-5 grid items-center gap-7 lg:grid-cols-[auto_1fr] lg:gap-14">
           <div className="flex justify-center">
-            <Illustration id={images.bride.id} alt={images.bride.alt} sizes="(min-width: 1024px) 380px, 78vw" maxWidth={380} maxVh={56} delay={0.2} />
+            <Illustration id={images.wedding.id} alt={images.wedding.alt} sizes="(min-width: 1024px) 400px, 60vw" maxWidth={400} maxVh={41} maxVhLg={58} delay={0.15} />
           </div>
 
-          {/* Vivah details */}
-          <m.article variants={rise(0.35)} aria-label={vivah.name} className="relative border border-gold/35 px-6 py-8 text-center sm:px-10 lg:text-left">
+          <m.article variants={rise(0.3)} aria-label={`${vivah.name} details`} className="relative border border-gold/35 px-6 py-7 text-center sm:px-10 lg:text-left">
             <CornerFlourish className="pointer-events-none absolute left-1.5 top-1.5 h-10 w-10 opacity-80" />
             <CornerFlourish className="pointer-events-none absolute bottom-1.5 right-1.5 h-10 w-10 rotate-180 opacity-80" />
 
@@ -96,7 +118,7 @@ export default function CelebrationSection() {
               </span>
             </time>
 
-            <div className="mx-auto my-6 h-px w-24 bg-gold/40 lg:mx-0" />
+            <div className="mx-auto my-5 h-px w-24 bg-gold/40 lg:mx-0" />
 
             <dl className="space-y-4 text-[0.95rem] text-ivory">
               <div className="flex items-center justify-center gap-3 lg:justify-start">
@@ -106,7 +128,7 @@ export default function CelebrationSection() {
               </div>
               <div className="flex flex-col items-center gap-1.5 lg:flex-row lg:items-start lg:gap-3">
                 <dt className="sr-only">Venue</dt>
-                <MapPin className="h-4 w-4 shrink-0 text-gold lg:mt-0.5" aria-hidden />
+                <MapPin className="h-4 w-4 shrink-0 text-gold lg:mt-1" aria-hidden />
                 <dd>
                   <span className="font-serif text-2xl text-gold-light">{venue.name}</span>
                   <span className="mt-1 block leading-relaxed text-champagne/80">{vivah.address}</span>
@@ -114,60 +136,12 @@ export default function CelebrationSection() {
               </div>
             </dl>
 
-            <div className="mt-7 flex flex-wrap justify-center gap-3 lg:justify-start">
+            <div className="mt-6 flex flex-wrap justify-center gap-3 lg:justify-start">
               <MapButton href={venue.mapsUrl} label={venue.directionsLabel} solid />
               <CalendarButton events={[vivah]} />
             </div>
-
-            <div className="mt-8 border-t border-gold/20 pt-6">
-              <Countdown />
-            </div>
           </m.article>
         </div>
-
-        {/* Also celebrating — compact rows */}
-        <m.div variants={rise(0.5)} className="mx-auto mt-12 max-w-2xl">
-          <div className="flex items-center justify-center gap-4">
-            <span className="h-px flex-1 bg-gold/25" />
-            <p className="eyebrow text-[0.62rem] text-gold">{celebrations.alsoCelebrating}</p>
-            <span className="h-px flex-1 bg-gold/25" />
-          </div>
-          <ul className="mt-2 divide-y divide-gold/15">
-            {others.map((ev) => (
-              <li key={ev.id} id={ev.id} className="flex items-center gap-4 py-4">
-                <div className="w-[5.5rem] shrink-0 text-left">
-                  <p className="font-serif text-2xl leading-none text-ivory">{ev.name}</p>
-                  <p lang="hi" className="font-deva mt-0.5 text-sm leading-[1.7] text-gold-light">
-                    {ev.nameHindi}
-                  </p>
-                </div>
-                <div className="min-w-0 flex-1 text-left text-[0.82rem] leading-relaxed text-champagne/80">
-                  <p className="text-ivory">
-                    {ev.date.replace(" 2026", "")} · {ev.weekday}
-                  </p>
-                  <p>
-                    {ev.time} · {ev.venue}, {ev.location.replace(", Bihar", "")}
-                  </p>
-                </div>
-                <div className="flex shrink-0 gap-2">
-                  {ev.mapsUrl && (
-                    <a
-                      href={ev.mapsUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={`Directions to ${ev.name} (opens Google Maps)`}
-                      className="grid h-11 w-11 place-items-center rounded-full border border-gold/50 text-gold-light transition hover:border-gold-light hover:bg-gold/10 active:scale-95"
-                    >
-                      <MapPin className="h-4 w-4" aria-hidden />
-                    </a>
-                  )}
-                  <CalendarButton events={[ev]} compact />
-                </div>
-              </li>
-            ))}
-          </ul>
-          <OrnamentDivider className="mx-auto mt-8 h-8 w-52 opacity-60" />
-        </m.div>
       </m.div>
     </section>
   );
