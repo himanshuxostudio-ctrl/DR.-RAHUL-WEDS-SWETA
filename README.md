@@ -19,6 +19,11 @@ The flowers are drawn once as SVG symbols (`decor/florals.tsx`) and reused.
 Motion is CSS only (transform/opacity) and is off for reduced-motion users.
 To tune a section, edit its preset's placements.
 
+Two small decorative wedding moments — a jaimala exchange and a shehnai
+duet (`decor/WeddingVignettes.tsx`) — are original, stylised inline-SVG
+figures (not the couple) placed beside The Celebrations and under the
+Vivah details. The Rahul & Sweta illustrations are untouched.
+
 ## Run locally
 
 ```bash

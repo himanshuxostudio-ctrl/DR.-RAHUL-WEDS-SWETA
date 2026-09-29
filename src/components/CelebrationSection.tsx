@@ -7,6 +7,7 @@ import CalendarButton from "./CalendarButton";
 import MapButton from "./MapButton";
 import { CornerFlourish } from "./decor/Ornaments";
 import WeddingAtmosphere from "./decor/WeddingAtmosphere";
+import { Vignette } from "./decor/WeddingVignettes";
 import SectionBridge from "./decor/SectionBridge";
 import Illustration from "./ui/Illustration";
 
@@ -70,7 +71,9 @@ export default function CelebrationSection() {
 
       {/* The Celebrations — compact cards */}
       <m.div className="relative mx-auto max-w-5xl" {...inView}>
-        <header className="text-center">
+        <header className="relative text-center">
+          {/* shehnai couple — beside the heading from tablet up */}
+          <Vignette kind="shehnai" className="absolute -bottom-4 left-0 hidden w-20 sm:block md:w-[5.5rem] lg:w-28 xl:left-[2%] xl:w-32" />
           <m.p variants={rise(0)} className="eyebrow text-gold">
             {celebrations.eyebrow}
           </m.p>
@@ -83,6 +86,8 @@ export default function CelebrationSection() {
             <EventTile key={ev.id} ev={ev} featured={ev.theme === "vivah"} />
           ))}
         </m.ul>
+        {/* shehnai couple — phones: tucked under the cards, off to the left */}
+        <Vignette kind="shehnai" className="-mb-6 mt-3 w-[34%] max-w-[150px] sm:hidden" />
       </m.div>
 
       {/* The Wedding — Vivah details with the couple illustration */}
@@ -105,43 +110,47 @@ export default function CelebrationSection() {
             <Illustration id={images.wedding.id} alt={images.wedding.alt} sizes="(min-width: 1024px) 400px, 60vw" maxWidth={400} maxVh={41} maxVhLg={58} delay={0.15} />
           </div>
 
-          <m.article variants={rise(0.3)} aria-label={`${vivah.name} details`} className="relative border border-gold/35 px-6 py-7 text-center sm:px-10 lg:text-left">
-            <CornerFlourish className="pointer-events-none absolute left-1.5 top-1.5 h-10 w-10 opacity-80" />
-            <CornerFlourish className="pointer-events-none absolute bottom-1.5 right-1.5 h-10 w-10 rotate-180 opacity-80" />
+          <div className="flex flex-col">
+            <m.article variants={rise(0.3)} aria-label={`${vivah.name} details`} className="relative border border-gold/35 px-6 py-7 text-center sm:px-10 lg:text-left">
+              <CornerFlourish className="pointer-events-none absolute left-1.5 top-1.5 h-10 w-10 opacity-80" />
+              <CornerFlourish className="pointer-events-none absolute bottom-1.5 right-1.5 h-10 w-10 rotate-180 opacity-80" />
 
-            <time dateTime={vivah.start} className="flex items-end justify-center gap-4 lg:justify-start">
-              <span className="font-serif text-6xl leading-[0.8] text-ivory">{day}</span>
-              <span className="flex flex-col pb-0.5 text-left">
-                <span className="eyebrow text-[0.7rem] text-ivory">
-                  {month} {year}
+              <time dateTime={vivah.start} className="flex items-end justify-center gap-4 lg:justify-start">
+                <span className="font-serif text-6xl leading-[0.8] text-ivory">{day}</span>
+                <span className="flex flex-col pb-0.5 text-left">
+                  <span className="eyebrow text-[0.7rem] text-ivory">
+                    {month} {year}
+                  </span>
+                  <span className="mt-1 text-sm text-champagne/75">{vivah.weekday}</span>
                 </span>
-                <span className="mt-1 text-sm text-champagne/75">{vivah.weekday}</span>
-              </span>
-            </time>
+              </time>
 
-            <div className="mx-auto my-5 h-px w-24 bg-gold/40 lg:mx-0" />
+              <div className="mx-auto my-5 h-px w-24 bg-gold/40 lg:mx-0" />
 
-            <dl className="space-y-4 text-[0.95rem] text-ivory">
-              <div className="flex items-center justify-center gap-3 lg:justify-start">
-                <dt className="sr-only">Time</dt>
-                <Clock className="h-4 w-4 shrink-0 text-gold" aria-hidden />
-                <dd>{vivah.time}</dd>
+              <dl className="space-y-4 text-[0.95rem] text-ivory">
+                <div className="flex items-center justify-center gap-3 lg:justify-start">
+                  <dt className="sr-only">Time</dt>
+                  <Clock className="h-4 w-4 shrink-0 text-gold" aria-hidden />
+                  <dd>{vivah.time}</dd>
+                </div>
+                <div className="flex flex-col items-center gap-1.5 lg:flex-row lg:items-start lg:gap-3">
+                  <dt className="sr-only">Venue</dt>
+                  <MapPin className="h-4 w-4 shrink-0 text-gold lg:mt-1" aria-hidden />
+                  <dd>
+                    <span className="font-serif text-2xl text-gold-light">{venue.name}</span>
+                    <span className="mt-1 block leading-relaxed text-champagne/80">{vivah.address}</span>
+                  </dd>
+                </div>
+              </dl>
+
+              <div className="mt-6 flex flex-wrap justify-center gap-3 lg:justify-start">
+                <MapButton href={venue.mapsUrl} label={venue.directionsLabel} solid />
+                <CalendarButton events={[vivah]} />
               </div>
-              <div className="flex flex-col items-center gap-1.5 lg:flex-row lg:items-start lg:gap-3">
-                <dt className="sr-only">Venue</dt>
-                <MapPin className="h-4 w-4 shrink-0 text-gold lg:mt-1" aria-hidden />
-                <dd>
-                  <span className="font-serif text-2xl text-gold-light">{venue.name}</span>
-                  <span className="mt-1 block leading-relaxed text-champagne/80">{vivah.address}</span>
-                </dd>
-              </div>
-            </dl>
-
-            <div className="mt-6 flex flex-wrap justify-center gap-3 lg:justify-start">
-              <MapButton href={venue.mapsUrl} label={venue.directionsLabel} solid />
-              <CalendarButton events={[vivah]} />
-            </div>
-          </m.article>
+            </m.article>
+            {/* jaimala couple — stepping in beneath the details, off to the right */}
+            <Vignette kind="jaimala" className="-mb-12 mr-1 mt-3 w-[30%] max-w-[140px] self-end sm:w-32 lg:-mb-0 lg:mr-6 lg:mt-5 lg:w-36" />
+          </div>
         </div>
       </m.div>
     </section>

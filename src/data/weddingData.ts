@@ -100,9 +100,9 @@ export const weddingData = {
       time: "6:00 PM",
       start: "2026-12-09T18:00:00+05:30",
       durationHours: 4,
-      venue: "Madhwara",
+      venue: "Marhaura",
       location: "Saran, Chapra, Bihar",
-      mapsUrl: "https://www.google.com/maps/search/?api=1&query=Madhwara%2C%20Saran%2C%20Bihar",
+      mapsUrl: "https://www.google.com/maps/search/?api=1&query=Marhaura%2C%20Saran%2C%20Bihar",
       description:
         "The first of our celebrations — a traditional ceremony in which our two families come together to formally bless the union.",
       theme: "chheka",

@@ -255,13 +255,19 @@ body.is-locked {
   animation-timing-function: linear;
   animation-iteration-count: infinite;
 }
+.petal-soft {
+  filter: blur(1.6px);
+}
+.petal-leaf {
+  border-radius: 0 100% 0 100%;
+}
 @keyframes petal-drift {
   0% { transform: translate3d(0, 0, 0) rotate(0deg); opacity: 0; }
-  8% { opacity: 0.5; }
+  8% { opacity: 0.62; }
   25% { transform: translate3d(22px, 26vh, 0) rotate(70deg); }
   50% { transform: translate3d(-14px, 52vh, 0) rotate(150deg); }
   75% { transform: translate3d(18px, 78vh, 0) rotate(230deg); }
-  90% { opacity: 0.4; }
+  90% { opacity: 0.5; }
   100% { transform: translate3d(0, 104vh, 0) rotate(310deg); opacity: 0; }
 }
 /* WeddingAtmosphere motion — tiny, slow, transform/opacity only. */

@@ -187,6 +187,44 @@ export function FloralCluster({ className = "", variant = 0 }: { className?: str
   );
 }
 
+/** A leafy spray on a curving stem — large and faint in the background. */
+export function LeafSpray({ className = "", n = 9 }: { className?: string; n?: number }) {
+  const pts = along(96, 256, 40, 120, 128, 12, n);
+  return (
+    <svg viewBox="0 0 200 260" className={className} aria-hidden>
+      <path d="M96 256 Q40 120 128 12" stroke="var(--fl-leaf-line)" strokeWidth="1.6" fill="none" />
+      {pts.slice(1).map((p, i) => {
+        const side = i % 2 === 0 ? 1 : -1;
+        const s = 58 - i * 4.2;
+        return <F key={i} kind="leaf" x={p.x + side * s * 0.34} y={p.y - s * 0.16} s={s} r={side === 1 ? -8 + i * 3 : 188 - i * 3} o={0.9} />;
+      })}
+    </svg>
+  );
+}
+
+/** A flowering branch: stem, leaves, buds and a few blooms — for edges and dividers. */
+export function FloralBranch({ className = "" }: { className?: string }) {
+  const pts = along(0, 140, 110, 120, 250, 28, 9);
+  return (
+    <svg viewBox="0 0 260 160" className={className} aria-hidden>
+      <path d="M0 140 Q110 120 250 28" stroke="var(--fl-leaf-line)" strokeWidth="1.4" fill="none" />
+      {pts.map((p, i) =>
+        i % 2 === 0 ? (
+          <F key={i} kind="leaf" x={p.x + 6} y={p.y - 12} s={30 - i} r={-30 + i * 4} o={0.9} />
+        ) : (
+          <F key={i} kind="leaf" x={p.x - 4} y={p.y + 12} s={26 - i} r={150 + i * 4} o={0.85} />
+        ),
+      )}
+      <F kind="marigold" x={pts[3].x} y={pts[3].y - 4} s={30} />
+      <F kind="jasmine" x={pts[5].x + 2} y={pts[5].y - 6} s={22} r={20} />
+      <F kind="rose" x={pts[6].x + 14} y={pts[6].y + 4} s={20} />
+      <F kind="marigold" x={pts[1].x} y={pts[1].y + 2} s={22} r={30} />
+      <F kind="bud" x={254} y={22} s={16} r={50} />
+      <F kind="bud" x={pts[7].x - 8} y={pts[7].y - 14} s={14} r={-20} />
+    </svg>
+  );
+}
+
 /** Fine gold botanical line art — lotus and vine, stroke only. */
 export function BotanicalLine({ className = "" }: { className?: string }) {
   return (
