@@ -6,7 +6,7 @@ import { weddingData, type WeddingEvent } from "@/data/weddingData";
 import CalendarButton from "./CalendarButton";
 import MapButton from "./MapButton";
 import { CornerFlourish } from "./decor/Ornaments";
-import { DriftingPetals } from "./decor/FloralAmbience";
+import WeddingAtmosphere from "./decor/WeddingAtmosphere";
 import SectionBridge from "./decor/SectionBridge";
 import Illustration from "./ui/Illustration";
 
@@ -66,7 +66,7 @@ export default function CelebrationSection() {
   return (
     <section id="celebrations" aria-labelledby="celebrations-heading" className="surface-maroon grain relative overflow-hidden px-[var(--gutter)] pb-12 pt-16 lg:pb-24 lg:pt-28">
       <SectionBridge from="#f3e7d6" />
-      <DriftingPetals count={3} className="opacity-70" />
+      <WeddingAtmosphere preset="celebrations" />
 
       {/* The Celebrations — compact cards */}
       <m.div className="relative mx-auto max-w-5xl" {...inView}>
@@ -86,7 +86,8 @@ export default function CelebrationSection() {
       </m.div>
 
       {/* The Wedding — Vivah details with the couple illustration */}
-      <m.div id="wedding" aria-labelledby="wedding-heading" className="relative mx-auto mt-10 max-w-5xl scroll-mt-10 lg:mt-20" {...inView}>
+      <m.div id="wedding" aria-labelledby="wedding-heading" className="relative isolate mx-auto mt-10 max-w-5xl scroll-mt-10 lg:mt-20" {...inView}>
+        <WeddingAtmosphere preset="wedding" bleed />
         <m.div variants={rise(0)} className="flex items-center justify-center gap-4">
           <span className="h-px w-16 bg-gradient-to-r from-transparent to-gold/60" />
           <p className="eyebrow text-gold">{celebrations.weddingEyebrow}</p>

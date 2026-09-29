@@ -10,10 +10,11 @@ import FloatingControls from "./FloatingControls";
 import HeroSection from "./HeroSection";
 import InvitationOpening from "./InvitationOpening";
 import { MusicProvider } from "./MusicPlayer";
+import { FloralDefs } from "./decor/florals";
 
 /**
  * The film, in order:
- * Opening invitation → Dr. Rahul & Sweta → Two Hearts, One Journey (with
+ * Opening invitation → Dr. Rahul & Sweta → Two Souls, One Journey (with
  * the families' blessings) → Vivah details (with Chheka · Matkor) → Thank You.
  *
  * LazyMotion + `m` components ship only the animation features used here
@@ -27,6 +28,7 @@ export default function WeddingInvitation() {
     <MotionConfig reducedMotion="user">
       <MusicProvider>
         <ContentProtection />
+        <FloralDefs />
         <InvitationOpening onOpen={() => setOpened(true)} />
         <main>
           <HeroSection revealed={opened} />

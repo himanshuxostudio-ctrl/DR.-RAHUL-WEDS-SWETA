@@ -4,6 +4,7 @@ import { m, useReducedMotion } from "framer-motion";
 import { weddingData } from "@/data/weddingData";
 import { LotusMark, OrnamentDivider } from "./decor/Ornaments";
 import SectionBridge from "./decor/SectionBridge";
+import WeddingAtmosphere from "./decor/WeddingAtmosphere";
 import Illustration from "./ui/Illustration";
 
 const { story, families, couple, images } = weddingData;
@@ -36,6 +37,7 @@ export default function CoupleStory() {
   return (
     <section id="story" aria-labelledby="story-heading" className="surface-ivory grain relative overflow-hidden px-[var(--gutter)] pb-12 pt-16 lg:pb-24 lg:pt-28">
       <SectionBridge from="var(--deep-maroon)" />
+      <WeddingAtmosphere preset="story" />
 
       {/* Two Souls, One Journey */}
       <m.div className="relative mx-auto grid max-w-5xl items-center gap-8 lg:grid-cols-[auto_1fr] lg:gap-16" {...inView}>
@@ -68,7 +70,8 @@ export default function CoupleStory() {
       </m.div>
 
       {/* With the Blessings of Our Families */}
-      <m.div id="family" aria-labelledby="family-heading" className="relative mx-auto mt-10 max-w-3xl scroll-mt-10 text-center lg:mt-20" {...inView}>
+      <m.div id="family" aria-labelledby="family-heading" className="relative isolate mx-auto mt-10 max-w-3xl scroll-mt-10 text-center lg:mt-20" {...inView}>
+        <WeddingAtmosphere preset="family" bleed />
         <m.div variants={rise(0)} className="flex items-center justify-center gap-4">
           <span className="h-px flex-1 bg-gold-deep/25" />
           <LotusMark tone="wine" className="h-6 w-10" />

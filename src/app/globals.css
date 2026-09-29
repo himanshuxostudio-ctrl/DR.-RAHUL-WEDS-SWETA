@@ -264,13 +264,45 @@ body.is-locked {
   90% { opacity: 0.4; }
   100% { transform: translate3d(0, 104vh, 0) rotate(310deg); opacity: 0; }
 }
-.garland-sway {
+/* WeddingAtmosphere motion — tiny, slow, transform/opacity only. */
+.atm-sway {
   transform-origin: top center;
-  animation: garland-sway 9s ease-in-out infinite alternate;
+  animation: atm-sway 9s ease-in-out infinite alternate;
 }
-@keyframes garland-sway {
-  from { transform: translate3d(0, -2px, 0); }
-  to { transform: translate3d(0, 2px, 0); }
+@keyframes atm-sway {
+  from { transform: translate3d(-1.5px, -2px, 0) rotate(-0.6deg); }
+  to { transform: translate3d(1.5px, 2px, 0) rotate(0.6deg); }
+}
+.atm-float {
+  animation: atm-float 13s ease-in-out infinite alternate;
+}
+@keyframes atm-float {
+  from { transform: translate3d(0, -4px, 0); }
+  to { transform: translate3d(0, 4px, 0); }
+}
+.atm-breathe {
+  animation: atm-breathe 10s ease-in-out infinite alternate;
+}
+@keyframes atm-breathe {
+  from { opacity: 0.8; }
+  to { opacity: 1; }
+}
+/* Background depth: softened, drifting slightly slower than the page. */
+.atm-bg {
+  filter: blur(1.1px);
+}
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .atm-parallax {
+      animation: atm-parallax linear both;
+      animation-timeline: view();
+      animation-range: cover;
+    }
+  }
+}
+@keyframes atm-parallax {
+  from { translate: 0 28px; }
+  to { translate: 0 -28px; }
 }
 .glow-breathe {
   animation: glow-breathe 12s ease-in-out infinite alternate;

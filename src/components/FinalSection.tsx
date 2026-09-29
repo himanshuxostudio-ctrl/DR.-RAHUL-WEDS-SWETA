@@ -4,7 +4,7 @@ import { m, useReducedMotion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { weddingData } from "@/data/weddingData";
 import { CornerFlourish, LotusMark, OrnamentDivider } from "./decor/Ornaments";
-import { DriftingPetals } from "./decor/FloralAmbience";
+import WeddingAtmosphere from "./decor/WeddingAtmosphere";
 import GoldDust from "./decor/GoldDust";
 import Illustration from "./ui/Illustration";
 
@@ -58,18 +58,18 @@ export default function FinalSection() {
 
   return (
     <div id="closing" className="surface-maroon relative overflow-hidden">
-      <DriftingPetals count={4} className="opacity-80" />
       <GoldDust density={16} className="opacity-50" />
 
       {/* The Wait Is Almost Over */}
       <m.section
         id="countdown"
         aria-labelledby="countdown-heading"
-        className="relative px-[var(--gutter)] pb-2 pt-12 text-center lg:pt-24"
+        className="relative isolate px-[var(--gutter)] pb-2 pt-12 text-center lg:pt-24"
         initial="hidden"
         whileInView="show"
         viewport={{ once: true, margin: "0px 0px -8% 0px" }}
       >
+        <WeddingAtmosphere preset="countdown" className="-z-10" />
         <div aria-hidden className="mx-auto h-8 w-px bg-gradient-to-b from-transparent to-gold/70" />
         <m.p variants={at(0)} className="eyebrow mt-4 text-gold">
           {countdown.caption}
@@ -90,6 +90,7 @@ export default function FinalSection() {
         whileInView="show"
         viewport={{ once: true, margin: "0px 0px -8% 0px" }}
       >
+        <WeddingAtmosphere preset="closing" />
         <div aria-hidden className="pointer-events-none absolute inset-x-3 bottom-3 top-6 sm:inset-x-6 sm:bottom-6">
           <svg className="absolute inset-0 h-full w-full" preserveAspectRatio="none" fill="none">
             <m.rect

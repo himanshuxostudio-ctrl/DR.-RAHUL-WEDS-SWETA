@@ -5,7 +5,7 @@ import { m, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { getImage, weddingData } from "@/data/weddingData";
 import { CornerFlourish, OrnamentDivider } from "./decor/Ornaments";
-import FloralAmbience from "./decor/FloralAmbience";
+import WeddingAtmosphere from "./decor/WeddingAtmosphere";
 import GoldDust from "./decor/GoldDust";
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -53,7 +53,7 @@ export default function HeroSection({ revealed }: { revealed: boolean }) {
     >
       {/* atmosphere: breathing glow, garland, florals, petals, gold dust */}
       <div aria-hidden className="glow-breathe pointer-events-none absolute inset-0 bg-[radial-gradient(60%_45%_at_50%_58%,rgba(201,164,92,0.16),transparent_70%)]" />
-      <FloralAmbience />
+      <WeddingAtmosphere preset="hero" />
       <GoldDust density={14} className="opacity-50" />
 
       <m.div

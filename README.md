@@ -4,10 +4,20 @@ A cinematic, mobile-first invitation built with Next.js (App Router), React,
 TypeScript, Tailwind CSS v4 and Framer Motion.
 
 **Story (short, illustrated):** Invitation card → Opening (शुभ विवाह, names,
-date, the stage illustration, garland & drifting petals) → Two Souls, One
+date, the stage illustration) → Two Souls, One
 Journey → With the Blessings of Our Families → The Celebrations (Chheka ·
 Matkor · Vivah) → The Wedding (venue, directions, calendar) → The Wait Is
 Almost Over (countdown) → closing.
+
+## Decoration
+
+One reusable layer, `src/components/decor/WeddingAtmosphere.tsx`, dresses every
+section with a preset (hero, story, family, celebrations, wedding, countdown,
+closing): marigold/jasmine garlands, hanging torans, a jaimala arc motif, gold
+botanical line art and a few drifting petals, at background and mid depths.
+The flowers are drawn once as SVG symbols (`decor/florals.tsx`) and reused.
+Motion is CSS only (transform/opacity) and is off for reduced-motion users.
+To tune a section, edit its preset's placements.
 
 ## Run locally
 
