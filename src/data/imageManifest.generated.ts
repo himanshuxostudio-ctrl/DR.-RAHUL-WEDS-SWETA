@@ -10,7 +10,7 @@ export const imageManifest = {
     "src": "/images/couple/rahul-sweta-hero-portrait.jpg",
     "width": 760,
     "height": 1066,
-    "blurDataURL": "data:image/webp;base64,UklGRrIAAABXRUJQVlA4IKYAAACwBACdASoQABYAPu1iqU2ppaOiMAgBMB2JZgCdMoR8eCTbQX9XWkvh9pxd72wAAPx5KQFX7RppEoGuuh6ZEHBTCKwg/hyKWCFsL4HaW/xhoG9FkXwBwhr4J1ML1dDiqmMXxbLZHtBmFVLpV+bODK1LSd93idPM6UNtgvwBRmuLtmKXvJ3Ubpj8vZIgM1GQMJjPVM8DnJ73FUS9DQJjE66wiKO8gAAA"
+    "blurDataURL": "data:image/webp;base64,UklGRrIAAABXRUJQVlA4IKYAAACwBACdASoQABYAPu1iqU2ppaOiMAgBMB2JZgCdMoR8eCTbQX9XWkvh9pxd72wAAPx5KQFX7RppEoGuuh6ZEHBTCKwg/hyKWCFsL4HaW/xhoG9FkXwBwhr4J1ML1dDiqmMXxbLZHtBmFVLpV+bODK1LSd93idPM6UNtgvwBRmuLtmKXvJ3Ubpj8vZIgM1GQMJjPVM8DnJ73FUS9tpsizPggI4apoAAA"
   },
   "couple/rahul-sweta-together-wide": {
     "src": "/images/couple/rahul-sweta-together-wide.jpg",
@@ -34,37 +34,37 @@ export const imageManifest = {
     "src": "/images/couple/rahul-sweta-candid.jpg",
     "width": 1066,
     "height": 1600,
-    "blurDataURL": "data:image/webp;base64,UklGRpIAAABXRUJQVlA4IIYAAADwAwCdASoQABgAPu1iqU2ppaQiMAgBMB2JYgCdABk6wHjih1utWDYAAP5p9tVUK2Tj4X6d/p6Hs3x7bPaw3VWLiXGE63q0JJYC8VOnFKOF60UP0VetDllnfSIV5r418rQy0D691Iud2Hq64b8RIh/EZxlyURkYeqnlLQ8PQspv/Kmoc9gAAA=="
+    "blurDataURL": "data:image/webp;base64,UklGRpIAAABXRUJQVlA4IIYAAADwAwCdASoQABgAPu1iqU2ppaQiMAgBMB2JYgCdABk6wHjih1utXx0oAP5p9tVUK2Tj4X6d/p6Hs3x7bPaw3VWLiXGE63q0JJYC8VOnFKOF60UP0VetDllnfSIV5r418rQy0D691Iud2Hq64b8RIh/EZxlyURkYeqniimOJaUsX961AzgAAAA=="
   },
   "couple/sweta-portrait": {
     "src": "/images/couple/sweta-portrait.jpg",
     "width": 1066,
     "height": 1600,
-    "blurDataURL": "data:image/webp;base64,UklGRpYAAABXRUJQVlA4IIoAAAAwBACdASoQABgAPu1iqU2ppaOiMAgBMB2JYgCw7BRwYbvT/mZeSP42O4AA+Nn3B9qKsZ9GjFTwqnwtPT+LMSIimT2JUwVncz0SKwLOWidWor6OrkFY5apKq/VoTnNgwcXbMIvqf3TemE8TwbCSF5d8nXBRHcVpKaVpyopyC15LjKMqDxT6zYQAAAA="
+    "blurDataURL": "data:image/webp;base64,UklGRpYAAABXRUJQVlA4IIoAAAAwBACdASoQABgAPu1iqU2ppaOiMAgBMB2JYgCw7BRwYbvT/mZeSP42O4AA+Nn3B9qKsZ9GjFTwqnwtPT+LMSIimT2JUwVncz0SKwLOWidWor6OrkFY5apKq/VoTnNgwcXbMIvqf3TemE8TwbCSF5d8nXBRHcVpKaVpyopyC15LTAileQow5jQAAAA="
   },
   "gallery/detail-hand-on-shoulder": {
     "src": "/images/gallery/detail-hand-on-shoulder.jpg",
     "width": 360,
     "height": 470,
-    "blurDataURL": "data:image/webp;base64,UklGRqAAAABXRUJQVlA4IJQAAADwBACdASoQABUAPu1iqU2ppaOiMAgBMB2JaAC1F1ycfOOduXH/1K/cOL0DxonScAAA/rtLg9O4eZ3tWd+NuV2DuCYr8y1MDNTFETne6WieNDrx/4cqIXs1QE5ds6KKWqy1pqzjDQ30JtcCA+vhW+53LZof/qhJqPp270THdrA+/2uGIMVCFSDdqN6u1WBGFuejHOAA"
+    "blurDataURL": "data:image/webp;base64,UklGRqAAAABXRUJQVlA4IJQAAADwBACdASoQABUAPu1iqU2ppaOiMAgBMB2JaAC1F1ycfOOlOXH/1K/cOL0DxpXD/AAA/rtLxFS4eZ6luWgKumN8c1XMFYVMHKFYOTnfDIduPqqxPIpATGgUa7jmV0gPNZ6e8g1Uds5hLO86dsT0S4x655ZgNbJNGvlU2QWkQQf2/2uGI87mkGE6kWrBVeKwZvyw1wAA"
   },
   "gallery/detail-mehndi-clutch": {
     "src": "/images/gallery/detail-mehndi-clutch.jpg",
     "width": 440,
     "height": 670,
-    "blurDataURL": "data:image/webp;base64,UklGRnwAAABXRUJQVlA4IHAAAABQBACdASoQABgAPu1iqU2ppaOiMAgBMB2JQBYjagAr6+I21v6I8HPFh91wAN3vEHIUjUFh8MVDWWFJwpQZbcCGNA9BcAevW06OAi4RqnLLT7ZdHYUmJoBoAIyzpew0DINl+iCZ6nTb/IioSxpJQAAA"
+    "blurDataURL": "data:image/webp;base64,UklGRn4AAABXRUJQVlA4IHIAAABQBACdASoQABgAPu1iqU2ppaOiMAgBMB2JQBYjagAr6+I21v6I8HO41liAAN3vEHIUjUFh8MVDWWFJwpQZbcCGNA9BcAevW06OAi4RqnLLT7ZdHYUmJoBoAIyzpew0DINl+h9TIbxZBM4E9nKZDlIAAAA="
   },
   "gallery/detail-sweta-profile": {
     "src": "/images/gallery/detail-sweta-profile.jpg",
     "width": 580,
     "height": 826,
-    "blurDataURL": "data:image/webp;base64,UklGRqgAAABXRUJQVlA4IJwAAACQBACdASoQABcAPu1iqU2ppaOiMAgBMB2JYgCdMoCGACFU+y/pgqXOcjo9uoAA/jOwnhms1NizEiegInOADTKxMf2SydREcgDV6+es6vqasA5a3cHv5lvdfDOydBd9n8xz9EzVO1ZoidB2l2rkn8YBCoZjDX98xpd6G+mF2f1lqAfrsdgsU2xWKcxDgKk4wa604B6A5FGxT8GAAAA="
+    "blurDataURL": "data:image/webp;base64,UklGRqYAAABXRUJQVlA4IJoAAACQBACdASoQABcAPu1iqU2ppaOiMAgBMB2JYgCdMoCGACFU+y/pgqXOcjpVc4AA/jOwnhms1NizEiegInOADTKxMf2SydREcgDV6+es6vqasA5a3cHv5lvdfDOydBd9n8xz9EzVO1ZoidB2l2rkn8YBCoZjDX98xpd6G+mF2f1lqAfrsdgsU2xWKcxDgHmCt2SqjHzo/02KgHAA"
   },
   "gallery/detail-rahul-profile": {
     "src": "/images/gallery/detail-rahul-profile.jpg",
     "width": 560,
     "height": 800,
-    "blurDataURL": "data:image/webp;base64,UklGRqwAAABXRUJQVlA4IKAAAABQBACdASoQABcAPu1iqU2ppaOiMAgBMB2JZACsABh1shGjkEpZ49/e++wAAP7J3QRUiPr1cCq3feKHGg+9ucR2Nq1urXFggEBaBdXKLDQFDUlnG3crX5usc5HnYaEkMzFIkIxgjBTSEzDAdDj83A0zt+QIxbknnJ9tzejxnhZpaeHiydKo+6rXUHYwGw2r0gV0Z88IPxlPgAESodQTgAAA"
+    "blurDataURL": "data:image/webp;base64,UklGRqwAAABXRUJQVlA4IKAAAABQBACdASoQABcAPu1iqU2ppaOiMAgBMB2JZACsABh1shGjkEpZ49/e8YOAAP7J3QRUiPr1cCq3feKHGg+9ucR2Nq1urXFggEBaBdXKLDQFDUlnG3crX5usc5HnYaEkMzFIkIxgjBTSEzDAdDj83A0zt+QIxbknnJ9tzejxnhZpaeHiydKo+6rXUHYwGw2r0gV0Z5X80X8T/t3krusSAAAA"
   }
 } as const;
 

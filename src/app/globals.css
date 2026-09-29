@@ -251,6 +251,27 @@ body.is-locked {
   opacity: 0;
 }
 
+/* ── Content protection (class set by <ContentProtection/>) ─────────────
+   Discourages casual copying only; it is not security. Nothing here touches
+   pointer events, so taps, scrolling and buttons are unaffected; editable
+   fields keep normal selection. */
+.protect body {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none; /* iOS long-press "Save Image" sheet */
+}
+.protect input,
+.protect textarea,
+.protect [contenteditable="true"] {
+  -webkit-user-select: text;
+  user-select: text;
+  -webkit-touch-callout: default;
+}
+.protect img,
+.protect svg {
+  -webkit-user-drag: none;
+}
+
 /* ── Reduced motion ───────────────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }

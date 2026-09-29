@@ -78,6 +78,9 @@ export const metadata: Metadata = {
     images: [seo.ogImage],
   },
   icons: { icon: "/favicon.svg" },
+  // Private invitation: keep it (and its photographs) out of search engines
+  // and image search. Link previews (WhatsApp etc.) still work normally.
+  robots: { index: false, follow: false, googleBot: { index: false, follow: false, noimageindex: true } },
 };
 
 export const viewport: Viewport = {

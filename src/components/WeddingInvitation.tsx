@@ -2,6 +2,7 @@
 
 import { LazyMotion, MotionConfig, domAnimation } from "framer-motion";
 import { useState } from "react";
+import ContentProtection from "./ContentProtection";
 import CoupleStory from "./CoupleStory";
 import FamilySection from "./FamilySection";
 import FinalSection from "./FinalSection";
@@ -31,6 +32,7 @@ export default function WeddingInvitation() {
     <LazyMotion features={domAnimation} strict>
     <MotionConfig reducedMotion="user">
       <MusicProvider>
+        <ContentProtection />
         <SvgDefs />
         <InvitationOpening onOpen={() => setOpened(true)} />
         <main>

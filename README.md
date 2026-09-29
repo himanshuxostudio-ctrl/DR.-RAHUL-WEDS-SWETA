@@ -50,6 +50,25 @@ guest's next tap. Mute is remembered for the session; music pauses when the
 guest switches apps. To change the track, replace the file and update
 `music.src` in `weddingData.ts`.
 
+## Protection (deterrent, not absolute)
+
+Anything a browser can display can ultimately be saved or inspected; these
+measures make casual and moderately technical copying much harder.
+
+- **Build** (`npm run build` = `next build --webpack` + `scripts/obfuscate.mjs`):
+  minified, no browser source maps (any `.map` is deleted), debug console calls
+  stripped. The invitation's own client code is isolated in one chunk (`ic-*`)
+  and lightly obfuscated (encoded string table, mangled names) — React, Next.js
+  and framer-motion are untouched. Cost: ≈ +15 KB gzipped JS.
+- **Headers** (`next.config.ts`): no framing by other sites, `nosniff`,
+  strict referrer, no `X-Powered-By`; `noindex` keeps it out of search/image search.
+- **Assets**: originals and the master audio live in `assets/` (never public);
+  only optimized derivatives are served. Each derivative carries a faint corner
+  monogram and copyright EXIF. The image optimizer only serves `/images/**`.
+- **Client deterrents** (`ContentProtection`): no context menu, selection,
+  image dragging or devtools / view-source / save shortcuts, plus a console
+  ownership notice. Event-driven only — no polling.
+
 ## Fonts
 
 Fonts are self-hosted (no Google Fonts request at build or runtime). The

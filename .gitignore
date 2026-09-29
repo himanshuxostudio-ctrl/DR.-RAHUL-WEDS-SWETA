@@ -4,5 +4,24 @@ out/
 .vercel/
 *.tsbuildinfo
 next-env.d.ts
-.env*.local
 .DS_Store
+
+# Secrets & local config — never commit
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+secrets.*
+credentials*.json
+service-account*.json
+.npmrc
+
+# Debug / tooling output
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.map

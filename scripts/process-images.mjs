@@ -83,8 +83,35 @@ async function grade(input, { width, height }) {
     .composite([
       { input: warm, blend: "soft-light" },
       { input: vignette, blend: "over" },
+      { input: monogram(width, height), blend: "over" },
     ]);
 }
+
+/**
+ * Photographer-style signature: a tiny, faint "R ✦ S" monogram in the
+ * bottom-right corner (≈2% of the frame, low opacity). Identifies the
+ * photographs if they are reused, without marking the image itself.
+ */
+function monogram(width, height) {
+  const size = Math.max(11, Math.round(Math.min(width, height) * 0.022));
+  const pad = Math.round(size * 1.3);
+  return Buffer.from(
+    `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
+      <text x="${width - pad}" y="${height - pad}" text-anchor="end"
+        font-family="Georgia, 'DejaVu Serif', serif" font-size="${size}" letter-spacing="${size * 0.25}"
+        fill="#f9f3ea" fill-opacity="0.34">R ✦ S · 12.12.26</text>
+    </svg>`,
+  );
+}
+
+/** Ownership metadata embedded in every public derivative. */
+const EXIF = {
+  IFD0: {
+    Copyright: "© Dr. Rahul & Sweta — private wedding invitation. Not for reuse.",
+    Artist: "Dr. Rahul & Sweta",
+    ImageDescription: "Dr. Rahul weds Sweta · 12 December 2026 · private — do not reuse",
+  },
+};
 
 async function build() {
   await fs.mkdir(publicDir, { recursive: true });
@@ -99,7 +126,10 @@ async function build() {
     const graded = await grade(cropped.data, { width, height });
     const out = path.join(publicDir, `${d.id}.jpg`);
     await fs.mkdir(path.dirname(out), { recursive: true });
-    const jpg = await graded.jpeg({ quality: 84, mozjpeg: true, chromaSubsampling: "4:4:4" }).toBuffer();
+    const jpg = await sharp(await graded.png().toBuffer())
+      .withExif(EXIF)
+      .jpeg({ quality: 84, mozjpeg: true, chromaSubsampling: "4:4:4" })
+      .toBuffer();
     await fs.writeFile(out, jpg);
 
     const blur = await sharp(jpg).resize(16).webp({ quality: 40 }).toBuffer();
