@@ -61,10 +61,6 @@ export const weddingData = {
     /** Rendered as one heading: "Two Hearts, One Journey". */
     titleA: "Two Hearts,",
     titleB: "One Journey",
-    groomLabel: "The Groom",
-    brideLabel: "The Bride",
-    interludeEyebrow: "And then comes the day",
-    interludeTitle: "Vivah",
   },
 
   families: {
@@ -86,8 +82,9 @@ export const weddingData = {
   },
 
   celebrations: {
-    eyebrow: "Three days · Three blessings",
-    heading: "The Celebrations",
+    eyebrow: "The Celebrations",
+    heading: "Vivah",
+    alsoCelebrating: "Also celebrating",
   },
 
   events: [
@@ -153,38 +150,18 @@ export const weddingData = {
   },
 
   countdown: {
-    heading: "The Wait Is Almost Over",
+    heading: "The wait is almost over",
     target: "2026-12-12T18:00:00+05:30",
     caption: "12 December 2026 · 6:00 PM onwards",
     arrived: "Today we celebrate",
   },
 
+  /** Illustrated artwork — always shown whole (original aspect ratio). */
   images: {
-    heroWide: img("couple/rahul-sweta-hero-wide", "Dr. Rahul and Sweta smiling together, her hand resting on his shoulder"),
-    heroPortrait: img("couple/rahul-sweta-hero-portrait", "Dr. Rahul and Sweta smiling together, her hand resting on his shoulder"),
-    togetherWide: img("couple/rahul-sweta-together-wide", "Dr. Rahul and Sweta standing back to back, arms folded, smiling"),
-    togetherMobile: img("couple/rahul-sweta-together-mobile", "Dr. Rahul and Sweta standing back to back, arms folded, smiling"),
-    formal: img("couple/rahul-sweta-formal", "Dr. Rahul in a grey suit and Sweta in a champagne lehenga, standing together"),
-    candid: img("couple/rahul-sweta-candid", "Sweta smiling shyly as Dr. Rahul holds her wrist and leans against the wall"),
-    brideportrait: img("couple/sweta-portrait", "Sweta in an embroidered champagne lehenga, looking away with a gentle smile"),
-  },
-
-  gallery: {
-    eyebrow: "The Gallery",
-    heading: ["Moments", "Before", "Forever"],
-    /**
-     * Editorial sequence. `layout` picks one of the reusable framing
-     * treatments in <Gallery/>.
-     */
-    items: [
-      { ...img("couple/sweta-portrait", "Sweta in her champagne lehenga, looking over her shoulder"), layout: "portrait-lead" },
-      { ...img("couple/rahul-sweta-hero-wide", "Dr. Rahul and Sweta smiling together"), layout: "pair-left" },
-      { ...img("gallery/detail-mehndi-clutch", "Sweta's mehndi-adorned hands holding a jewelled clutch"), layout: "pair-right" },
-      { ...img("couple/rahul-sweta-together-wide", "Dr. Rahul and Sweta back to back"), layout: "cinematic" },
-      { ...img("gallery/detail-rahul-profile", "Dr. Rahul in profile, smiling softly"), layout: "offset-left" },
-      { ...img("gallery/detail-sweta-profile", "Sweta in profile wearing diamond earrings"), layout: "offset-right" },
-      { ...img("gallery/detail-hand-on-shoulder", "Sweta's hennaed hand and ring resting on Dr. Rahul's shoulder"), layout: "detail" },
-    ] as (WeddingImage & { layout: string })[],
+    opening: img("illustrations/rahul-sweta-back-to-back", "Illustration of Dr. Rahul and Sweta standing back to back, arms folded"),
+    story: img("illustrations/rahul-sweta-staircase", "Illustration of Dr. Rahul smiling up at Sweta as she stands on the staircase"),
+    bride: img("illustrations/sweta-portrait", "Illustrated portrait of Sweta seated in her embroidered ivory lehenga"),
+    closing: img("illustrations/rahul-sweta-together", "Illustration of Dr. Rahul and Sweta standing together in their wedding attire"),
   },
 
   music: {
@@ -207,11 +184,8 @@ export const weddingData = {
 
   navigation: [
     { id: "story", label: "Our Story" },
-    { id: "family", label: "Families" },
     { id: "celebrations", label: "Celebrations" },
-    { id: "venue", label: "Venue" },
-    { id: "countdown", label: "Countdown" },
-    { id: "gallery", label: "Gallery" },
+    { id: "closing", label: "Thank You" },
   ],
 
   seo: {

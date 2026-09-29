@@ -211,19 +211,8 @@ body.is-locked {
 .btn-gold.on-light:hover { background: var(--wine); color: var(--ivory); border-color: var(--wine); }
 
 /* ── Motion helpers ───────────────────────────────────────────────────── */
-@keyframes float-dust {
-  from { transform: translate3d(0, 0, 0); }
-  to { transform: translate3d(0, -40px, 0); }
-}
-
 @keyframes slow-spin {
   to { transform: rotate(360deg); }
-}
-
-@keyframes light-sweep {
-  0% { transform: translateX(-130%) skewX(-18deg); opacity: 0; }
-  20% { opacity: 1; }
-  100% { transform: translateX(230%) skewX(-18deg); opacity: 0; }
 }
 
 @keyframes pulse-ring {
@@ -232,24 +221,6 @@ body.is-locked {
 }
 
 .animate-slow-spin { animation: slow-spin 90s linear infinite; will-change: transform; }
-
-.light-sweep {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  pointer-events: none;
-}
-.light-sweep::after {
-  content: "";
-  position: absolute;
-  top: -10%;
-  bottom: -10%;
-  width: 40%;
-  background: linear-gradient(90deg, transparent, rgba(255, 236, 200, 0.28), transparent);
-  animation: light-sweep 2.8s var(--ease-film) forwards;
-  animation-delay: var(--sweep-delay, 0.8s);
-  opacity: 0;
-}
 
 /* ── Content protection (class set by <ContentProtection/>) ─────────────
    Discourages casual copying only; it is not security. Nothing here touches

@@ -10,21 +10,6 @@ import { m } from "framer-motion";
 type Tone = "gold" | "wine";
 const stroke = (tone: Tone = "gold") => (tone === "gold" ? "var(--gold)" : "var(--wine)");
 
-/** Global SVG defs: the cusped palace arch used as an image mask. */
-export function SvgDefs() {
-  return (
-    <svg width="0" height="0" aria-hidden className="absolute">
-      <defs>
-        <clipPath id="arch-clip" clipPathUnits="objectBoundingBox">
-          <path d="M0,1 L0,0.27 C0,0.13 0.2,0.07 0.36,0.045 C0.43,0.034 0.47,0.02 0.5,0 C0.53,0.02 0.57,0.034 0.64,0.045 C0.8,0.07 1,0.13 1,0.27 L1,1 Z" />
-        </clipPath>
-        <clipPath id="dome-clip" clipPathUnits="objectBoundingBox">
-          <path d="M0,1 L0,0.5 C0,0.22 0.22,0 0.5,0 C0.78,0 1,0.22 1,0.5 L1,1 Z" />
-        </clipPath>
-      </defs>
-    </svg>
-  );
-}
 
 export function LotusMark({ className = "", tone = "gold" }: { className?: string; tone?: Tone }) {
   const s = stroke(tone);
@@ -131,33 +116,5 @@ export function Mandala({ className = "", tone = "gold" }: { className?: string;
         ))}
       </g>
     </svg>
-  );
-}
-
-/** Outline of a palace arch — draws itself in when it scrolls into view. */
-export function ArchOutline({ className = "", tone = "gold", delay = 0 }: { className?: string; tone?: Tone; delay?: number }) {
-  const s = stroke(tone);
-  return (
-    <m.svg
-      viewBox="0 0 200 300"
-      preserveAspectRatio="none"
-      className={className}
-      fill="none"
-      aria-hidden
-      initial="hidden"
-      whileInView="show"
-      viewport={{ once: true, margin: "-10% 0px" }}
-    >
-      <m.path
-        d="M1 299 L1 81 C1 39 40 21 72 13.5 C86 10.2 94 6 100 1 C106 6 114 10.2 128 13.5 C160 21 199 39 199 81 L199 299"
-        stroke={s}
-        strokeWidth="1"
-        vectorEffect="non-scaling-stroke"
-        variants={{
-          hidden: { pathLength: 0 },
-          show: { pathLength: 1, transition: { duration: 2.2, delay, ease: [0.65, 0, 0.35, 1] } },
-        }}
-      />
-    </m.svg>
   );
 }

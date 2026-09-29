@@ -3,9 +3,10 @@
 A cinematic, mobile-first invitation built with Next.js (App Router), React,
 TypeScript, Tailwind CSS v4 and Framer Motion.
 
-**Story:** Invitation card → Dr. Rahul & Sweta (hero reveal) → Two Hearts,
-One Journey → Family blessings → The Celebrations (Chheka · Matkor · Vivah) →
-Venue → Countdown → Gallery → final wedding image → Thank You (the last frame).
+**Story (short, illustrated):** Invitation card → Dr. Rahul & Sweta (opening
+illustration) → Two Hearts, One Journey (staircase illustration + family
+blessings) → Vivah details with the bride's portrait (plus compact Chheka and
+Matkor rows and a live countdown) → Thank You (closing illustration).
 
 ## Run locally
 
@@ -26,17 +27,18 @@ npm run build && npm start
 ## Editing content
 
 Everything shown on the site lives in **`src/data/weddingData.ts`**: names,
-families, events, times, venue, map links, countdown target, gallery order,
+families, events, times, venue, map links, countdown target, illustrations,
 music and SEO. Components never hard-code content.
 
-## Photographs
+## Illustrations
 
-Originals are in `assets/originals/` (renamed, untouched). `npm run images`
-regenerates every derivative in `public/images/`: cinematic, portrait and
-detail crops with a light warm grade (no facial retouching), blur placeholders
+The four illustrations live untouched in `assets/originals/illustrations/`.
+`npm run images` writes the public versions to `public/images/illustrations/`
+— the whole artwork (never cropped or re-coloured) with a faint ink monogram
+and copyright EXIF — plus blur placeholders
 (`src/data/imageManifest.generated.ts`) and the 1200×630 share card
-`public/og/rahul-sweta-og.jpg`. Crops are defined at the top of
-`scripts/process-images.mjs`. next/image serves AVIF/WebP at responsive sizes.
+`public/og/rahul-sweta-og.jpg`. next/image serves AVIF/WebP at responsive
+sizes; every illustration keeps its native aspect ratio on every screen.
 
 ## Music
 
@@ -62,7 +64,7 @@ measures make casual and moderately technical copying much harder.
   and framer-motion are untouched. Cost: ≈ +15 KB gzipped JS.
 - **Headers** (`next.config.ts`): no framing by other sites, `nosniff`,
   strict referrer, no `X-Powered-By`; `noindex` keeps it out of search/image search.
-- **Assets**: originals and the master audio live in `assets/` (never public);
+- **Assets**: original artwork and the master audio live in `assets/` (never public);
   only optimized derivatives are served. Each derivative carries a faint corner
   monogram and copyright EXIF. The image optimizer only serves `/images/**`.
 - **Client deterrents** (`ContentProtection`): no context menu, selection,

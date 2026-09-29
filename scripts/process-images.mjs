@@ -1,10 +1,10 @@
 /**
  * Image pipeline for the invitation.
  *
- * Reads the untouched photographs in assets/originals/ and writes web-ready
- * derivatives into public/images/: cinematic / portrait / detail crops with a
- * very light warm grade (no retouching of faces), plus a generated manifest
- * (dimensions + blur placeholders) used by next/image, and the Open Graph card.
+ * Reads the untouched illustrations in assets/originals/illustrations/ and
+ * writes web-ready derivatives into public/images/ — full artwork, never
+ * cropped or re-coloured — plus a generated manifest (dimensions + blur
+ * placeholders) used by next/image, and the Open Graph share card.
  *
  *   npm run images
  */
@@ -14,92 +14,29 @@ import sharp from "sharp";
 import satori from "satori";
 
 const root = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
-const originals = path.join(root, "assets/originals");
+const originals = path.join(root, "assets/originals/illustrations");
 const publicDir = path.join(root, "public/images");
 
-/** Every derivative the site uses. Crops are in source-pixel coordinates. */
+/** Every image the site uses (whole artwork, original aspect ratio). */
 const derivatives = [
-  // ── couple / storytelling ──────────────────────────────────────────
-  { id: "couple/rahul-sweta-hero-wide", src: "rahul-sweta-smiling.jpg" },
-  {
-    id: "couple/rahul-sweta-hero-portrait",
-    src: "rahul-sweta-smiling.jpg",
-    crop: { left: 600, top: 0, width: 760, height: 1066 },
-  },
-  { id: "couple/rahul-sweta-together-wide", src: "rahul-sweta-back-to-back.jpg" },
-  {
-    id: "couple/rahul-sweta-together-mobile",
-    src: "rahul-sweta-back-to-back.jpg",
-    crop: { left: 440, top: 0, width: 1160, height: 1066 },
-  },
-  { id: "couple/rahul-sweta-formal", src: "rahul-sweta-formal-standing.jpg" },
-  { id: "couple/rahul-sweta-candid", src: "rahul-sweta-candid.jpg" },
-  { id: "couple/sweta-portrait", src: "sweta-portrait.jpg" },
-
-  // ── gallery details (editorial crops) ──────────────────────────────
-  {
-    id: "gallery/detail-hand-on-shoulder",
-    src: "rahul-sweta-smiling.jpg",
-    crop: { left: 800, top: 380, width: 360, height: 470 },
-  },
-  {
-    id: "gallery/detail-mehndi-clutch",
-    src: "sweta-portrait.jpg",
-    crop: { left: 330, top: 930, width: 440, height: 670 },
-  },
-  {
-    id: "gallery/detail-sweta-profile",
-    src: "rahul-sweta-back-to-back.jpg",
-    crop: { left: 1020, top: 240, width: 580, height: 826 },
-  },
-  {
-    id: "gallery/detail-rahul-profile",
-    src: "rahul-sweta-back-to-back.jpg",
-    crop: { left: 560, top: 60, width: 560, height: 800 },
-  },
+  { id: "illustrations/rahul-sweta-back-to-back", src: "rahul-sweta-back-to-back.jpg" },
+  { id: "illustrations/rahul-sweta-staircase", src: "rahul-sweta-staircase.webp" },
+  { id: "illustrations/sweta-portrait", src: "sweta-portrait.webp" },
+  { id: "illustrations/rahul-sweta-together", src: "rahul-sweta-together.webp" },
 ];
 
-/** A gentle, warm "film" grade — keeps skin tones natural. */
-async function grade(input, { width, height }) {
-  const warm = await sharp({
-    create: { width, height, channels: 4, background: { r: 255, g: 214, b: 170, alpha: 0.1 } },
-  })
-    .png()
-    .toBuffer();
-
-  const vignette = Buffer.from(
-    `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
-      <defs><radialGradient id="v" cx="50%" cy="48%" r="75%">
-        <stop offset="62%" stop-color="#000" stop-opacity="0"/>
-        <stop offset="100%" stop-color="#1a0508" stop-opacity="0.28"/>
-      </radialGradient></defs>
-      <rect width="100%" height="100%" fill="url(#v)"/>
-    </svg>`,
-  );
-
-  return sharp(input)
-    .modulate({ brightness: 1.01, saturation: 0.95 })
-    .linear(1.04, -5)
-    .composite([
-      { input: warm, blend: "soft-light" },
-      { input: vignette, blend: "over" },
-      { input: monogram(width, height), blend: "over" },
-    ]);
-}
-
 /**
- * Photographer-style signature: a tiny, faint "R ✦ S" monogram in the
- * bottom-right corner (≈2% of the frame, low opacity). Identifies the
- * photographs if they are reused, without marking the image itself.
+ * A faint ink monogram in the paper's bottom-right corner — like an
+ * illustrator's signature. Identifies the artwork if reused.
  */
 function monogram(width, height) {
-  const size = Math.max(11, Math.round(Math.min(width, height) * 0.022));
-  const pad = Math.round(size * 1.3);
+  const size = Math.max(10, Math.round(Math.min(width, height) * 0.018));
+  const pad = Math.round(size * 1.6);
   return Buffer.from(
     `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
       <text x="${width - pad}" y="${height - pad}" text-anchor="end"
         font-family="Georgia, 'DejaVu Serif', serif" font-size="${size}" letter-spacing="${size * 0.25}"
-        fill="#f9f3ea" fill-opacity="0.34">R ✦ S · 12.12.26</text>
+        fill="#7a5a36" fill-opacity="0.38">R ✦ S · 12.12.26</text>
     </svg>`,
   );
 }
@@ -114,22 +51,18 @@ const EXIF = {
 };
 
 async function build() {
+  await fs.rm(publicDir, { recursive: true, force: true });
   await fs.mkdir(publicDir, { recursive: true });
   const manifest = {};
 
   for (const d of derivatives) {
-    let pipeline = sharp(path.join(originals, d.src)).rotate();
-    if (d.crop) pipeline = pipeline.extract(d.crop);
-    const cropped = await pipeline.toBuffer({ resolveWithObject: true });
-    const { width, height } = cropped.info;
-
-    const graded = await grade(cropped.data, { width, height });
+    const src = sharp(path.join(originals, d.src)).rotate();
+    const { width, height } = await src.metadata();
+    const marked = await src.composite([{ input: monogram(width, height), blend: "over" }]).png().toBuffer();
     const out = path.join(publicDir, `${d.id}.jpg`);
     await fs.mkdir(path.dirname(out), { recursive: true });
-    const jpg = await sharp(await graded.png().toBuffer())
-      .withExif(EXIF)
-      .jpeg({ quality: 84, mozjpeg: true, chromaSubsampling: "4:4:4" })
-      .toBuffer();
+    // High quality + 4:4:4 keeps fine pen lines crisp.
+    const jpg = await sharp(marked).withExif(EXIF).jpeg({ quality: 86, mozjpeg: true, chromaSubsampling: "4:4:4" }).toBuffer();
     await fs.writeFile(out, jpg);
 
     const blur = await sharp(jpg).resize(16).webp({ quality: 40 }).toBuffer();
@@ -159,8 +92,9 @@ async function buildOgImage() {
     { name: "Manrope", data: await fs.readFile(path.join(root, "assets/fonts/manrope-600.ttf")), weight: 600, style: "normal" },
   ];
 
-  const photo = await sharp(path.join(publicDir, "couple/rahul-sweta-hero-wide.jpg"))
-    .extract({ left: 520, top: 0, width: 960, height: 1066 })
+  // Closing illustration, upper portion (faces and attire), on its paper.
+  const photo = await sharp(path.join(publicDir, "illustrations/rahul-sweta-together.jpg"))
+    .extract({ left: 60, top: 130, width: 1212, height: 1193 })
     .resize(640, 630, { fit: "cover", position: "top" })
     .jpeg({ quality: 88 })
     .toBuffer();
@@ -192,7 +126,7 @@ async function buildOgImage() {
       ),
       el("div", { width: 640, height: 630, display: "flex", position: "relative" }, [
         { type: "img", props: { src: photoUri, width: 640, height: 630, style: { objectFit: "cover" } } },
-        el("div", { position: "absolute", top: 0, left: 0, width: 90, height: 630, display: "flex", background: "linear-gradient(90deg, #2a0a10, rgba(42,10,16,0))" }, ""),
+        el("div", { position: "absolute", top: 0, left: 0, width: 36, height: 630, display: "flex", background: "linear-gradient(90deg, #2a0a10, rgba(42,10,16,0))" }, ""),
       ]),
     ]),
     { width: 1200, height: 630, fonts },

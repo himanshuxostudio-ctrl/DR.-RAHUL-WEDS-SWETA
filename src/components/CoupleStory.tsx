@@ -2,121 +2,111 @@
 
 import { m, useReducedMotion } from "framer-motion";
 import { weddingData } from "@/data/weddingData";
-import { ArtPicture } from "./ui/Photo";
-import { OrnamentDivider } from "./decor/Ornaments";
+import { LotusMark, OrnamentDivider } from "./decor/Ornaments";
+import SectionBridge from "./decor/SectionBridge";
+import Illustration from "./ui/Illustration";
 
-const { story, couple, images } = weddingData;
-
+const { story, families, images } = weddingData;
 const ease = [0.22, 1, 0.36, 1] as const;
-const film = [0.65, 0, 0.35, 1] as const;
 
-function Half({ side }: { side: "left" | "right" }) {
-  const dir = side === "left" ? -1 : 1;
+function Blessing({ label, lines }: { label: string; lines: { name: string; note?: string }[] }) {
   return (
-    <m.div
-      className="absolute inset-0 will-change-transform"
-      variants={{
-        hidden: { x: `${dir * 11}%`, scale: 0.94, opacity: 0 },
-        show: {
-          x: "0%",
-          scale: 1,
-          opacity: 1,
-          transition: { x: { duration: 2.2, delay: 0.35, ease: film }, scale: { duration: 2.2, delay: 0.35, ease: film }, opacity: { duration: 1, delay: 0.2 } },
-        },
-      }}
-    >
-      <div
-        className="absolute inset-0"
-        style={{ clipPath: side === "left" ? "inset(0 calc(100% - var(--split) - 1px) 0 0)" : "inset(0 0 0 var(--split))" }}
-      >
-        <ArtPicture
-          mobile={images.togetherMobile.id}
-          desktop={images.togetherWide.id}
-          alt={side === "left" ? images.togetherWide.alt : ""}
-          desktopSizes="(min-width: 1280px) 960px, 76vw"
-          mobileSizes="92vw"
-          className="object-[50%_30%]"
-        />
-      </div>
-    </m.div>
+    <div>
+      <p className="eyebrow text-[0.6rem] text-gold-deep">{label}</p>
+      <ul className="mt-2 space-y-1.5">
+        {lines.map((l) => (
+          <li key={l.name} className="font-serif text-[1.3rem] leading-snug text-wine sm:text-[1.4rem]">
+            {l.name}
+            {l.note && <span className="ml-2 font-sans text-[0.6rem] uppercase tracking-[0.2em] text-ink-soft">{l.note}</span>}
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
 
 /**
- * "Two Hearts, One Journey". The heading and the photograph share ONE in-view
- * trigger, so they start together the moment the section arrives: the words
- * rise, and the two halves of the back-to-back portrait (split where the
- * couple meet) drift together into a single frame.
+ * "Two Hearts, One Journey": the staircase illustration with the families'
+ * blessings. Heading and artwork share one in-view trigger.
  */
 export default function CoupleStory() {
   const reduce = useReducedMotion();
-  const line = (delay: number) => ({
-    hidden: { y: reduce ? "0%" : "115%" },
-    show: { y: "0%", transition: { duration: 1.2, delay, ease } },
+  const rise = (delay: number) => ({
+    hidden: { opacity: 0, y: reduce ? 0 : 18 },
+    show: { opacity: 1, y: 0, transition: { duration: 1.3, delay: reduce ? 0 : delay, ease } },
   });
 
   return (
-    <section id="story" aria-labelledby="story-heading" className="surface-maroon relative overflow-hidden pb-[var(--space-section)] pt-[calc(var(--space-section)*0.8)]">
+    <section id="story" aria-labelledby="story-heading" className="surface-ivory grain relative overflow-hidden px-[var(--gutter)] pb-20 pt-24 lg:py-28">
+      <SectionBridge from="var(--deep-maroon)" />
       <m.div
-        className="relative mx-auto flex max-w-[1000px] flex-col items-center px-[var(--gutter)]"
+        className="relative mx-auto grid max-w-5xl items-center gap-10 lg:grid-cols-[auto_1fr] lg:gap-16"
         initial="hidden"
         whileInView="show"
         viewport={{ once: true, margin: "0px 0px -15% 0px" }}
       >
-        <m.p className="eyebrow text-gold" variants={{ hidden: { opacity: 0 }, show: { opacity: 1, transition: { duration: 1 } } }}>
-          {story.eyebrow}
-        </m.p>
+        {/* heading first on phones; beside the art on desktop */}
+        <div className="text-center lg:order-2 lg:text-left">
+          <m.p variants={rise(0)} className="eyebrow text-gold-deep">
+            {story.eyebrow}
+          </m.p>
+          <m.h2 variants={rise(0.1)} id="story-heading" className="mt-4 font-serif text-[2.6rem] leading-[1.02] text-ink sm:text-6xl">
+            {story.titleA} <span className="block italic text-wine sm:inline lg:block">{story.titleB}</span>
+          </m.h2>
+          <m.div variants={rise(0.25)}>
+            <OrnamentDivider tone="wine" animate={false} className="mx-auto mt-5 h-7 w-48 opacity-60 lg:mx-0" />
+          </m.div>
 
-        <h2 id="story-heading" className="mt-5 text-center font-serif text-[2.9rem] leading-[1.02] text-ivory sm:text-6xl lg:text-7xl">
-          <span className="-my-[0.2em] block overflow-hidden py-[0.2em] sm:inline-block">
-            <m.span className="inline-block" variants={line(0.1)}>
-              {story.titleA}
-            </m.span>
-          </span>{" "}
-          <span className="-my-[0.2em] block overflow-hidden py-[0.2em] sm:inline-block">
-            <m.span className="inline-block italic text-gold-light" variants={line(0.28)}>
-              {story.titleB}
-            </m.span>
-          </span>
-        </h2>
-
-        <m.div className="mt-6 w-56" variants={{ hidden: { opacity: 0 }, show: { opacity: 1, transition: { duration: 1.2, delay: 0.5 } } }}>
-          <OrnamentDivider className="h-8 w-56 opacity-80" animate={false} />
-        </m.div>
-
-        <div className="relative mt-10 w-full max-w-[min(960px,calc((100svh-12rem)*1.5))] [--split:57%] md:[--split:69%]">
-          <div className="relative aspect-[1160/1066] w-full md:aspect-[1600/1066]">
-            <Half side="left" />
-            <Half side="right" />
-            {/* the thin gold seam that fades as the halves meet */}
-            <m.div
-              aria-hidden
-              className="absolute inset-y-[6%] left-[var(--split)] w-px bg-gradient-to-b from-transparent via-gold-light to-transparent"
-              variants={{ hidden: { opacity: 1 }, show: { opacity: 0, transition: { duration: 0.8, delay: 2.1 } } }}
-            />
-            <m.div
-              aria-hidden
-              className="pointer-events-none absolute -inset-2 border border-gold/35 sm:-inset-3"
-              variants={{ hidden: { opacity: 0 }, show: { opacity: 1, transition: { duration: 1.4, delay: 1.8 } } }}
-            />
-          </div>
-
-          {/* captions aligned under each half */}
-          <m.div
-            className="mt-7 grid text-center [grid-template-columns:var(--split)_1fr]"
-            variants={{ hidden: { opacity: 0, y: 10 }, show: { opacity: 1, y: 0, transition: { duration: 1.2, delay: 1.9, ease } } }}
-          >
-            <div>
-              <p className="eyebrow text-[0.6rem] text-gold">{story.groomLabel}</p>
-              <p className="mt-1 font-serif text-2xl text-ivory sm:text-3xl">{couple.groom}</p>
-            </div>
-            <div>
-              <p className="eyebrow text-[0.6rem] text-gold">{story.brideLabel}</p>
-              <p className="mt-1 font-serif text-2xl text-ivory sm:text-3xl">{couple.bride}</p>
-            </div>
+          {/* families — desktop column */}
+          <m.div variants={rise(0.5)} className="mt-8 hidden lg:block">
+            <Families />
           </m.div>
         </div>
+
+        <div className="flex justify-center lg:order-1">
+          <Illustration
+            id={images.story.id}
+            alt={images.story.alt}
+            sizes="(min-width: 1024px) 420px, 80vw"
+            maxWidth={420}
+            maxVh={66}
+            delay={0.2}
+          />
+        </div>
+
+        {/* families — phones, under the art */}
+        <m.div variants={rise(0.3)} className="text-center lg:hidden">
+          <Families />
+        </m.div>
       </m.div>
     </section>
+  );
+}
+
+function Families() {
+  return (
+    <div>
+      <p className="flex items-center justify-center gap-3 font-serif text-lg italic text-ink-soft lg:justify-start">
+        <LotusMark tone="wine" className="h-5 w-8" />
+        {families.heading}
+      </p>
+      <div className="mt-6 grid gap-6 sm:grid-cols-2 sm:gap-8">
+        <Blessing
+          label={families.groom.label}
+          lines={[
+            { name: families.groom.father, note: families.groom.fatherTitle },
+            { name: families.groom.mother },
+          ]}
+        />
+        <Blessing
+          label={families.bride.label}
+          lines={[
+            { name: families.bride.grandfather, note: families.bride.grandfatherTitle },
+            { name: families.bride.father },
+            { name: families.bride.mother },
+          ]}
+        />
+      </div>
+    </div>
   );
 }
