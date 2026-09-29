@@ -87,7 +87,7 @@ export default function CelebrationSection() {
           ))}
         </m.ul>
         {/* shehnai couple — phones: tucked under the cards, off to the left */}
-        <Vignette kind="shehnai" className="-mb-6 mt-3 w-[34%] max-w-[150px] sm:hidden" />
+        <Vignette kind="shehnai" className="-mb-1 mt-3 w-[38%] max-w-[160px] sm:hidden" />
       </m.div>
 
       {/* The Wedding — Vivah details with the couple illustration */}
@@ -149,7 +149,7 @@ export default function CelebrationSection() {
               </div>
             </m.article>
             {/* jaimala couple — stepping in beneath the details, off to the right */}
-            <Vignette kind="jaimala" className="-mb-12 mr-1 mt-3 w-[30%] max-w-[140px] self-end sm:w-32 lg:-mb-0 lg:mr-6 lg:mt-5 lg:w-36" />
+            <Vignette kind="jaimala" className="-mb-12 mr-1 mt-3 w-[36%] max-w-[150px] self-end sm:w-36 lg:-mb-0 lg:mr-6 lg:mt-5 lg:w-40" />
           </div>
         </div>
       </m.div>

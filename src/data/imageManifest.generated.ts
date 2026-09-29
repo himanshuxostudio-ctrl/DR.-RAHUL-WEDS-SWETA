@@ -29,6 +29,18 @@ export const imageManifest = {
     "width": 1241,
     "height": 1897,
     "blurDataURL": "data:image/webp;base64,UklGRpwAAABXRUJQVlA4IJAAAAAQBACdASoQABgAPu1iqU2ppaOiMAgBMB2JQBOgMZKZNFLX2OZD1c/YAAD+7Vopegbn3imqseX9oGK7wFzxTRXtFWL8PBSoX8e9jyEW7KE0L4D1kC0nt21z7OIvK1tMNcy0kjjcBe358LduH+wzs+K3lq4x2sgI7uutP3uhXTN/l/YJgE/clKQ3ZCqkqdYAAAA="
+  },
+  "decor/jaimala-couple": {
+    "src": "/images/decor/jaimala-couple.webp",
+    "width": 479,
+    "height": 557,
+    "blurDataURL": "data:image/webp;base64,UklGRqQBAABXRUJQVlA4WAoAAAAQAAAADwAAEgAAQUxQSN8AAAABkLpt2/n3wu/ZtrdkJ9teXbNZbUW1JdtWW7LZbP1s3OHzHouICcB7Pfs18G7VX/8DRKG5MgCw899VoP6TJjJVHVqD9BXIbbxqFJNnP3kvI8HMW83xyPN3cgNStV+cMWgu6SInBH7kGdobxshnFUkL+d+gvHKZXFvxALx/kozNbdkmO8vzEfuVJGtD/e/ILchG/qF0yVT/F/lTEfUUfpTXJklXoFZAd1tJOmD8W1Cgt/r/96U70E3hEOKey/eBZIqv4XRj8SiLxFsRbZLO5R41AdWsnvnlxZpErURtl0gAAFZQOCCeAAAA8AMAnQEqEAATAD7tYqlNqaWjojAIATAdiWwAnR/AAgFRAp4gfHbKAADJM2W1z3o/aU7feRn3IblfbZZxVvW/bwKZZ4ihHsHHNT18HZn4/auGlEruJlyOvtlL8yrkisbgBWSUiorYtTq6TVZYW/5dArLB6I/y+pCSv/nHy5ouqeM9hZ/1CqMuQqesRAHjR1T8lcW9P/cw3xg2nZPwgAA="
+  },
+  "decor/shehnai-couple": {
+    "src": "/images/decor/shehnai-couple.webp",
+    "width": 565,
+    "height": 720,
+    "blurDataURL": "data:image/webp;base64,UklGRpIBAABXRUJQVlA4WAoAAAAQAAAADwAAEwAAQUxQSMwAAAABkGPbtqlpp2zbDXBkx7YVsQG2bdtWVKltZrbtqh87eGhDREwAxcgS09GF2M0jTYlIZXtPhY1oPJrSNgEnDtmqJuv/WEOYQ1VLVgGRyNBIDNCH/5c54Zl6RJR4C/Y/zxnELObAvQZD8hzAMYDPM2kikhoAgPpDYHfWlsTTb8HcqQRwkUbp4BwFgGWK5ppjOJDJL9ttD2OMlO7Z8ML4K0VWHAD2Gq6IKngkC3a2k84nj1SBHV9qBM+/0dAh/f88MLnhSQKe1RybQSIS7lJWUDggoAAAAHAEAJ0BKhAAFAA+7WKpTamlo6IwCAEwHYliAKwBiwS57R3yBP6v39TpVoVAAP1z0lX6YR4dJTzNV4y+5mNmGCJHu96KexjP3mu/RUAm89J0QuKMqNs/x/w+s3OV2pgIpUIqwcnn6++uqZlAqEQ633Y9wcPyVsGSRYPVPEdBsw7b16zimenLV+w/ln37goBdrMJ/kt5iiI9yxGiFsFOgAAA="
   }
 } as const;
 

@@ -20,9 +20,12 @@ Motion is CSS only (transform/opacity) and is off for reduced-motion users.
 To tune a section, edit its preset's placements.
 
 Two small decorative wedding moments — a jaimala exchange and a shehnai
-duet (`decor/WeddingVignettes.tsx`) — are original, stylised inline-SVG
-figures (not the couple) placed beside The Celebrations and under the
-Vivah details. The Rahul & Sweta illustrations are untouched.
+duet — sit beside The Celebrations and under the Vivah details
+(`decor/WeddingVignettes.tsx`). They are generic wedding characters, not the
+couple; the Rahul & Sweta illustrations are untouched. Their source art lives
+in `assets/originals/decor/`; `python3 scripts/cutout-decor.py` removes the
+paper background into `assets/decor-cutouts/` (transparent PNG), and
+`npm run images` serves them as alpha WebP.
 
 ## Run locally
 

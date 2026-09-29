@@ -49,7 +49,7 @@ interface Preset {
   petals: Petal[];
 }
 
-export const FLORAL_DARK: CSSProperties = {
+const FLORAL_DARK: CSSProperties = {
   ["--fl-marigold" as string]: "#cf8f36",
   ["--fl-marigold-2" as string]: "#b77a2c",
   ["--fl-marigold-core" as string]: "#8a4f1c",
