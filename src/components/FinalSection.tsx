@@ -3,17 +3,30 @@
 import { m, useReducedMotion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { weddingData } from "@/data/weddingData";
-import { CornerFlourish, LotusMark, OrnamentDivider } from "./decor/Ornaments";
+import { LotusMark } from "./decor/Ornaments";
 import WeddingAtmosphere from "./decor/WeddingAtmosphere";
 import GoldDust from "./decor/GoldDust";
+import { MadhubaniBand, RoyalArch, RSMonogram } from "./luxe/Stationery";
 import Illustration from "./ui/Illustration";
 
-const { final, couple, countdown, images } = weddingData;
+const { final, couple, countdown, images, invitation } = weddingData;
 const target = new Date(countdown.target).getTime();
 
 const ease = [0.22, 1, 0.36, 1] as const;
-const film = [0.65, 0, 0.35, 1] as const;
-const CORNERS = ["left-1.5 top-1.5", "right-1.5 top-1.5 rotate-90", "right-1.5 bottom-1.5 rotate-180", "left-1.5 bottom-1.5 -rotate-90"];
+
+/** One countdown digit group; the number settles in softly whenever it changes. */
+function Unit({ n, label, first }: { n: number | null; label: string; first: boolean }) {
+  const text = n === null ? "--" : String(n).padStart(2, "0");
+  return (
+    <div className="relative flex flex-col items-center">
+      {!first && <span aria-hidden className="absolute -left-px top-1 h-[70%] w-px bg-gradient-to-b from-transparent via-gold/45 to-transparent" />}
+      <span key={text} className="digit-in gold-text font-serif text-[2.9rem] leading-none tabular-nums sm:text-6xl">
+        {text}
+      </span>
+      <span className="eyebrow mt-2.5 text-[0.52rem] !tracking-[0.16em] text-champagne/70 sm:text-[0.56rem] sm:!tracking-[0.3em]">{label}</span>
+    </div>
+  );
+}
 
 /** Ticks once a second in isolation (only this row re-renders). */
 function Countdown() {
@@ -34,20 +47,16 @@ function Countdown() {
   return (
     <div role="timer" aria-label="Time until the wedding" className="mx-auto grid max-w-md grid-cols-4">
       {parts.map(([n, label], i) => (
-        <div key={label} className={`flex flex-col items-center ${i > 0 ? "border-l border-gold/25" : ""}`}>
-          <span className="gold-text font-serif text-[2.6rem] leading-none tabular-nums sm:text-5xl">
-            {n === null ? "--" : String(n).padStart(2, "0")}
-          </span>
-          <span className="eyebrow mt-2 text-[0.55rem] text-champagne/70">{label}</span>
-        </div>
+        <Unit key={label} n={n} label={label} first={i === 0} />
       ))}
     </div>
   );
 }
 
 /**
- * The finale: the countdown, then the closing — gold frame drawing in, the
- * couple, names, date and a short message. It is the true end of the page.
+ * The finale: the countdown under a round palace arch, then the closing —
+ * the back page of the invitation: crest, "With love & blessings", the names,
+ * the date and शुभ विवाह, growing quieter toward the bottom.
  */
 export default function FinalSection() {
   const reduce = useReducedMotion();
@@ -59,81 +68,85 @@ export default function FinalSection() {
   return (
     <div id="closing" className="surface-maroon relative overflow-hidden">
       <GoldDust density={16} className="opacity-50" />
+      <div aria-hidden className="buti pointer-events-none absolute inset-0 opacity-[0.045] [mask-image:linear-gradient(to_bottom,#000,transparent_85%)]" />
 
       {/* The Wait Is Almost Over */}
       <m.section
         id="countdown"
         aria-labelledby="countdown-heading"
-        className="relative isolate px-[var(--gutter)] pb-2 pt-12 text-center lg:pt-24"
+        className="relative isolate px-[var(--gutter)] pb-4 pt-12 text-center lg:pt-24"
         initial="hidden"
         whileInView="show"
         viewport={{ once: true, margin: "0px 0px -8% 0px" }}
       >
         <WeddingAtmosphere preset="countdown" className="-z-10" />
-        <div aria-hidden className="mx-auto h-8 w-px bg-gradient-to-b from-transparent to-gold/70" />
-        <m.p variants={at(0)} className="eyebrow mt-4 text-gold">
-          {countdown.caption}
-        </m.p>
-        <m.h2 variants={at(0.08)} id="countdown-heading" className="mt-3 font-serif text-[2.3rem] leading-[1.05] text-ivory sm:text-5xl">
-          {countdown.heading}
-        </m.h2>
-        <m.div variants={at(0.2)} className="mt-7">
-          <Countdown />
-        </m.div>
+        <div className="relative mx-auto max-w-xl px-4 pb-8 pt-[clamp(3.5rem,11vw,5.5rem)] sm:px-10">
+          <RoyalArch variant="round" crownHeight="clamp(3.5rem,11vw,5.5rem)" className="absolute inset-0 text-gold/35" />
+          {/* tiny R ✦ S watermark behind the numbers */}
+          <div aria-hidden className="pointer-events-none absolute left-1/2 top-[58%] w-44 -translate-x-1/2 -translate-y-1/2 text-gold opacity-[0.06] sm:w-56">
+            <RSMonogram className="h-auto w-full" />
+          </div>
+          <m.h2 variants={at(0)} id="countdown-heading" className="relative font-serif text-[2.3rem] leading-[1.05] text-ivory sm:text-5xl">
+            {countdown.heading}
+          </m.h2>
+          <m.p variants={at(0.1)} className="eyebrow relative mt-4 text-gold">
+            {countdown.caption}
+          </m.p>
+          <m.div variants={at(0.22)} className="relative mt-8">
+            <Countdown />
+          </m.div>
+        </div>
       </m.section>
 
-      {/* Closing */}
+      {/* Closing — the back of the invitation */}
       <m.section
         aria-labelledby="thanks-heading"
-        className="relative flex items-center px-8 pb-12 pt-10 sm:px-14 lg:min-h-[88svh]"
+        className="relative flex items-center px-6 pb-12 pt-8 sm:px-14 lg:min-h-[86svh]"
         initial="hidden"
         whileInView="show"
         viewport={{ once: true, margin: "0px 0px -8% 0px" }}
       >
         <WeddingAtmosphere preset="closing" />
-        <div aria-hidden className="pointer-events-none absolute inset-x-3 bottom-3 top-6 sm:inset-x-6 sm:bottom-6">
-          <svg className="absolute inset-0 h-full w-full" preserveAspectRatio="none" fill="none">
-            <m.rect
-              x="0.5" y="0.5" width="99.8%" height="99.8%" stroke="var(--gold)" strokeOpacity="0.65" strokeWidth="1"
-              variants={{ hidden: { pathLength: reduce ? 1 : 0 }, show: { pathLength: 1, transition: { duration: 2.2, delay: 0.1, ease: film } } }}
-            />
-          </svg>
-          {CORNERS.map((pos) => (
-            <m.div key={pos} className={`absolute ${pos} h-10 w-10 sm:h-16 sm:w-16`} variants={at(1, 0)}>
-              <CornerFlourish className="h-full w-full" />
-            </m.div>
-          ))}
+        <div aria-hidden className="pointer-events-none absolute inset-x-3 bottom-3 top-4 sm:inset-x-6 sm:bottom-6">
+          <RoyalArch variant="cusped" base crownHeight="clamp(3rem,8vw,6rem)" className="h-full w-full text-gold/45" />
         </div>
 
-        <div className="relative z-10 mx-auto grid w-full max-w-5xl items-center gap-7 text-center lg:grid-cols-[auto_1fr] lg:gap-16 lg:text-left">
+        <div className="relative z-10 mx-auto grid w-full max-w-5xl items-center gap-7 pt-[clamp(2rem,6vw,4rem)] text-center lg:grid-cols-[auto_1fr] lg:gap-16">
           <div className="flex justify-center">
             <Illustration id={images.closing.id} alt={images.closing.alt} sizes="(min-width: 1024px) 400px, 56vw" maxWidth={400} maxVh={39} maxVhLg={60} delay={0.3} />
           </div>
 
-          <div>
-            <m.div variants={at(0.6)}>
-              <LotusMark className="mx-auto mb-3 h-7 w-11 lg:mx-0" />
+          <div className="flex flex-col items-center">
+            <m.div variants={at(0.5)} className="text-gold/80">
+              <RSMonogram className="mx-auto h-14 w-14 sm:h-16 sm:w-16" />
             </m.div>
-            <m.p variants={at(0.7, 18)} className="serif-display text-[3rem] sm:text-6xl">
+            <m.p variants={at(0.65)} className="eyebrow mt-4 text-[0.66rem] text-gold">
+              {final.blessing}
+            </m.p>
+            <m.p variants={at(0.8, 18)} className="serif-display mt-4 flex flex-col items-center text-[3rem] leading-[0.95] sm:text-6xl">
               <span className="gold-text gold-text-animate">{couple.groom}</span>
-              <span className="mx-2 font-serif text-2xl italic text-champagne sm:text-3xl">&amp;</span>
+              <span className="my-2 font-serif text-2xl italic text-champagne sm:text-3xl">{invitation.weds}</span>
               <span className="gold-text gold-text-animate">{couple.bride}</span>
             </m.p>
-            <m.div variants={at(1)} className="mt-4 flex items-center justify-center gap-4 lg:justify-start">
+            <m.div variants={at(1.05)} className="mt-5 flex items-center gap-4">
               <span className="h-px w-10 bg-gold/70" />
-              <time dateTime="2026-12-12" className="eyebrow text-[0.72rem] tracking-[0.45em] text-ivory">
-                {couple.dateShort}
+              <time dateTime="2026-12-12" className="eyebrow text-[0.74rem] tracking-[0.3em] text-ivory">
+                {couple.dateDots}
               </time>
               <span className="h-px w-10 bg-gold/70" />
             </m.div>
-            <m.h2 variants={at(1.25)} id="thanks-heading" className="mt-6 font-serif text-3xl italic text-ivory">
-              {final.heading}
-            </m.h2>
-            <m.p variants={at(1.4)} className="mx-auto mt-2 max-w-xs font-serif text-lg italic leading-relaxed text-champagne/85 lg:mx-0 lg:max-w-sm">
-              {final.message}
+            <m.p variants={at(1.2)} lang="hi" className="font-deva mt-4 text-xl leading-[1.6] text-gold-light/85">
+              {invitation.hindiTitle}
             </m.p>
-            <m.div variants={at(1.6)}>
-              <OrnamentDivider animate={false} className="mx-auto mt-5 h-7 w-44 opacity-70 lg:mx-0" />
+            <m.div variants={at(1.35)} className="mt-6 max-w-xs lg:max-w-sm">
+              <h2 id="thanks-heading" className="font-serif text-2xl italic text-ivory/90">
+                {final.heading}
+              </h2>
+              <p className="mt-1.5 font-serif text-lg italic leading-relaxed text-champagne/75">{final.message}</p>
+            </m.div>
+            <m.div variants={at(1.55)} className="mt-6 flex flex-col items-center gap-3 opacity-70">
+              <LotusMark className="h-6 w-10" />
+              <MadhubaniBand className="w-28 opacity-60" />
             </m.div>
           </div>
         </div>

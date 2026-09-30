@@ -160,6 +160,47 @@ body.is-locked {
   background-size: 56px 56px;
 }
 
+/* ── Luxury redesign: stationery textures ─────────────────────────────── */
+/* Faint repeating booti (small floral print), like hand-block-printed paper. */
+.buti {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='84' height='84' viewBox='0 0 84 84'><g fill='none' stroke='%23c9a45c' stroke-width='0.7' stroke-linecap='round'><path d='M21 30 C23 25 23 21 21 17 C19 21 19 25 21 30Z'/><path d='M21 30 C17 28 14 25 13 21 C17 22 20 25 21 30Z'/><path d='M21 30 C25 28 28 25 29 21 C25 22 22 25 21 30Z'/><path d='M21 30 V37'/><path d='M21 35 C18 34 16 35 15 37 C18 38 20 37 21 35Z'/><path d='M21 34 C24 33 26 34 27 36 C24 37 22 36 21 34Z'/><circle cx='63' cy='63' r='1.6'/><circle cx='63' cy='57.5' r='0.8'/><circle cx='63' cy='68.5' r='0.8'/><circle cx='57.5' cy='63' r='0.8'/><circle cx='68.5' cy='63' r='0.8'/></g></svg>");
+  background-size: 84px 84px;
+}
+.buti-wine {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='84' height='84' viewBox='0 0 84 84'><g fill='none' stroke='%236b1a28' stroke-width='0.7' stroke-linecap='round'><path d='M21 30 C23 25 23 21 21 17 C19 21 19 25 21 30Z'/><path d='M21 30 C17 28 14 25 13 21 C17 22 20 25 21 30Z'/><path d='M21 30 C25 28 28 25 29 21 C25 22 22 25 21 30Z'/><path d='M21 30 V37'/><path d='M21 35 C18 34 16 35 15 37 C18 38 20 37 21 35Z'/><path d='M21 34 C24 33 26 34 27 36 C24 37 22 36 21 34Z'/><circle cx='63' cy='63' r='1.6'/><circle cx='63' cy='57.5' r='0.8'/><circle cx='63' cy='68.5' r='0.8'/><circle cx='57.5' cy='63' r='0.8'/><circle cx='68.5' cy='63' r='0.8'/></g></svg>");
+  background-size: 84px 84px;
+}
+/* Madhubani-inspired border: double line with fine hatching. */
+.madhubani-band {
+  height: 10px;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='10' viewBox='0 0 16 10'><g fill='none' stroke='%23c9a45c' stroke-width='0.7'><path d='M0 0.5H16M0 9.5H16'/><path d='M1.5 8.5 L6.5 1.5 M9.5 8.5 L14.5 1.5'/></g></svg>");
+  background-repeat: repeat-x;
+  background-size: 16px 10px;
+}
+/* The sealed envelope breathes: a tiny float, its shadow tightening in step. */
+.env-breathe {
+  animation: env-breathe 7s ease-in-out infinite alternate;
+}
+@keyframes env-breathe {
+  from { transform: translate3d(0, 0, 0) rotate(-0.2deg); }
+  to { transform: translate3d(0, -5px, 0) rotate(0.2deg); }
+}
+.env-shadow {
+  animation: env-shadow 7s ease-in-out infinite alternate;
+}
+@keyframes env-shadow {
+  from { transform: scaleX(1); opacity: 1; }
+  to { transform: scaleX(0.94); opacity: 0.8; }
+}
+/* Countdown digits settle in softly when they change. */
+.digit-in {
+  animation: digit-in 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+@keyframes digit-in {
+  from { opacity: 0.35; transform: translateY(-0.12em); filter: blur(1px); }
+  to { opacity: 1; transform: none; filter: none; }
+}
+
 /* ── Buttons ──────────────────────────────────────────────────────────── */
 .btn-gold {
   position: relative;

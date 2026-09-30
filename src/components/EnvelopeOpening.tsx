@@ -22,7 +22,7 @@
  */
 import type { CSSProperties } from "react";
 import { AnimatePresence, m, useReducedMotion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { getImage, weddingData } from "@/data/weddingData";
 import GoldDust from "./decor/GoldDust";
 import { BotanicalLine, FloralCluster, GarlandArc } from "./decor/florals";
@@ -166,6 +166,7 @@ export default function EnvelopeOpening({ onOpen }: { onOpen: () => void }) {
   const [phase, setPhase] = useState<Phase>("sealed");
   const [flapBehind, setFlapBehind] = useState(false);
   const [peek, setPeek] = useState(false);
+  const tiltRef = useRef<HTMLDivElement>(null);
   const at = (p: Phase) => ORDER[phase] >= ORDER[p];
   const t = (s: number) => (reduce ? 0 : s);
 
@@ -174,9 +175,24 @@ export default function EnvelopeOpening({ onOpen }: { onOpen: () => void }) {
     return () => document.body.classList.remove("is-locked");
   }, []);
 
+  /** Desktop: the envelope turns very slightly toward the pointer (CSS vars, no re-render). */
+  const tilt = (e: React.PointerEvent) => {
+    const el = tiltRef.current;
+    if (!el || reduce || e.pointerType !== "mouse" || phase !== "sealed") return;
+    const x = e.clientX / window.innerWidth - 0.5;
+    const y = e.clientY / window.innerHeight - 0.5;
+    el.style.setProperty("--ry", `${(x * 7).toFixed(2)}deg`);
+    el.style.setProperty("--rx", `${(-y * 5).toFixed(2)}deg`);
+  };
+  const untilt = () => {
+    tiltRef.current?.style.setProperty("--ry", "0deg");
+    tiltRef.current?.style.setProperty("--rx", "0deg");
+  };
+
   const open = () => {
     if (phase !== "sealed") return;
     begin();
+    untilt();
     if (reduce) {
       onOpen();
       setPhase("revealing");
@@ -195,7 +211,7 @@ export default function EnvelopeOpening({ onOpen }: { onOpen: () => void }) {
         setPhase("revealing");
         onOpen();
       }],
-      [4650, () => {
+      [4900, () => {
         document.body.classList.remove("is-locked");
         setPhase("gone");
       }],
@@ -218,9 +234,19 @@ export default function EnvelopeOpening({ onOpen }: { onOpen: () => void }) {
           aria-modal="true"
           aria-label={`${couple.title} — wedding invitation`}
           className="surface-maroon grain fixed inset-0 z-[80] flex flex-col items-center justify-center overflow-hidden px-6"
+          onPointerMove={tilt}
+          onPointerLeave={untilt}
           animate={{ opacity: phase === "revealing" ? 0 : 1 }}
-          transition={{ duration: t(1.1), delay: t(0.2), ease }}
+          transition={{ duration: t(1.25), delay: t(0.3), ease }}
         >
+          {/* warm light that blooms as the invitation opens into the site */}
+          <m.div
+            aria-hidden
+            className="pointer-events-none absolute inset-0 z-[5] bg-[radial-gradient(45%_40%_at_50%_42%,rgba(248,226,170,0.5),transparent_75%)]"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: phase === "revealing" ? [0, 0.9, 0.4] : phase === "rising" ? 0.35 : 0 }}
+            transition={{ duration: t(phase === "revealing" ? 1.2 : 1.4), ease }}
+          />
           {/* ── Atmosphere ───────────────────────────────────────────── */}
           <GoldDust density={36} />
           <m.div
@@ -272,19 +298,25 @@ export default function EnvelopeOpening({ onOpen }: { onOpen: () => void }) {
             initial={{ opacity: 0, y: reduce ? 0 : 26, scale: reduce ? 1 : 0.97 }}
             animate={
               at("revealing")
-                ? { opacity: 0, y: 80, scale: 0.96 }
+                ? { opacity: 0, y: 90, scale: 0.94 }
                 : { opacity: 1, y: at("rising") ? "15%" : 0, scale: 1 }
             }
             transition={
               at("revealing")
-                ? { duration: t(1), ease }
+                ? { duration: t(1.1), ease }
                 : at("rising")
                   ? { duration: t(1.4), ease: film }
                   : { duration: 1.5, delay: t(0.5), ease }
             }
           >
-            {/* soft cast shadow */}
-            <div aria-hidden className="absolute inset-x-[5%] -bottom-[6%] h-[12%] rounded-[50%] bg-black/50 blur-xl" />
+            {/* soft cast shadow — tightens slightly as the envelope breathes */}
+            <div aria-hidden className={`absolute inset-x-[5%] -bottom-[6%] h-[12%] rounded-[50%] bg-black/50 blur-xl ${phase === "sealed" ? "env-shadow" : ""}`} />
+            <div
+              ref={tiltRef}
+              className="absolute inset-0 transition-transform duration-700 ease-out [--rx:0deg] [--ry:0deg]"
+              style={{ transform: "perspective(1600px) rotateX(var(--rx)) rotateY(var(--ry))" }}
+            >
+            <div className={`absolute inset-0 ${phase === "sealed" && !reduce ? "env-breathe" : ""}`}>
 
             {/* inside of the envelope: maroon jaali lining */}
             <div aria-hidden className="surface-maroon absolute inset-0 overflow-hidden rounded-[3px]">
@@ -295,13 +327,29 @@ export default function EnvelopeOpening({ onOpen }: { onOpen: () => void }) {
             <m.div
               aria-hidden
               className="absolute inset-x-[5%] top-[4%] z-10 h-[92%] overflow-hidden rounded-[2px] bg-[linear-gradient(180deg,#fdf8ee,#f6ecda)] shadow-[0_-6px_22px_rgba(30,4,10,0.45)]"
+              style={{ transformPerspective: 1200 }}
               animate={
                 at("revealing")
-                  ? { y: "-58%", scale: 1.06, opacity: 0 }
-                  : { y: at("rising") ? "-58%" : 0, scale: 1, opacity: 1 }
+                  ? { y: "-42%", scale: 1.5, rotateX: 0, opacity: 0 }
+                  : at("rising")
+                    ? { y: "-58%", scale: 1, rotateX: [0, -7, 0], opacity: 1 }
+                    : { y: 0, scale: 1, rotateX: 0, opacity: 1 }
               }
-              transition={at("revealing") ? { duration: t(1), ease } : { duration: t(1.5), ease: film }}
+              transition={
+                at("revealing")
+                  ? { duration: t(1.2), ease, opacity: { duration: t(1), delay: t(0.15) } }
+                  : { duration: t(1.5), ease: film, rotateX: { duration: t(1.5), times: [0, 0.55, 1] } }
+              }
             >
+              {/* a slow band of light passes over the card as it rises */}
+              {at("rising") && !reduce && (
+                <m.div
+                  className="pointer-events-none absolute inset-y-0 z-10 w-1/3 -skew-x-12 bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.55),transparent)]"
+                  initial={{ x: "-150%" }}
+                  animate={{ x: "420%" }}
+                  transition={{ duration: 1.5, delay: 0.55, ease: [0.45, 0, 0.2, 1] }}
+                />
+              )}
               <div className="absolute inset-[3.5%] border border-gold/60" />
               <div className="absolute inset-[5%] border border-gold/30" />
               <div className="relative flex h-[54%] flex-col items-center justify-center px-[8%] text-center">
@@ -374,6 +422,14 @@ export default function EnvelopeOpening({ onOpen }: { onOpen: () => void }) {
                 <div className="absolute inset-0" style={{ clipPath: FLAP_INNER, background: FLAP_PAPER }} />
                 {/* printed: Ganesh mark, then the shloka */}
                 <InkMark id="decor/ganesh-mark" className="left-1/2 top-[5.5%] h-[11.5%] -translate-x-1/2 sm:top-[5%] sm:h-[12%]" />
+                {/* shade: the flap turns away from the light as it lifts */}
+                <m.div
+                  className="absolute inset-0 bg-[linear-gradient(180deg,rgba(70,36,14,0.05),rgba(70,36,14,0.4))]"
+                  style={{ clipPath: FLAP }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: at("lifting") ? 1 : 0 }}
+                  transition={{ duration: t(0.7), ease }}
+                />
                 <InkMark id="decor/shloka-mark" className="left-1/2 top-[19.5%] w-[44%] -translate-x-1/2 sm:top-[19%] sm:w-[40%]" />
               </div>
               <div className="absolute inset-0 [backface-visibility:hidden] [transform:rotateX(180deg)]" style={{ clipPath: FLAP_BACK }}>
@@ -415,11 +471,23 @@ export default function EnvelopeOpening({ onOpen }: { onOpen: () => void }) {
                 </m.div>
               ))}
               <div className="aspect-square w-full" />
+              {at("breaking") && !reduce && (
+                <m.span
+                  aria-hidden
+                  className="absolute inset-0 rounded-full border border-gold-light/80 shadow-[0_0_24px_rgba(232,211,160,0.55)]"
+                  initial={{ scale: 0.9, opacity: 0.85 }}
+                  animate={{ scale: 2.3, opacity: 0 }}
+                  transition={{ duration: 1.2, ease }}
+                />
+              )}
               {phase === "sealed" && (
                 <span aria-hidden className="absolute inset-[3%] rounded-full border border-gold-light/70 [animation:pulse-ring_3s_ease-out_infinite]" />
               )}
             </m.div>
 
+            </div>
+            </div>
+            {/* hit area stays still (outside the breathing wrapper) */}
             {/* hit area: the flap and seal */}
             <m.button
               type="button"

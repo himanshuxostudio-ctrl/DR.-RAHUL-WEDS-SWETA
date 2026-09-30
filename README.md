@@ -9,6 +9,16 @@ Journey → With the Blessings of Our Families → The Celebrations (Chheka ·
 Matkor · Vivah) → The Wedding (venue, directions, calendar) → The Wait Is
 Almost Over (countdown) → closing.
 
+## Luxury redesign (experiment branch)
+
+This branch (`experiment/luxury-wedding-redesign`) is a preview of a more
+stationery-like design: one R ✦ S monogram identity, thin palace arches
+(`src/components/luxe/Stationery.tsx`), a faint block-printed booti and a
+subtle Madhubani border, arch-topped event panels, a Vivah card with a crest,
+a countdown under a round arch and a closing "back page". The approved
+version is the `claude/gracious-johnson-d60psp` branch at `fcefb25`
+(tagged `baseline/pre-luxury-redesign` locally).
+
 ## Opening (experiment)
 
 The site currently opens with an **experimental royal envelope**: ivory

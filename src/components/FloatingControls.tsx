@@ -4,7 +4,7 @@ import { AnimatePresence, m } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { weddingData } from "@/data/weddingData";
-import { LotusMark } from "./decor/Ornaments";
+import { RoyalArch, RSMonogram } from "./luxe/Stationery";
 import { MusicToggle } from "./MusicPlayer";
 
 const { navigation, couple } = weddingData;
@@ -112,7 +112,7 @@ export default function FloatingControls({ visible }: { visible: boolean }) {
             transition={{ duration: 0.8, delay: 3.6, ease: [0.22, 1, 0.36, 1] }}
           >
             <m.div
-              className="flex h-12 items-center rounded-full border border-gold/55 bg-deep-maroon/90 p-1 shadow-[0_12px_30px_-12px_rgba(0,0,0,0.6)]"
+              className="flex h-12 items-center rounded-full border border-gold/55 bg-deep-maroon/90 p-1 shadow-[0_12px_30px_-12px_rgba(0,0,0,0.6)] outline outline-1 outline-offset-[3px] outline-gold/20 backdrop-blur-sm"
               animate={{ y: away ? 90 : 0, opacity: away ? 0 : closing ? 0.85 : 1 }}
               transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
             >
@@ -157,12 +157,14 @@ export default function FloatingControls({ visible }: { visible: boolean }) {
             exit={{ clipPath: "circle(0% at calc(100% - 4rem) calc(100% - 2.5rem))" }}
             transition={{ duration: 0.8, ease: [0.65, 0, 0.35, 1] }}
           >
-            <div aria-hidden className="jaali absolute inset-0 opacity-[0.05]" />
-            <div aria-hidden className="absolute inset-4 border border-gold/30" />
+            <div aria-hidden className="buti absolute inset-0 opacity-[0.05]" />
+            <div aria-hidden className="absolute inset-4 sm:inset-8">
+              <RoyalArch variant="round" base animate={false} crownHeight="clamp(4rem,14vw,7rem)" className="h-full w-full text-gold/35" />
+            </div>
             <button type="button" aria-label="Close menu" onClick={() => setMenu(false)} className={`${round} absolute right-6 top-6`}>
               <X className="h-5 w-5" aria-hidden />
             </button>
-            <LotusMark className="relative mb-6 h-8 w-12" />
+            <RSMonogram className="relative mb-5 h-14 w-14 text-gold/85" />
             <p className="eyebrow relative mb-8 text-gold">{couple.title}</p>
             <ul className="relative space-y-1 text-center">
               <li>

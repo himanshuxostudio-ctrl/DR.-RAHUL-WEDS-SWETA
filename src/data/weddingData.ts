@@ -44,6 +44,7 @@ export const weddingData = {
     title: "Dr. Rahul Weds Sweta",
     date: "12 December 2026",
     dateShort: "12.12.2026",
+    dateDots: "12 · 12 · 2026",
     city: "Chapra, Bihar",
   },
 
@@ -180,6 +181,7 @@ export const weddingData = {
   },
 
   final: {
+    blessing: "With love & blessings",
     heading: "Thank You",
     message: "Your presence will make our celebration even more special.",
     signoff: "With love, laughter and the blessings of our families.",

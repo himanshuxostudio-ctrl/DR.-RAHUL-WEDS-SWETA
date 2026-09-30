@@ -7,6 +7,7 @@ import { getImage, weddingData } from "@/data/weddingData";
 import { CornerFlourish, OrnamentDivider } from "./decor/Ornaments";
 import WeddingAtmosphere from "./decor/WeddingAtmosphere";
 import GoldDust from "./decor/GoldDust";
+import { RoyalArch, RSMonogram } from "./luxe/Stationery";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 const { couple, invitation, images } = weddingData;
@@ -53,6 +54,8 @@ export default function HeroSection({ revealed }: { revealed: boolean }) {
     >
       {/* atmosphere: breathing glow, garland, florals, petals, gold dust */}
       <div aria-hidden className="glow-breathe pointer-events-none absolute inset-0 bg-[radial-gradient(60%_45%_at_50%_58%,rgba(201,164,92,0.16),transparent_70%)]" />
+      {/* faint block-printed booti, fading out toward the centre */}
+      <div aria-hidden className="buti pointer-events-none absolute inset-0 opacity-[0.07] [mask-image:radial-gradient(75%_70%_at_50%_50%,transparent_35%,#000_100%)]" />
       <WeddingAtmosphere preset="hero" />
       <GoldDust density={14} className="opacity-50" />
 
@@ -81,23 +84,41 @@ export default function HeroSection({ revealed }: { revealed: boolean }) {
           <m.p variants={rise(0.3)} className="eyebrow mt-1 text-[0.62rem] text-champagne/75">
             {invitation.cordially}
           </m.p>
-          <m.h2 variants={rise(0.5)} className="serif-display mt-4 text-[3.1rem] leading-[0.92] text-ivory sm:text-6xl lg:text-[5.4rem]">
+          <m.h2 variants={rise(0.5)} className="serif-display mt-5 text-[3.3rem] leading-[0.9] text-ivory sm:text-[4.2rem] lg:text-[5.6rem]">
             <span className="block">{couple.groom}</span>
-            <span className="my-1.5 block font-serif text-2xl italic text-gold-light lg:text-4xl">{invitation.weds}</span>
+            <span className="my-2 flex items-center justify-center gap-3 font-serif text-2xl italic text-gold-light lg:justify-start lg:text-4xl">
+              <span aria-hidden className="h-px w-7 bg-gradient-to-l from-gold/70 to-transparent lg:hidden" />
+              {invitation.weds}
+              <span aria-hidden className="h-px w-7 bg-gradient-to-r from-gold/70 to-transparent" />
+            </span>
             <span className="block">{couple.bride}</span>
           </m.h2>
-          <m.div variants={rise(0.8)} className="mt-4 flex items-center gap-4">
+          <m.div variants={rise(0.8)} className="mt-5 flex items-center gap-3">
             <span className="h-px w-8 bg-gold/70" />
-            <time dateTime="2026-12-12" className="eyebrow text-[0.72rem] text-champagne">
+            <span aria-hidden className="h-1.5 w-1.5 rotate-45 border border-gold/80" />
+            <time dateTime="2026-12-12" className="eyebrow text-[0.74rem] text-champagne">
               {couple.date}
             </time>
+            <span aria-hidden className="h-1.5 w-1.5 rotate-45 border border-gold/80" />
             <span className="h-px w-8 bg-gold/70" />
           </m.div>
           <ScrollCue revealed={revealed} delay={d(2.4)} className="mt-10 hidden lg:flex" />
         </div>
 
         <div className="flex flex-col items-center">
-          <m.div style={{ y: artY }} className="w-full">
+          <m.div style={{ y: artY }} className="relative w-full">
+            {/* oversized R ✦ S watermark — barely there */}
+            <m.div
+              aria-hidden
+              className="pointer-events-none absolute left-1/2 top-[46%] w-[min(92vw,640px)] -translate-x-1/2 -translate-y-1/2 text-gold"
+              variants={{ hidden: { opacity: 0 }, show: { opacity: 0.06, transition: { duration: 3, delay: d(1.2) } } }}
+            >
+              <RSMonogram className="h-auto w-full" />
+            </m.div>
+            {/* Mughal arch framing the stage */}
+            <div aria-hidden className="pointer-events-none absolute inset-x-0 -bottom-[3%] -top-[16%] mx-auto w-[min(108%,calc(44svh*1.126*1.08))] text-gold/45 sm:-top-[20%] sm:w-[min(108%,calc(48svh*1.5*1.08),821px)] lg:w-[108%]">
+              <RoyalArch variant="ogee" className="h-full w-full" animate={false} />
+            </div>
             <m.div
               className="feather relative mx-auto aspect-[680/604] w-[min(100%,calc(44svh*1.126))] sm:aspect-[900/600] sm:w-[min(100%,calc(48svh*1.5),760px)] lg:w-full"
               variants={{
