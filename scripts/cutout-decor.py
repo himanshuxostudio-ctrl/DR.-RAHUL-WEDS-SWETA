@@ -91,8 +91,36 @@ def cutout(path: Path) -> Image.Image:
     return Image.fromarray(rgba[y0:y1, x0:x1], "RGBA")
 
 
+def ink_mask(path: Path) -> Image.Image:
+    """Red-ink artwork (Ganesh, shloka) → an alpha-only mark, trimmed tight.
+
+    Alpha comes from how *red* a pixel is (R − G), so white paper and the
+    beige panel both drop out and only the ink remains. The page tints the
+    mark itself (CSS mask), so the colour channels are plain white.
+    """
+    img = np.asarray(Image.open(path).convert("RGB")).astype(np.float32)
+    red = img[..., 0] - img[..., 1]
+    a = np.clip((red - 35) / 120, 0, 1)
+    a = a * a * (3 - 2 * a)
+    ys, xs = np.where(a > 0.05)
+    pad = 4
+    y0, y1 = max(ys.min() - pad, 0), min(ys.max() + pad + 1, a.shape[0])
+    x0, x1 = max(xs.min() - pad, 0), min(xs.max() + pad + 1, a.shape[1])
+    a = a[y0:y1, x0:x1]
+    rgba = np.dstack([np.full_like(a, 255)] * 3 + [a * 255]).astype(np.uint8)
+    return Image.fromarray(rgba, "RGBA")
+
+
+INK = {"ganesh.png": "ganesh-mark.png", "shloka.png": "shloka-mark.png"}
+
+
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
+    for name, out in INK.items():
+        im = ink_mask(SRC / name)
+        dst = OUT / out
+        im.save(dst, optimize=True)
+        print(f"✓ {dst.relative_to(ROOT)}  {im.width}×{im.height}")
     for src in sorted(SRC.glob("*.webp")):
         im = cutout(src)
         dst = OUT / f"{src.stem}.png"

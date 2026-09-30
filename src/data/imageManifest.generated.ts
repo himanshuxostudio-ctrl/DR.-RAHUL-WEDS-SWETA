@@ -41,6 +41,18 @@ export const imageManifest = {
     "width": 565,
     "height": 720,
     "blurDataURL": "data:image/webp;base64,UklGRpIBAABXRUJQVlA4WAoAAAAQAAAADwAAEwAAQUxQSMwAAAABkGPbtqlpp2zbDXBkx7YVsQG2bdtWVKltZrbtqh87eGhDREwAxcgS09GF2M0jTYlIZXtPhY1oPJrSNgEnDtmqJuv/WEOYQ1VLVgGRyNBIDNCH/5c54Zl6RJR4C/Y/zxnELObAvQZD8hzAMYDPM2kikhoAgPpDYHfWlsTTb8HcqQRwkUbp4BwFgGWK5ppjOJDJL9ttD2OMlO7Z8ML4K0VWHAD2Gq6IKngkC3a2k84nj1SBHV9qBM+/0dAh/f88MLnhSQKe1RybQSIS7lJWUDggoAAAAHAEAJ0BKhAAFAA+7WKpTamlo6IwCAEwHYliAKwBiwS57R3yBP6v39TpVoVAAP1z0lX6YR4dJTzNV4y+5mNmGCJHu96KexjP3mu/RUAm89J0QuKMqNs/x/w+s3OV2pgIpUIqwcnn6++uqZlAqEQ633Y9wcPyVsGSRYPVPEdBsw7b16zimenLV+w/ln37goBdrMJ/kt5iiI9yxGiFsFOgAAA="
+  },
+  "decor/ganesh-mark": {
+    "src": "/images/decor/ganesh-mark.webp",
+    "width": 514,
+    "height": 608,
+    "blurDataURL": "data:image/webp;base64,UklGRjgBAABXRUJQVlA4WAoAAAAQAAAADwAAEgAAQUxQSOwAAAABkBxAAAE2F9u2bdu2bdu2bdtvZwCr7pdDdIZohYiYAF7VblDj/aaHz4oCb2mu9scfrkw6vtWjSXVa+3iTxBvxdis1piUDGSFl3i8EDKtFEJKYWxdj9EV3f2wUCvEK/TglASp1KnHBKDqoVtubAui0ZJcq5QiSG9mi4aIFykstAkQbiBYivXlcYuP2s6Kn3cKDWLPS1aSMIY8LM+jpV7S0pOZLzo0jP4XAfkYhHET+y5j+UzryBzJinIBfwkzGWl1JgMSlPYIVowhd6uO16y2A0uTxSYV5+X0FIOAY5WBV3tI72R4lw5uZfNTxHVZQOCAmAAAAsAIAnQEqEAATAD7tYqlNqaWjojAIATAdiWkAAHsgAP7w3y4AAAA="
+  },
+  "decor/shloka-mark": {
+    "src": "/images/decor/shloka-mark.webp",
+    "width": 812,
+    "height": 158,
+    "blurDataURL": "data:image/webp;base64,UklGRnAAAABXRUJQVlA4WAoAAAAQAAAADwAAAgAAQUxQSDEAAAAAaCo/RTlDRC1BTlU5R0oUZ4gtT1MsLzszOzwwQTU9GYZjIjY7LEM7OSE7Pz5BOSJiAFZQOCAYAAAAMAEAnQEqEAADAAOAWiWkAANwAP71CAAA"
   }
 } as const;
 

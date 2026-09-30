@@ -11,9 +11,13 @@ Almost Over (countdown) → closing.
 
 ## Opening (experiment)
 
-The site currently opens with an **experimental envelope** — tap the wax
-seal: the seal splits, the flap lifts, the invitation card rises out and
-dissolves into the site (`src/components/EnvelopeOpening.tsx`). The original
+The site currently opens with an **experimental royal envelope**: ivory
+paper with gold foil rims, the Ganesh mark and the Vakratunda shloka printed
+in kumkum ink on the flap, "Dr. Rahul weds Sweta" on the front and a pressed
+wax seal. Tap the seal: it breaks, the flap lifts, the invitation card rises
+out and dissolves into the site (`src/components/EnvelopeOpening.tsx`). The
+Ganesh and shloka art live in `assets/originals/decor/`; `cutout-decor.py`
+extracts the ink into alpha masks that the page tints. The original
 sealed-card opening (`InvitationOpening.tsx`) is untouched; to restore it,
 set `ENVELOPE_OPENING = false` in `src/components/WeddingInvitation.tsx`
 (or delete the envelope file and that flag).

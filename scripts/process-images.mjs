@@ -39,6 +39,9 @@ const derivatives = [
 const decor = [
   { id: "decor/jaimala-couple", src: "jaimala-couple.png" },
   { id: "decor/shehnai-couple", src: "shehnai-couple.png" },
+  // Ink marks for the envelope (alpha-only; tinted on the page via CSS mask).
+  { id: "decor/ganesh-mark", src: "ganesh-mark.png", keepSize: true },
+  { id: "decor/shloka-mark", src: "shloka-mark.png", keepSize: true },
 ];
 
 /**
@@ -97,7 +100,7 @@ async function build() {
     const out = path.join(publicDir, `${d.id}.webp`);
     await fs.mkdir(path.dirname(out), { recursive: true });
     const webp = await sharp(path.join(cutouts, d.src))
-      .resize({ height: 720, withoutEnlargement: true })
+      .resize(d.keepSize ? undefined : { height: 720, withoutEnlargement: true })
       .withExif(EXIF)
       .webp({ quality: 88, alphaQuality: 90, effort: 6 })
       .toBuffer({ resolveWithObject: true });
