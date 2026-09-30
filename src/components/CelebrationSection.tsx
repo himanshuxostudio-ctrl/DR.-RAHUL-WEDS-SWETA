@@ -98,6 +98,8 @@ export default function CelebrationSection() {
       {/* The Wedding — Vivah details with the couple illustration */}
       <m.div id="wedding" aria-labelledby="wedding-heading" className="relative isolate mx-auto mt-10 max-w-5xl scroll-mt-10 lg:mt-20" {...inView}>
         <WeddingAtmosphere preset="wedding" bleed />
+        {/* one grand, very faint palace arch framing the whole Vivah composition */}
+        <RoyalArch variant="ogee" crownHeight="clamp(7rem,20vw,12rem)" className="absolute -inset-x-1 -bottom-4 -top-16 -z-[5] text-gold/[0.16] sm:-inset-x-6 sm:-top-20 lg:-inset-x-12" />
         {/* tablet+: the two wedding moments flank the Vivah arch — shehnai left, jaimala right */}
         <Vignette kind="shehnai" className="absolute right-[calc(50%+150px)] top-1 hidden w-[5.5rem] sm:block lg:right-[calc(50%+185px)] lg:-top-2 lg:w-[7.2rem]" />
         <Vignette kind="jaimala" className="absolute left-[calc(50%+150px)] top-3 hidden w-24 sm:block lg:left-[calc(50%+185px)] lg:top-1 lg:w-32" />

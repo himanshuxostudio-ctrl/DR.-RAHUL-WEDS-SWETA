@@ -20,7 +20,7 @@ function Unit({ n, label, first }: { n: number | null; label: string; first: boo
   return (
     <div className="relative flex flex-col items-center">
       {!first && <span aria-hidden className="absolute -left-px top-1 h-[70%] w-px bg-gradient-to-b from-transparent via-gold/45 to-transparent" />}
-      <span key={text} className="digit-in gold-text font-serif text-[2.9rem] leading-none tabular-nums sm:text-6xl">
+      <span key={text} className="digit-in font-serif text-[2.9rem] leading-none text-ivory tabular-nums sm:text-6xl">
         {text}
       </span>
       <span className="eyebrow mt-2.5 text-[0.52rem] !tracking-[0.16em] text-champagne/70 sm:text-[0.56rem] sm:!tracking-[0.3em]">{label}</span>
@@ -124,9 +124,9 @@ export default function FinalSection() {
               {final.blessing}
             </m.p>
             <m.p variants={at(0.8, 18)} className="serif-display mt-4 flex flex-col items-center text-[3rem] leading-[0.95] sm:text-6xl">
-              <span className="gold-text gold-text-animate">{couple.groom}</span>
-              <span className="my-2 font-serif text-2xl italic text-champagne sm:text-3xl">{invitation.weds}</span>
-              <span className="gold-text gold-text-animate">{couple.bride}</span>
+              <span className="text-ivory">{couple.groom}</span>
+              <span className="my-2 font-serif text-2xl italic text-gold-light sm:text-3xl">{invitation.weds}</span>
+              <span className="text-ivory">{couple.bride}</span>
             </m.p>
             <m.div variants={at(1.05)} className="mt-5 flex items-center gap-4">
               <span className="h-px w-10 bg-gold/70" />

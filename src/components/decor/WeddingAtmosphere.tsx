@@ -64,7 +64,7 @@ const FLORAL_DARK: CSSProperties = {
   ["--fl-gold" as string]: "#c9a45c",
 };
 
-const LIGHT: CSSProperties = {
+export const FLORAL_LIGHT: CSSProperties = {
   ["--fl-marigold" as string]: "#d8983f",
   ["--fl-marigold-2" as string]: "#c6852f",
   ["--fl-marigold-core" as string]: "#99592a",
@@ -118,6 +118,7 @@ export const PRESETS = {
       { at: "-left-6 top-[46%] hidden w-40 opacity-30 -rotate-[14deg] lg:block", depth: "mid", motion: "float", delay: -5, art: <FloralCluster variant={1} /> },
       { at: "-left-[14%] top-[30%] w-[46%] opacity-[0.12] rotate-[12deg] sm:w-[22%] lg:top-[8%]", depth: "bg", art: <LeafSpray /> },
       { at: "-right-10 top-[38%] w-36 opacity-45 -scale-x-100 rotate-[8deg] sm:w-56 lg:top-[52%]", depth: "mid", motion: "sway", delay: -3, art: <FloralBranch /> },
+      { at: "-right-[4%] top-[4%] hidden w-[34%] max-w-[520px] opacity-[0.07] lg:block", depth: "bg", art: <BotanicalLine /> },
     ],
     petals: [
       { left: "16%", size: 10, dur: 33, delay: -8, colour: MARIGOLD },
@@ -157,6 +158,8 @@ export const PRESETS = {
       { left: "88%", size: 11, dur: 28, delay: -12, colour: BLUSH, desktopOnly: true },
       { left: "44%", size: 14, dur: 40, delay: -30, colour: MARIGOLD, soft: true },
       { left: "8%", size: 9, dur: 33, delay: -1, colour: LEAF, leaf: true },
+      { left: "34%", size: 10, dur: 31, delay: -13, colour: MARIGOLD },
+      { left: "76%", size: 8, dur: 36, delay: -27, colour: IVORY, desktopOnly: true },
     ],
   },
 
@@ -181,7 +184,7 @@ export const PRESETS = {
     tone: "dark",
     items: [
       { at: "left-1/2 -top-[10%] w-[120%] -translate-x-1/2 opacity-[0.06] sm:w-[560px]", depth: "bg", art: <JaimalaRing count={36} size={12} /> },
-      { at: "-right-[16%] top-2 w-[58%] opacity-35 rotate-[3deg] sm:w-[30%]", depth: "mid", motion: "sway", art: <GarlandArc sag={32} count={10} size={18} /> },
+      { at: "-left-[10%] -top-1 w-[92%] opacity-30 rotate-[2deg] sm:w-[70%]", depth: "mid", motion: "sway", art: <GarlandArc sag={40} count={19} size={17} tassel={false} /> },
       { at: "-left-12 bottom-0 w-32 opacity-35 rotate-[-6deg] sm:w-48", depth: "mid", motion: "float", delay: -4, art: <FloralBranch /> },
     ],
     petals: [
@@ -202,8 +205,7 @@ export const PRESETS = {
     petals: [
       { left: "18%", size: 10, dur: 34, delay: -10, colour: IVORY },
       { left: "72%", size: 9, dur: 30, delay: -21, colour: MARIGOLD, desktopOnly: true },
-      { left: "52%", size: 13, dur: 41, delay: -3, colour: MARIGOLD, soft: true },
-      { left: "88%", size: 8, dur: 33, delay: -27, colour: LEAF, leaf: true },
+      { left: "52%", size: 13, dur: 44, delay: -3, colour: MARIGOLD, soft: true },
     ],
   },
 } satisfies Record<string, Preset>;
@@ -226,7 +228,7 @@ export default function WeddingAtmosphere({ preset, bleed = false, className = "
   const p: Preset = PRESETS[preset];
   const box = bleed ? "-z-10 -top-8 -bottom-8 left-1/2 w-screen -translate-x-1/2" : "inset-0";
   return (
-    <div aria-hidden className={`pointer-events-none absolute overflow-hidden ${box} ${className}`} style={p.tone === "dark" ? FLORAL_DARK : LIGHT}>
+    <div aria-hidden className={`pointer-events-none absolute overflow-hidden ${box} ${className}`} style={p.tone === "dark" ? FLORAL_DARK : FLORAL_LIGHT}>
       {p.items.map((it, i) => (
         <div key={i} className={`absolute ${it.at}`}>
           {/* inner wrapper carries the scroll-driven parallax (bg only) */}

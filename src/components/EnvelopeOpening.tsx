@@ -25,7 +25,7 @@ import { AnimatePresence, m, useReducedMotion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { getImage, weddingData } from "@/data/weddingData";
 import GoldDust from "./decor/GoldDust";
-import { BotanicalLine, FloralCluster, GarlandArc } from "./decor/florals";
+import { FloralCluster, GarlandArc } from "./decor/florals";
 import { CornerFlourish, LotusMark, Mandala } from "./decor/Ornaments";
 import { useMusic } from "./MusicPlayer";
 
@@ -69,6 +69,20 @@ const FLORALS = {
   "--fl-leaf-line": "#56623b",
   "--fl-thread": "#c9a45c",
   "--fl-gold": "#b8924e",
+} as CSSProperties;
+
+/** Muted floral colours for the tiny corner sprigs printed on the ivory paper. */
+const PAPER_FLORALS = {
+  "--fl-marigold": "#d59a4c",
+  "--fl-marigold-2": "#c4863a",
+  "--fl-marigold-core": "#9a5f2c",
+  "--fl-jasmine": "#fffaf2",
+  "--fl-jasmine-line": "rgba(154,118,57,0.55)",
+  "--fl-jasmine-core": "#d6ad55",
+  "--fl-rose": "#c98a86",
+  "--fl-rose-line": "#9d5d5c",
+  "--fl-leaf": "#94a06e",
+  "--fl-leaf-line": "#727d52",
 } as CSSProperties;
 
 const PETALS = [
@@ -350,6 +364,8 @@ export default function EnvelopeOpening({ onOpen }: { onOpen: () => void }) {
                   transition={{ duration: 1.5, delay: 0.55, ease: [0.45, 0, 0.2, 1] }}
                 />
               )}
+              <div className="pointer-events-none absolute inset-0 rounded-[2px] ring-1 ring-inset ring-gold/40" />
+              <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[rgba(70,36,14,0.16)] to-transparent" />
               <div className="absolute inset-[3.5%] border border-gold/60" />
               <div className="absolute inset-[5%] border border-gold/30" />
               <div className="relative flex h-[54%] flex-col items-center justify-center px-[8%] text-center">
@@ -365,19 +381,23 @@ export default function EnvelopeOpening({ onOpen }: { onOpen: () => void }) {
             {/* ── front pocket: foil rim, paper, borders, names ── */}
             <div aria-hidden className="absolute inset-0 z-20" style={{ clipPath: POCKET }}>
               <div className="absolute inset-0 rounded-[3px]" style={{ background: FOIL }} />
-              <div className="grain absolute inset-0 rounded-[3px]" style={{ clipPath: POCKET_FACE, background: PAPER }}>
+              <div
+                className="grain absolute inset-0 rounded-[3px] shadow-[inset_0_-3px_5px_-2px_rgba(90,60,25,0.22),inset_-2px_0_4px_-2px_rgba(90,60,25,0.12)]"
+                style={{ clipPath: POCKET_FACE, background: PAPER }}
+              >
+                <div className="paper-fibre absolute inset-0" />
                 <div className="jaali absolute inset-0 opacity-[0.06]" />
                 {/* double gold border + corner ornaments */}
                 <div className="absolute inset-[3.2%] border border-gold/55" />
                 <div className="absolute inset-[4.6%] border border-gold/25" />
                 <CornerFlourish className="absolute bottom-[5.2%] left-[5.2%] h-[11cqw] w-[11cqw] -rotate-90 opacity-70 sm:h-[7.5cqw] sm:w-[7.5cqw]" />
                 <CornerFlourish className="absolute bottom-[5.2%] right-[5.2%] h-[11cqw] w-[11cqw] rotate-180 opacity-70 sm:h-[7.5cqw] sm:w-[7.5cqw]" />
-                {/* faint botanical sprigs */}
-                <div className="absolute bottom-[9%] left-[6%] w-[19%] opacity-[0.28] sm:w-[15%]" style={FLORALS}>
-                  <BotanicalLine />
+                {/* tiny marigold & jasmine sprigs tucked into the lower corners */}
+                <div className="absolute bottom-[6.5%] left-[6.5%] w-[14%] rotate-[-8deg] opacity-[0.62] sm:w-[11%]" style={PAPER_FLORALS}>
+                  <FloralCluster />
                 </div>
-                <div className="absolute bottom-[9%] right-[6%] w-[19%] -scale-x-100 opacity-[0.28] sm:w-[15%]" style={FLORALS}>
-                  <BotanicalLine />
+                <div className="absolute bottom-[6.5%] right-[6.5%] w-[14%] -scale-x-100 rotate-[8deg] opacity-[0.62] sm:w-[11%]" style={PAPER_FLORALS}>
+                  <FloralCluster variant={1} />
                 </div>
                 {/* printed wording */}
                 <div className="absolute inset-x-0 bottom-[7.5%] flex flex-col items-center text-center">
@@ -416,6 +436,7 @@ export default function EnvelopeOpening({ onOpen }: { onOpen: () => void }) {
               <div className="absolute inset-0 [backface-visibility:hidden]">
                 <div className="absolute inset-0" style={{ clipPath: FLAP, background: FOIL }} />
                 <div className="grain absolute inset-0" style={{ clipPath: FLAP_FACE, background: FLAP_PAPER }}>
+                  <div className="paper-fibre absolute inset-0" />
                   <div className="jaali absolute inset-0 opacity-[0.05]" />
                 </div>
                 <div className="absolute inset-0" style={{ clipPath: FLAP_LINE, background: FOIL, opacity: 0.55 }} />
@@ -437,6 +458,22 @@ export default function EnvelopeOpening({ onOpen }: { onOpen: () => void }) {
                 <div className="jaali absolute inset-0 opacity-[0.25]" />
               </div>
             </m.div>
+
+            {/* kalava — a maroon & gold thread tied across, under the seal; it slips away as the seal breaks */}
+            {(["left", "right"] as const).map((half) => (
+              <m.div
+                key={half}
+                aria-hidden
+                className={`absolute z-[35] h-[0.9%] min-h-[3px] w-1/2 bg-[repeating-linear-gradient(115deg,#7a1c2a_0_3px,#c9a45c_3px_4.5px,#9c2b3a_4.5px_7.5px)] shadow-[0_1px_2px_rgba(40,8,14,0.35)] ${half === "left" ? "left-0" : "right-0"}`}
+                style={{ top: "45.5%" }}
+                animate={
+                  at("breaking")
+                    ? { x: half === "left" ? "-14%" : "14%", opacity: 0 }
+                    : { x: 0, opacity: 0.92 }
+                }
+                transition={{ duration: t(0.9), delay: t(0.35), ease: film }}
+              />
+            ))}
 
             {/* ── wax seal: glows on hover, presses, then breaks and falls away ── */}
             <m.div

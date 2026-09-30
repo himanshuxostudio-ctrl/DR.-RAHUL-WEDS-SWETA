@@ -4,7 +4,8 @@ import { m, useReducedMotion } from "framer-motion";
 import { weddingData } from "@/data/weddingData";
 import { LotusMark } from "./decor/Ornaments";
 import SectionBridge from "./decor/SectionBridge";
-import WeddingAtmosphere from "./decor/WeddingAtmosphere";
+import WeddingAtmosphere, { FLORAL_LIGHT } from "./decor/WeddingAtmosphere";
+import { HangingString } from "./decor/florals";
 import { GoldThread, KnotDivider, MadhubaniBand, RoyalArch, RSMonogram } from "./luxe/Stationery";
 import Illustration from "./ui/Illustration";
 
@@ -50,7 +51,7 @@ export default function CoupleStory() {
           <m.p variants={rise(0)} className="eyebrow text-gold-deep">
             {story.eyebrow}
           </m.p>
-          <m.h2 variants={rise(0.08)} id="story-heading" className="mt-3 font-serif text-[2.6rem] leading-[1.02] text-ink sm:text-6xl">
+          <m.h2 variants={rise(0.08)} id="story-heading" className="mt-3 font-serif text-[2.8rem] leading-[1.02] text-ink sm:text-6xl lg:text-7xl">
             {story.titleA} <span className="block italic text-wine sm:inline lg:block">{story.titleB}</span>
           </m.h2>
           <m.div variants={rise(0.18)}>
@@ -79,6 +80,11 @@ export default function CoupleStory() {
         <WeddingAtmosphere preset="family" bleed />
         <div aria-hidden className="absolute inset-x-0 bottom-0 top-[clamp(4.5rem,11vw,7rem)] -z-[1] bg-[linear-gradient(180deg,rgba(255,251,243,0.7),rgba(252,245,232,0.35))]" />
         <RoyalArch variant="cusped" base crownHeight="clamp(4.5rem,11vw,7rem)" className="absolute inset-0 text-gold-deep/45" />
+        {/* a pair of short marigold torans hanging inside the arch, like a doorway */}
+        <div aria-hidden className="pointer-events-none absolute inset-x-[6%] top-[clamp(3.6rem,9vw,6rem)] hidden justify-between sm:flex" style={FLORAL_LIGHT}>
+          <div className="atm-sway h-20 opacity-55 lg:h-24"><HangingString length={6} size={12} className="h-full w-auto" /></div>
+          <div className="atm-sway h-16 opacity-50 lg:h-20" style={{ animationDelay: "-3s" }}><HangingString length={5} size={12} className="h-full w-auto" /></div>
+        </div>
 
         <div className="relative px-5 pb-10 pt-[clamp(3.4rem,8.5vw,5.4rem)] sm:px-12 sm:pb-12">
           <m.div variants={rise(0)} className="flex justify-center">
