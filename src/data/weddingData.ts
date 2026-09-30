@@ -100,9 +100,10 @@ export const weddingData = {
       time: "6:00 PM",
       start: "2026-12-09T18:00:00+05:30",
       durationHours: 4,
-      venue: "Marhaura",
-      location: "Saran, Chapra, Bihar",
-      mapsUrl: "https://www.google.com/maps/search/?api=1&query=Marhaura%2C%20Saran%2C%20Bihar",
+      venue: "Pavilion Marriage Hall and Guest House",
+      location: "Marhaura, Bihar",
+      address: "Marhaura–Nethua Road, Opposite Reliance Smart Point, Near Marhaura Head Post Office, Morton Colony, Shilowri, Bihar 841418",
+      mapsUrl: "https://www.google.com/maps/search/?api=1&query=Pavilion%20Marriage%20Hall%20and%20Guest%20House%2C%20Marhaura%E2%80%93Nethua%20Road%2C%20Marhaura%2C%20Bihar%20841418",
       description:
         "The first of our celebrations — a traditional ceremony in which our two families come together to formally bless the union.",
       theme: "chheka",
