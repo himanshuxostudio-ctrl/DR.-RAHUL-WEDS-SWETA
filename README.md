@@ -9,6 +9,15 @@ Journey → With the Blessings of Our Families → The Celebrations (Chheka ·
 Matkor · Vivah) → The Wedding (venue, directions, calendar) → The Wait Is
 Almost Over (countdown) → closing.
 
+## Opening (experiment)
+
+The site currently opens with an **experimental envelope** — tap the wax
+seal: the seal splits, the flap lifts, the invitation card rises out and
+dissolves into the site (`src/components/EnvelopeOpening.tsx`). The original
+sealed-card opening (`InvitationOpening.tsx`) is untouched; to restore it,
+set `ENVELOPE_OPENING = false` in `src/components/WeddingInvitation.tsx`
+(or delete the envelope file and that flag).
+
 ## Decoration
 
 One reusable layer, `src/components/decor/WeddingAtmosphere.tsx`, dresses every

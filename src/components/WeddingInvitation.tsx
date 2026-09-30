@@ -5,6 +5,7 @@ import { useState } from "react";
 import ContentProtection from "./ContentProtection";
 import CelebrationSection from "./CelebrationSection";
 import CoupleStory from "./CoupleStory";
+import EnvelopeOpening from "./EnvelopeOpening";
 import FinalSection from "./FinalSection";
 import FloatingControls from "./FloatingControls";
 import HeroSection from "./HeroSection";
@@ -20,6 +21,13 @@ import { FloralDefs } from "./decor/florals";
  * LazyMotion + `m` components ship only the animation features used here
  * (animations, variants, exit, in-view), keeping the initial bundle small.
  */
+/**
+ * EXPERIMENT: envelope opening. Set to `false` to restore the original
+ * sealed-card opening (InvitationOpening), which is left untouched.
+ */
+const ENVELOPE_OPENING = true;
+const Opening = ENVELOPE_OPENING ? EnvelopeOpening : InvitationOpening;
+
 export default function WeddingInvitation() {
   const [opened, setOpened] = useState(false);
 
@@ -29,7 +37,7 @@ export default function WeddingInvitation() {
       <MusicProvider>
         <ContentProtection />
         <FloralDefs />
-        <InvitationOpening onOpen={() => setOpened(true)} />
+        <Opening onOpen={() => setOpened(true)} />
         <main>
           <HeroSection revealed={opened} />
           <CoupleStory />
