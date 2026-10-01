@@ -122,7 +122,7 @@ export const hindiContent = {
     },
     bride: {
       label: "वधू पक्ष",
-      grandfather: "स्व. नागनारायण सिंह",
+      grandfather: "स्व. नगनारायण सिंह",
       grandfatherTitle: "दादाजी",
       father: "श्री चंद्रशेखर सिंह",
       mother: "श्रीमती सविता देवी",
