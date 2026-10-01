@@ -11,8 +11,9 @@
  * The Hindi is written as wedding-card copy in its own right (approved
  * sample), not translated line by line from the English.
  *
- * Kept exactly as written in both languages: Dr. Rahul, Sweta, family names,
- * venue names, addresses, Google Maps links and calendar entries.
+ * In Hindi mode the names, venues and addresses are shown in Devanagari.
+ * Google Maps links and calendar entries always use the English originals,
+ * so they keep matching real map listings.
  */
 
 export const translations = {
@@ -33,6 +34,7 @@ export const translations = {
     /** Hindi uses its own complete sentence here; English builds it from data. */
     familiesSentence: "",
     familiesIntroEnd: ".",
+    nameJoin: "&",
     timeLabel: "Time",
     venueLabel: "Venue",
     detailsOf: (name: string) => `${name} details`,
@@ -64,8 +66,9 @@ export const translations = {
     envelopeBlessings: "परिवारजनों के आशीर्वाद से",
     familiesHeadingA: "बड़ों के",
     familiesHeadingB: "आशीर्वाद से",
-    familiesSentence: "Dr. Rahul और Sweta के शुभ विवाह में आपकी गरिमामयी उपस्थिति प्रार्थनीय है।",
+    familiesSentence: "डॉ. राहुल और श्वेता के शुभ विवाह में आपकी गरिमामयी उपस्थिति प्रार्थनीय है।",
     familiesIntroEnd: "।",
+    nameJoin: "संग",
     timeLabel: "समय",
     venueLabel: "स्थान",
     detailsOf: (name: string) => `${name} का विवरण`,
@@ -90,8 +93,12 @@ export type UIStrings = { [K in keyof (typeof translations)["en"]]: (typeof tran
 /** Hindi invitation copy (same shape as weddingData; omitted fields fall back to English). */
 export const hindiContent = {
   couple: {
-    title: "Dr. Rahul संग Sweta",
+    groom: "डॉ. राहुल",
+    groomFirstName: "राहुल",
+    bride: "श्वेता",
+    title: "डॉ. राहुल संग श्वेता",
     date: "12 दिसंबर 2026",
+    city: "छपरा, बिहार",
   },
   invitation: {
     cordially: "आप सपरिवार सादर आमंत्रित हैं",
@@ -107,8 +114,19 @@ export const hindiContent = {
   },
   families: {
     heading: "बड़ों के आशीर्वाद से",
-    groom: { label: "वर पक्ष", fatherTitle: "सेवानिवृत्त प्राचार्य" },
-    bride: { label: "वधू पक्ष", grandfatherTitle: "दादाजी" },
+    groom: {
+      label: "वर पक्ष",
+      father: "डॉ. बिरेन्द्र कुमार सिंह",
+      fatherTitle: "सेवानिवृत्त प्राचार्य",
+      mother: "श्रीमती रेणु सिंह",
+    },
+    bride: {
+      label: "वधू पक्ष",
+      grandfather: "स्व. नागनारायण सिंह",
+      grandfatherTitle: "दादाजी",
+      father: "श्री चन्द्रशेखर सिंह",
+      mother: "श्रीमती सविता देवी",
+    },
   },
   celebrations: {
     eyebrow: "रस्मों और खुशियों से सजे तीन दिन",
@@ -121,6 +139,9 @@ export const hindiContent = {
       date: "09 दिसंबर 2026",
       weekday: "बुधवार",
       time: "शाम 6:00 बजे",
+      venue: "पवेलियन मैरिज हॉल एवं गेस्ट हाउस",
+      location: "मढ़ौरा, बिहार",
+      address: "मढ़ौरा–नेथुआ रोड, रिलायंस स्मार्ट पॉइंट के सामने, मढ़ौरा प्रधान डाकघर के पास, मॉर्टन कॉलोनी, शिलौरी, बिहार 841418",
     },
     matkor: {
       name: "मटकोर",
@@ -128,15 +149,21 @@ export const hindiContent = {
       weekday: "गुरुवार",
       time: "शाम 6:00 बजे से",
       venue: "निवास पर",
+      location: "छपरा, बिहार",
     },
     vivah: {
       name: "विवाह",
       date: "12 दिसंबर 2026",
       weekday: "शनिवार",
       time: "शाम 6:00 बजे से",
+      venue: "जलसा पैलेस",
+      location: "छपरा, बिहार",
+      address: "एस.एच. 90, प्रभुनाथ नगर, रतनपुरा, छपरा, बिहार 841301",
     },
   },
   venue: {
+    name: "जलसा पैलेस",
+    addressLines: ["एस.एच. 90, प्रभुनाथ नगर,", "रतनपुरा, छपरा,", "बिहार 841301"],
     directionsLabel: "रास्ता देखें",
   },
   countdown: {
@@ -145,11 +172,11 @@ export const hindiContent = {
     arrived: "आज वो शुभ घड़ी आ गई",
   },
   images: {
-    hero: { alt: "मंच पर हाथ जोड़कर अतिथियों का स्वागत करते Dr. Rahul और Sweta का चित्र" },
-    heroMobile: { alt: "मंच पर हाथ जोड़कर अतिथियों का स्वागत करते Dr. Rahul और Sweta का चित्र" },
-    story: { alt: "सीढ़ियों पर खड़ी Sweta को मुस्कुराकर देखते Dr. Rahul का चित्र" },
-    wedding: { alt: "Sweta के कंधे पर हाथ रखे, एक-दूसरे को देखकर मुस्कुराते Dr. Rahul और Sweta का चित्र" },
-    closing: { alt: "विवाह परिधान में साथ खड़े Dr. Rahul और Sweta का चित्र" },
+    hero: { alt: "मंच पर हाथ जोड़कर अतिथियों का स्वागत करते डॉ. राहुल और श्वेता का चित्र" },
+    heroMobile: { alt: "मंच पर हाथ जोड़कर अतिथियों का स्वागत करते डॉ. राहुल और श्वेता का चित्र" },
+    story: { alt: "सीढ़ियों पर खड़ी श्वेता को मुस्कुराकर देखते डॉ. राहुल का चित्र" },
+    wedding: { alt: "श्वेता के कंधे पर हाथ रखे, एक-दूसरे को देखकर मुस्कुराते डॉ. राहुल और श्वेता का चित्र" },
+    closing: { alt: "विवाह परिधान में साथ खड़े डॉ. राहुल और श्वेता का चित्र" },
   },
   final: {
     heading: "हार्दिक आभार",

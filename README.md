@@ -17,8 +17,8 @@ guest taps हिंदी, and their choice is remembered on that device.
 
 - All Hindi copy lives in `src/i18n/translations.ts` (written as wedding-card
   copy, not word-for-word). Anything missing falls back to English.
-- Names, venue names, addresses, Maps links and calendar entries stay as in
-  `weddingData.ts`.
+- In Hindi, names, venues and addresses are shown in Devanagari; Google Maps
+  links and calendar entries always use the English originals.
 - The Hindi font loads only when Hindi is chosen. After changing Hindi text,
   run `npm run fonts`.
 - To switch it off without removing anything: set `HINDI_EXPERIMENT = false`

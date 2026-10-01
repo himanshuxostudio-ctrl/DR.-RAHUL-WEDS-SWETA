@@ -53,6 +53,7 @@ function Countdown() {
  */
 export default function FinalSection() {
   const { final, couple, countdown, images } = useWedding();
+  const t = useT();
   const reduce = useReducedMotion();
   const at = (delay: number, y = 14) => ({
     hidden: { opacity: 0, y: reduce ? 0 : y },
@@ -119,7 +120,7 @@ export default function FinalSection() {
             </m.div>
             <m.p variants={at(0.7, 18)} className="serif-display text-[3rem] sm:text-6xl">
               <span className="gold-text gold-text-animate">{couple.groom}</span>
-              <span className="mx-2 font-serif text-2xl italic text-champagne sm:text-3xl">&amp;</span>
+              <span className="mx-2 font-serif text-2xl italic text-champagne sm:text-3xl">{t.nameJoin}</span>
               <span className="gold-text gold-text-animate">{couple.bride}</span>
             </m.p>
             <m.div variants={at(1)} className="mt-4 flex items-center justify-center gap-4 lg:justify-start">
