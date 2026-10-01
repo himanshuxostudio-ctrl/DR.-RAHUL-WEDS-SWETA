@@ -31,7 +31,7 @@ function Person({ name, note }: { name: string; note?: string }) {
 }
 
 export default function CoupleStory() {
-  const { story, families, couple, images } = useWedding();
+  const { story, families, couple, images, invitation } = useWedding();
   const t = useT();
   const rise = useRise();
 
@@ -52,15 +52,28 @@ export default function CoupleStory() {
           <m.div variants={rise(0.18)}>
             <OrnamentDivider tone="wine" animate={false} className="mx-auto mt-4 h-7 w-44 opacity-60 lg:mx-0" />
           </m.div>
-          {/* short introduction: the two of them, by name */}
-          <m.dl variants={rise(0.3)} className="mx-auto mt-5 grid max-w-xs grid-cols-2 gap-4 lg:mx-0">
-            <div>
-              <dt className="eyebrow text-[0.56rem] text-gold-deep">{story.groomLabel}</dt>
-              <dd className="mt-1 font-serif text-2xl text-ink">{couple.groom}</dd>
-            </div>
-            <div>
+          {/* the couple, as on the card: bride and her family on the left, groom and his on the right */}
+          <m.dl variants={rise(0.3)} className="mx-auto mt-6 grid max-w-md grid-cols-[1fr_auto_1fr] items-start gap-3 sm:gap-5 lg:mx-0">
+            <div className="text-center lg:text-left">
               <dt className="eyebrow text-[0.56rem] text-gold-deep">{story.brideLabel}</dt>
               <dd className="mt-1 font-serif text-2xl text-ink">{couple.bride}</dd>
+              <dd className="mt-2 text-[0.72rem] leading-snug text-ink-soft">
+                <span className="block font-serif text-[0.8rem] italic text-gold-deep">{story.brideParentsLabel}</span>
+                {families.bride.father} {t.parentsJoin} {families.bride.mother}
+              </dd>
+            </div>
+            <div aria-hidden className="flex flex-col items-center gap-1.5 pt-5 text-gold-deep/80">
+              <span className="h-5 w-px bg-gradient-to-b from-transparent to-gold-deep/45" />
+              <span className="font-serif text-lg italic">{invitation.weds}</span>
+              <span className="h-5 w-px bg-gradient-to-t from-transparent to-gold-deep/45" />
+            </div>
+            <div className="text-center lg:text-right">
+              <dt className="eyebrow text-[0.56rem] text-gold-deep">{story.groomLabel}</dt>
+              <dd className="mt-1 font-serif text-2xl text-ink">{couple.groom}</dd>
+              <dd className="mt-2 text-[0.72rem] leading-snug text-ink-soft">
+                <span className="block font-serif text-[0.8rem] italic text-gold-deep">{story.groomParentsLabel}</span>
+                {families.groom.father} {t.parentsJoin} {families.groom.mother}
+              </dd>
             </div>
           </m.dl>
         </div>
@@ -82,26 +95,30 @@ export default function CoupleStory() {
           {t.familiesHeadingA} <span className="italic text-wine">{t.familiesHeadingB}</span>
         </m.h3>
         <m.p variants={rise(0.16)} className="mx-auto mt-3 max-w-md text-[0.9rem] leading-relaxed text-ink-soft">
-          {t.familiesSentence || (
-            <>
-              {families.intro} {couple.groom} &amp; {couple.bride}{t.familiesIntroEnd}
-            </>
-          )}
+          {families.intro}
         </m.p>
-        <m.div variants={rise(0.26)} className="mt-7 grid gap-7 sm:grid-cols-2 sm:gap-10">
-          <div>
-            <p className="eyebrow text-[0.58rem] text-gold-deep">{families.groom.label}</p>
-            <ul className="mt-2 space-y-1">
-              <Person name={families.groom.father} note={families.groom.fatherTitle} />
-              <Person name={families.groom.mother} />
-            </ul>
-          </div>
+        {/* bride's family on the left, groom's family on the right — a fine gold seam between */}
+        <m.div variants={rise(0.26)} className="mt-8 grid items-stretch gap-6 sm:grid-cols-[1fr_auto_1fr] sm:gap-8">
           <div>
             <p className="eyebrow text-[0.58rem] text-gold-deep">{families.bride.label}</p>
-            <ul className="mt-2 space-y-1">
+            <span aria-hidden className="mx-auto mt-2 block h-px w-10 bg-gold-deep/40" />
+            <ul className="mt-3 space-y-1">
               <Person name={families.bride.grandfather} note={families.bride.grandfatherTitle} />
               <Person name={families.bride.father} />
               <Person name={families.bride.mother} />
+            </ul>
+          </div>
+          <div aria-hidden className="flex items-center justify-center gap-3 sm:flex-col">
+            <span className="h-px w-16 bg-gradient-to-l from-gold-deep/40 to-transparent sm:h-auto sm:w-px sm:flex-1 sm:bg-gradient-to-t" />
+            <LotusMark tone="wine" className="h-5 w-8 shrink-0 opacity-70" />
+            <span className="h-px w-16 bg-gradient-to-r from-gold-deep/40 to-transparent sm:h-auto sm:w-px sm:flex-1 sm:bg-gradient-to-b" />
+          </div>
+          <div>
+            <p className="eyebrow text-[0.58rem] text-gold-deep">{families.groom.label}</p>
+            <span aria-hidden className="mx-auto mt-2 block h-px w-10 bg-gold-deep/40" />
+            <ul className="mt-3 space-y-1">
+              <Person name={families.groom.father} note={families.groom.fatherTitle} />
+              <Person name={families.groom.mother} />
             </ul>
           </div>
         </m.div>

@@ -119,9 +119,9 @@ export default function FinalSection() {
               <LotusMark className="mx-auto mb-3 h-7 w-11 lg:mx-0" />
             </m.div>
             <m.p variants={at(0.7, 18)} className="serif-display text-[3rem] sm:text-6xl">
-              <span className="gold-text gold-text-animate">{couple.groom}</span>
-              <span className="mx-2 font-serif text-2xl italic text-champagne sm:text-3xl">{t.nameJoin}</span>
               <span className="gold-text gold-text-animate">{couple.bride}</span>
+              <span className="mx-2 font-serif text-2xl italic text-champagne sm:text-3xl">{t.nameJoin}</span>
+              <span className="gold-text gold-text-animate">{couple.groom}</span>
             </m.p>
             <m.div variants={at(1)} className="mt-4 flex items-center justify-center gap-4 lg:justify-start">
               <span className="h-px w-10 bg-gold/70" />

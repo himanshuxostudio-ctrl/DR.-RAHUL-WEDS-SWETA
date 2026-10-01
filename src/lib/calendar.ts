@@ -63,7 +63,7 @@ export function buildIcs(events: readonly WeddingEvent[]) {
       "END:VEVENT",
     ];
   });
-  return ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Rahul Weds Sweta//Invitation//EN", "CALSCALE:GREGORIAN", "METHOD:PUBLISH", ...body, "END:VCALENDAR"]
+  return ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Sweta Weds Rahul//Invitation//EN", "CALSCALE:GREGORIAN", "METHOD:PUBLISH", ...body, "END:VCALENDAR"]
     .map(fold)
     .join("\r\n");
 }

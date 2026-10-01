@@ -142,13 +142,13 @@ export default function InvitationOpening({ onOpen }: { onOpen: () => void }) {
 
               <h1 className="mt-8 flex flex-col items-center">
                 <m.span {...fade(3.0, 30)} className="serif-display gold-text gold-text-animate text-[3.6rem] sm:text-7xl">
-                  {couple.groom}
+                  {couple.bride}
                 </m.span>
                 <m.span {...fade(3.6)} className="my-3 font-serif text-2xl italic text-champagne/90 sm:text-3xl">
                   {invitation.weds}
                 </m.span>
                 <m.span {...fade(4.0, 30)} className="serif-display gold-text gold-text-animate text-[3.6rem] sm:text-7xl">
-                  {couple.bride}
+                  {couple.groom}
                 </m.span>
               </h1>
 

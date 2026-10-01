@@ -41,7 +41,7 @@ export const weddingData = {
     groom: "Dr. Rahul",
     groomFirstName: "Rahul",
     bride: "Sweta",
-    title: "Dr. Rahul Weds Sweta",
+    title: "Sweta Weds Dr. Rahul",
     date: "12 December 2026",
     dateShort: "12.12.2026",
     city: "Chapra, Bihar",
@@ -63,11 +63,14 @@ export const weddingData = {
     titleB: "One Journey",
     groomLabel: "The Groom",
     brideLabel: "The Bride",
+    brideParentsLabel: "Daughter of",
+    groomParentsLabel: "Son of",
   },
 
   families: {
     heading: "With the Blessings of Our Families",
-    intro: "With the blessings of our parents and elders, we invite you to celebrate the wedding of",
+    intro:
+      "With the blessings of their elders, Shree Chandrasekhar Singh & Smt. Savita Devi request the pleasure of your company at the wedding of their daughter Sweta with Dr. Rahul.",
     groom: {
       label: "Groom's Family",
       father: "Dr. Birendra Kumar Singh",
@@ -161,11 +164,11 @@ export const weddingData = {
 
   /** Illustrated artwork — never distorted; crops only trim empty paper. */
   images: {
-    hero: img("illustrations/rahul-sweta-namaste", "Illustration of Dr. Rahul and Sweta greeting guests with folded hands on their flower-decked wedding stage"),
-    heroMobile: img("illustrations/rahul-sweta-namaste-mobile", "Illustration of Dr. Rahul and Sweta greeting guests with folded hands on their flower-decked wedding stage"),
-    story: img("illustrations/rahul-sweta-staircase", "Illustration of Dr. Rahul smiling up at Sweta as she stands on the staircase"),
-    wedding: img("illustrations/rahul-sweta-embrace", "Illustration of Dr. Rahul with his hand on Sweta's shoulder as they smile at each other"),
-    closing: img("illustrations/rahul-sweta-together", "Illustration of Dr. Rahul and Sweta standing together in their wedding attire"),
+    hero: img("illustrations/rahul-sweta-namaste", "Illustration of Sweta and Dr. Rahul greeting guests with folded hands on their flower-decked wedding stage"),
+    heroMobile: img("illustrations/rahul-sweta-namaste-mobile", "Illustration of Sweta and Dr. Rahul greeting guests with folded hands on their flower-decked wedding stage"),
+    story: img("illustrations/rahul-sweta-staircase", "Illustration of Sweta standing on the staircase as Dr. Rahul smiles up at her"),
+    wedding: img("illustrations/rahul-sweta-embrace", "Illustration of Sweta and Dr. Rahul smiling at each other, his hand on her shoulder"),
+    closing: img("illustrations/rahul-sweta-together", "Illustration of Sweta and Dr. Rahul standing together in their wedding attire"),
   },
 
   music: {
@@ -194,10 +197,10 @@ export const weddingData = {
   ],
 
   seo: {
-    title: "Dr. Rahul Weds Sweta | 12 December 2026",
-    description: "Join us in celebrating the wedding of Dr. Rahul and Sweta on 12 December 2026.",
+    title: "Sweta Weds Dr. Rahul | 12 December 2026",
+    description: "Join us in celebrating the wedding of Sweta and Dr. Rahul on 12 December 2026.",
     ogImage: "/og/rahul-sweta-og.jpg",
-    ogImageAlt: "Dr. Rahul weds Sweta — 12 December 2026",
+    ogImageAlt: "Sweta weds Dr. Rahul — 12 December 2026",
     themeColor: "#2a0a10",
   },
 } as const;

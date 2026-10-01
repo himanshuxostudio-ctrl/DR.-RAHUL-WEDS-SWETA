@@ -10,7 +10,7 @@
  *
  * The envelope: ivory handmade paper with gold foil rims and borders, the
  * Ganesh mark and the Vakratunda shloka printed in kumkum ink on the flap,
- * the couple's names on the pocket, and a pressed maroon wax seal (R ✦ S).
+ * the couple's names on the pocket, and a pressed maroon wax seal (S ✦ R).
  *
  * Sequence on tapping the seal / flap:
  *   seal presses and breaks → flap lifts slowly over the top (maroon jaali
@@ -145,8 +145,8 @@ function WaxSeal({ className = "" }: { className?: string }) {
       <circle cx="50" cy="50" r="22" fill="none" stroke="url(#seal-gold)" strokeWidth="0.45" strokeOpacity="0.8" />
       {/* monogram */}
       <text x="50" y="57" textAnchor="middle" fill="url(#seal-gold)" className="font-serif" fontSize="17.5" letterSpacing="0.6">
-        R<tspan fontSize="8.5" dy="-3.4"> ✦ </tspan>
-        <tspan dy="3.4">S</tspan>
+        S<tspan fontSize="8.5" dy="-3.4"> ✦ </tspan>
+        <tspan dy="3.4">R</tspan>
       </text>
       <path d="M44 39.5 Q50 35 56 39.5" fill="none" stroke="url(#seal-gold)" strokeWidth="0.6" strokeLinecap="round" />
       <path d="M44 61 Q50 65.5 56 61" fill="none" stroke="url(#seal-gold)" strokeWidth="0.6" strokeLinecap="round" />
@@ -306,9 +306,9 @@ export default function EnvelopeOpening({ onOpen }: { onOpen: () => void }) {
               <div className="relative flex h-[54%] flex-col items-center justify-center px-[8%] text-center">
                 <p className="font-sans font-semibold uppercase tracking-[0.34em] text-[2.3cqw] text-gold-deep sm:text-[1.55cqw]">{tr.envelopeBlessings}</p>
                 <LotusMark tone="wine" className="my-[3%] h-[3.6cqw] w-auto opacity-80 sm:h-[2.6cqw]" />
-                <p className="serif-display text-[8.4cqw] leading-none text-wine sm:text-[5.6cqw]">{couple.groom}</p>
-                <p className="my-[1.5%] font-serif text-[4cqw] italic text-gold-deep sm:text-[2.7cqw]">{invitation.weds}</p>
                 <p className="serif-display text-[8.4cqw] leading-none text-wine sm:text-[5.6cqw]">{couple.bride}</p>
+                <p className="my-[1.5%] font-serif text-[4cqw] italic text-gold-deep sm:text-[2.7cqw]">{invitation.weds}</p>
+                <p className="serif-display text-[8.4cqw] leading-none text-wine sm:text-[5.6cqw]">{couple.groom}</p>
                 <p className="font-sans font-semibold uppercase tracking-[0.34em] mt-[4%] text-[2.4cqw] text-ink-soft sm:text-[1.6cqw]">{couple.date}</p>
               </div>
             </m.div>
@@ -335,9 +335,9 @@ export default function EnvelopeOpening({ onOpen }: { onOpen: () => void }) {
                   <p lang="hi" className="font-deva text-[4cqw] leading-[1.5] sm:text-[2.8cqw]" style={{ color: INK }}>
                     {invitation.hindiTitle}
                   </p>
-                  <p className="serif-display mt-[0.4em] text-[7.4cqw] leading-[0.95] text-wine sm:text-[4.9cqw]">{couple.groom}</p>
+                  <p className="serif-display mt-[0.4em] text-[7.4cqw] leading-[0.95] text-wine sm:text-[4.9cqw]">{couple.bride}</p>
                   <p className="font-serif text-[3.9cqw] italic leading-[1.35] text-gold-deep sm:text-[2.6cqw]">{invitation.weds}</p>
-                  <p className="serif-display text-[7.4cqw] leading-[0.95] text-wine sm:text-[4.9cqw]">{couple.bride}</p>
+                  <p className="serif-display text-[7.4cqw] leading-[0.95] text-wine sm:text-[4.9cqw]">{couple.groom}</p>
                   <div className="mt-[0.9em] flex items-center gap-[1.5cqw] sm:mt-[0.8em]">
                     <span className="h-px w-[6cqw] bg-gold/70 sm:w-[4cqw]" />
                     <p className="font-sans font-semibold uppercase tracking-[0.34em] text-[2.4cqw] text-gold-deep sm:text-[1.65cqw]">{couple.date}</p>

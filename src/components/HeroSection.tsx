@@ -51,7 +51,7 @@ export default function HeroSection({ revealed }: { revealed: boolean }) {
     <section
       ref={ref}
       id="top"
-      aria-label={t.coupleAria(couple.groom, couple.bride)}
+      aria-label={t.coupleAria(couple.bride, couple.groom)}
       className="surface-maroon relative flex min-h-[100svh] items-center overflow-hidden px-6 pb-12 pt-20 sm:px-10"
     >
       {/* atmosphere: breathing glow, garland, florals, petals, gold dust */}
@@ -85,9 +85,9 @@ export default function HeroSection({ revealed }: { revealed: boolean }) {
             {invitation.cordially}
           </m.p>
           <m.h2 variants={rise(0.5)} className="serif-display mt-4 text-[3.1rem] leading-[0.92] text-ivory sm:text-6xl lg:text-[5.4rem]">
-            <span className="block">{couple.groom}</span>
-            <span className="my-1.5 block font-serif text-2xl italic text-gold-light lg:text-4xl">{invitation.weds}</span>
             <span className="block">{couple.bride}</span>
+            <span className="my-1.5 block font-serif text-2xl italic text-gold-light lg:text-4xl">{invitation.weds}</span>
+            <span className="block">{couple.groom}</span>
           </m.h2>
           <m.div variants={rise(0.8)} className="mt-4 flex items-center gap-4">
             <span className="h-px w-8 bg-gold/70" />

@@ -8,7 +8,7 @@ import { useEffect } from "react";
 // Event-driven only — no polling or timers running in the background.
 
 const NOTICE =
-  "%cDr. Rahul & Sweta — private wedding invitation%c\nThe design, photographs and music on this page are private and may not be copied or reused.";
+  "%cSweta & Dr. Rahul — private wedding invitation%c\nThe design, photographs and music on this page are private and may not be copied or reused.";
 const NOTICE_STYLE = ["font:600 15px Georgia,serif;color:#c9a45c", "font:12px system-ui;color:#999"];
 
 const isEditable = (t: EventTarget | null) =>

@@ -47,7 +47,7 @@ export default function CalendarButton({
   }, [open]);
 
   const single = events.length === 1 ? events[0] : null;
-  const filename = single ? `${single.id}-rahul-weds-sweta.ics` : "rahul-weds-sweta-celebrations.ics";
+  const filename = single ? `${single.id}-sweta-weds-rahul.ics` : "sweta-weds-rahul-celebrations.ics";
   const item =
     "flex w-full items-center gap-3 px-4 py-3 text-left text-[0.8rem] tracking-wide text-ivory transition hover:bg-gold/15 focus-visible:bg-gold/15";
 
