@@ -3,16 +3,17 @@
 import { getImageProps } from "next/image";
 import { m, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
-import { getImage, weddingData } from "@/data/weddingData";
+import { getImage } from "@/data/weddingData";
+import { useT, useWedding } from "@/i18n/LanguageProvider"; // HINDI EXPERIMENT
 import { CornerFlourish, OrnamentDivider } from "./decor/Ornaments";
 import WeddingAtmosphere from "./decor/WeddingAtmosphere";
 import GoldDust from "./decor/GoldDust";
 
 const ease = [0.22, 1, 0.36, 1] as const;
-const { couple, invitation, images } = weddingData;
 
 /** Art-directed hero artwork: closer crop on phones, full stage from 640px. */
 function HeroArt() {
+  const { images } = useWedding();
   const wide = getImage(images.hero.id);
   const tall = getImage(images.heroMobile.id);
   const common = { alt: images.hero.alt, quality: 80, priority: true, fill: true } as const;
@@ -34,6 +35,8 @@ function HeroArt() {
 }
 
 export default function HeroSection({ revealed }: { revealed: boolean }) {
+  const { couple, invitation } = useWedding();
+  const t = useT();
   const reduce = useReducedMotion();
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
@@ -48,7 +51,7 @@ export default function HeroSection({ revealed }: { revealed: boolean }) {
     <section
       ref={ref}
       id="top"
-      aria-label={`${couple.groom} and ${couple.bride}`}
+      aria-label={t.coupleAria(couple.groom, couple.bride)}
       className="surface-maroon relative flex min-h-[100svh] items-center overflow-hidden px-6 pb-12 pt-20 sm:px-10"
     >
       {/* atmosphere: breathing glow, garland, florals, petals, gold dust */}
@@ -119,6 +122,7 @@ export default function HeroSection({ revealed }: { revealed: boolean }) {
 }
 
 function ScrollCue({ revealed, delay, className }: { revealed: boolean; delay: number; className: string }) {
+  const t = useT();
   return (
     <m.a
       href="#story"
@@ -127,7 +131,7 @@ function ScrollCue({ revealed, delay, className }: { revealed: boolean; delay: n
       animate={{ opacity: revealed ? 1 : 0 }}
       transition={{ duration: 1.5, delay }}
     >
-      <span className="eyebrow text-[0.6rem]">Scroll to begin</span>
+      <span className="eyebrow text-[0.6rem]">{t.scrollToBegin}</span>
       <span className="relative h-7 w-px overflow-hidden bg-gold/25 lg:h-10">
         <span className="absolute inset-x-0 top-0 h-1/2 bg-gold-light [animation:scroll-cue_2.2s_ease-in-out_infinite]" />
       </span>

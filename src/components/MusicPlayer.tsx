@@ -2,6 +2,7 @@
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { weddingData } from "@/data/weddingData";
+import { useT, useWedding } from "@/i18n/LanguageProvider"; // HINDI EXPERIMENT
 
 interface MusicState {
   /** True once the guest has opened the invitation (audio is allowed). */
@@ -154,12 +155,13 @@ export function MusicProvider({ children }: { children: ReactNode }) {
 /** Circular ♫ / mute control with a quiet equaliser while playing. */
 export function MusicToggle({ className = "", bare = false }: { className?: string; bare?: boolean }) {
   const { playing, toggle } = useMusic();
+  const t = useT();
   return (
     <button
       type="button"
       onClick={toggle}
       aria-pressed={playing}
-      aria-label={playing ? "Mute music" : "Play music"}
+      aria-label={playing ? t.muteMusic : t.playMusic}
       className={`group relative grid place-items-center rounded-full text-gold-light transition active:scale-95 ${
         bare ? "h-10 w-10 hover:bg-gold/10" : "h-12 w-12 border border-gold/60 bg-deep-maroon/85 hover:border-gold-light"
       } ${className}`}

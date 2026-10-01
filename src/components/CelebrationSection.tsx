@@ -2,7 +2,8 @@
 
 import { m, useReducedMotion } from "framer-motion";
 import { Clock, MapPin } from "lucide-react";
-import { weddingData, type WeddingEvent } from "@/data/weddingData";
+import type { WeddingEvent } from "@/data/weddingData";
+import { useT, useWedding } from "@/i18n/LanguageProvider"; // HINDI EXPERIMENT
 import CalendarButton from "./CalendarButton";
 import MapButton from "./MapButton";
 import { CornerFlourish } from "./decor/Ornaments";
@@ -11,8 +12,6 @@ import { Vignette } from "./decor/WeddingVignettes";
 import SectionBridge from "./decor/SectionBridge";
 import Illustration from "./ui/Illustration";
 
-const { celebrations, events, venue, images } = weddingData;
-const vivah = events.find((e) => e.theme === "vivah")!;
 const ease = [0.22, 1, 0.36, 1] as const;
 // Fires as soon as the block's top edge is on screen — independent of block height.
 const inView = { initial: "hidden", whileInView: "show", viewport: { once: true, margin: "0px 0px -8% 0px" } } as const;
@@ -21,6 +20,7 @@ const iconBtn =
   "grid h-11 w-11 place-items-center rounded-full border border-gold/50 text-gold-light transition hover:border-gold-light hover:bg-gold/10 active:scale-95";
 
 function EventTile({ ev, featured }: { ev: WeddingEvent; featured: boolean }) {
+  const t = useT();
   return (
     <li
       id={ev.id}
@@ -31,9 +31,11 @@ function EventTile({ ev, featured }: { ev: WeddingEvent; featured: boolean }) {
       <div className="w-[5.6rem] shrink-0 sm:w-auto">
         <p className="eyebrow text-[0.55rem] text-gold/80">{ev.index}</p>
         <p className={`mt-0.5 font-serif text-[1.65rem] leading-none ${featured ? "gold-text" : "text-ivory"}`}>{ev.name}</p>
-        <p lang="hi" className="font-deva mt-0.5 text-sm leading-[1.7] text-gold-light">
-          {ev.nameHindi}
-        </p>
+        {ev.nameHindi !== ev.name && (
+          <p lang="hi" className="font-deva mt-0.5 text-sm leading-[1.7] text-gold-light">
+            {ev.nameHindi}
+          </p>
+        )}
       </div>
       <div className="min-w-0 flex-1 text-[0.8rem] leading-relaxed text-champagne/80 sm:flex-none">
         <p className="text-ivory">
@@ -41,12 +43,12 @@ function EventTile({ ev, featured }: { ev: WeddingEvent; featured: boolean }) {
         </p>
         <p>{ev.time}</p>
         <p>
-          {ev.venue}, {ev.location.replace(", Bihar", "")}
+          {ev.venue}, {ev.location.replace(/, (Bihar|बिहार)$/, "")}
         </p>
       </div>
       <div className="flex shrink-0 gap-2">
         {ev.mapsUrl && (
-          <a href={ev.mapsUrl} target="_blank" rel="noopener noreferrer" aria-label={`Directions to ${ev.name} (opens Google Maps)`} className={iconBtn}>
+          <a href={ev.mapsUrl} target="_blank" rel="noopener noreferrer" aria-label={t.directionsTo(ev.name)} className={iconBtn}>
             <MapPin className="h-4 w-4" aria-hidden />
           </a>
         )}
@@ -57,6 +59,9 @@ function EventTile({ ev, featured }: { ev: WeddingEvent; featured: boolean }) {
 }
 
 export default function CelebrationSection() {
+  const { celebrations, events, venue, images } = useWedding();
+  const vivah = events.find((e) => e.theme === "vivah")!;
+  const t = useT();
   const reduce = useReducedMotion();
   const rise = (delay: number) => ({
     hidden: { opacity: 0, y: reduce ? 0 : 14 },
@@ -107,9 +112,11 @@ export default function CelebrationSection() {
         <m.h3 variants={rise(0.08)} id="wedding-heading" className="serif-display gold-text mt-3 text-center text-[3.4rem] sm:text-7xl">
           {vivah.name}
         </m.h3>
-        <m.p variants={rise(0.14)} lang="hi" className="font-deva text-center text-[1.5rem] leading-[1.7] text-gold-light">
-          {vivah.nameHindi}
-        </m.p>
+        {vivah.nameHindi !== vivah.name && (
+          <m.p variants={rise(0.14)} lang="hi" className="font-deva text-center text-[1.5rem] leading-[1.7] text-gold-light">
+            {vivah.nameHindi}
+          </m.p>
+        )}
 
         <div className="mt-5 grid items-center gap-7 lg:grid-cols-[auto_1fr] lg:gap-14">
           <div className="flex justify-center">
@@ -117,7 +124,7 @@ export default function CelebrationSection() {
           </div>
 
           <div className="flex flex-col">
-            <m.article variants={rise(0.3)} aria-label={`${vivah.name} details`} className="relative border border-gold/35 px-6 py-7 text-center sm:px-10 lg:text-left">
+            <m.article variants={rise(0.3)} aria-label={t.detailsOf(vivah.name)} className="relative border border-gold/35 px-6 py-7 text-center sm:px-10 lg:text-left">
               <CornerFlourish className="pointer-events-none absolute left-1.5 top-1.5 h-10 w-10 opacity-80" />
               <CornerFlourish className="pointer-events-none absolute bottom-1.5 right-1.5 h-10 w-10 rotate-180 opacity-80" />
 
@@ -135,12 +142,12 @@ export default function CelebrationSection() {
 
               <dl className="space-y-4 text-[0.95rem] text-ivory">
                 <div className="flex items-center justify-center gap-3 lg:justify-start">
-                  <dt className="sr-only">Time</dt>
+                  <dt className="sr-only">{t.timeLabel}</dt>
                   <Clock className="h-4 w-4 shrink-0 text-gold" aria-hidden />
                   <dd>{vivah.time}</dd>
                 </div>
                 <div className="flex flex-col items-center gap-1.5 lg:flex-row lg:items-start lg:gap-3">
-                  <dt className="sr-only">Venue</dt>
+                  <dt className="sr-only">{t.venueLabel}</dt>
                   <MapPin className="h-4 w-4 shrink-0 text-gold lg:mt-1" aria-hidden />
                   <dd>
                     <span className="font-serif text-2xl text-gold-light">{venue.name}</span>

@@ -1,13 +1,12 @@
 "use client";
 
 import { m, useReducedMotion } from "framer-motion";
-import { weddingData } from "@/data/weddingData";
+import { useT, useWedding } from "@/i18n/LanguageProvider"; // HINDI EXPERIMENT
 import { LotusMark, OrnamentDivider } from "./decor/Ornaments";
 import SectionBridge from "./decor/SectionBridge";
 import WeddingAtmosphere from "./decor/WeddingAtmosphere";
 import Illustration from "./ui/Illustration";
 
-const { story, families, couple, images } = weddingData;
 const ease = [0.22, 1, 0.36, 1] as const;
 
 /** Reveal the moment the block enters the viewport — no waiting, no scrubbing. */
@@ -32,6 +31,8 @@ function Person({ name, note }: { name: string; note?: string }) {
 }
 
 export default function CoupleStory() {
+  const { story, families, couple, images } = useWedding();
+  const t = useT();
   const rise = useRise();
 
   return (
@@ -78,10 +79,14 @@ export default function CoupleStory() {
           <span className="h-px flex-1 bg-gold-deep/25" />
         </m.div>
         <m.h3 variants={rise(0.08)} id="family-heading" className="mt-4 font-serif text-[1.9rem] leading-tight text-ink sm:text-4xl">
-          With the Blessings <span className="italic text-wine">of Our Families</span>
+          {t.familiesHeadingA} <span className="italic text-wine">{t.familiesHeadingB}</span>
         </m.h3>
         <m.p variants={rise(0.16)} className="mx-auto mt-3 max-w-md text-[0.9rem] leading-relaxed text-ink-soft">
-          {families.intro} {couple.groom} &amp; {couple.bride}.
+          {t.familiesSentence || (
+            <>
+              {families.intro} {couple.groom} &amp; {couple.bride}{t.familiesIntroEnd}
+            </>
+          )}
         </m.p>
         <m.div variants={rise(0.26)} className="mt-7 grid gap-7 sm:grid-cols-2 sm:gap-10">
           <div>

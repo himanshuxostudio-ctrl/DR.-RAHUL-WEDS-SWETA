@@ -23,7 +23,8 @@
 import type { CSSProperties } from "react";
 import { AnimatePresence, m, useReducedMotion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { getImage, weddingData } from "@/data/weddingData";
+import { getImage } from "@/data/weddingData";
+import { useT, useWedding } from "@/i18n/LanguageProvider"; // HINDI EXPERIMENT
 import GoldDust from "./decor/GoldDust";
 import { BotanicalLine, FloralCluster, GarlandArc } from "./decor/florals";
 import { CornerFlourish, LotusMark, Mandala } from "./decor/Ornaments";
@@ -31,11 +32,7 @@ import { useMusic } from "./MusicPlayer";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 const film = [0.65, 0, 0.35, 1] as const;
-const { couple, invitation } = weddingData;
 
-/** Experiment-only microcopy (kept here so reverting touches no data files). */
-const HINT = "Tap the seal to open";
-const BLESSINGS = "With the blessings of our families";
 
 type Phase = "sealed" | "breaking" | "lifting" | "rising" | "revealing" | "gone";
 const ORDER: Record<Phase, number> = { sealed: 0, breaking: 1, lifting: 2, rising: 3, revealing: 4, gone: 5 };
@@ -163,6 +160,8 @@ function WaxSeal({ className = "" }: { className?: string }) {
 export default function EnvelopeOpening({ onOpen }: { onOpen: () => void }) {
   const reduce = useReducedMotion();
   const { begin } = useMusic();
+  const { couple, invitation } = useWedding();
+  const tr = useT();
   const [phase, setPhase] = useState<Phase>("sealed");
   const [flapBehind, setFlapBehind] = useState(false);
   const [peek, setPeek] = useState(false);
@@ -216,7 +215,7 @@ export default function EnvelopeOpening({ onOpen }: { onOpen: () => void }) {
           key="envelope"
           role="dialog"
           aria-modal="true"
-          aria-label={`${couple.title} — wedding invitation`}
+          aria-label={tr.invitationDialog(couple.title)}
           className="surface-maroon grain fixed inset-0 z-[80] flex flex-col items-center justify-center overflow-hidden px-6"
           animate={{ opacity: phase === "revealing" ? 0 : 1 }}
           transition={{ duration: t(1.1), delay: t(0.2), ease }}
@@ -305,7 +304,7 @@ export default function EnvelopeOpening({ onOpen }: { onOpen: () => void }) {
               <div className="absolute inset-[3.5%] border border-gold/60" />
               <div className="absolute inset-[5%] border border-gold/30" />
               <div className="relative flex h-[54%] flex-col items-center justify-center px-[8%] text-center">
-                <p className="font-sans font-semibold uppercase tracking-[0.34em] text-[2.3cqw] text-gold-deep sm:text-[1.55cqw]">{BLESSINGS}</p>
+                <p className="font-sans font-semibold uppercase tracking-[0.34em] text-[2.3cqw] text-gold-deep sm:text-[1.55cqw]">{tr.envelopeBlessings}</p>
                 <LotusMark tone="wine" className="my-[3%] h-[3.6cqw] w-auto opacity-80 sm:h-[2.6cqw]" />
                 <p className="serif-display text-[8.4cqw] leading-none text-wine sm:text-[5.6cqw]">{couple.groom}</p>
                 <p className="my-[1.5%] font-serif text-[4cqw] italic text-gold-deep sm:text-[2.7cqw]">{invitation.weds}</p>
@@ -437,7 +436,7 @@ export default function EnvelopeOpening({ onOpen }: { onOpen: () => void }) {
           </m.div>
 
           <m.p {...intro(1.6, 8)} aria-hidden className="eyebrow relative mt-[clamp(1.5rem,5svh,3rem)] text-[0.62rem] text-gold/90">
-            {HINT}
+            {tr.envelopeHint}
           </m.p>
         </m.div>
       )}

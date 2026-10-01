@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import { weddingData } from "@/data/weddingData";
 import "./globals.css";
+import "@/i18n/hindi.css"; // HINDI EXPERIMENT
 
 // Self-hosted (OFL) — no build-time dependency on Google Fonts.
 const cormorant = localFont({

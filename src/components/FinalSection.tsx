@@ -3,13 +3,13 @@
 import { m, useReducedMotion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { weddingData } from "@/data/weddingData";
+import { useT, useWedding } from "@/i18n/LanguageProvider"; // HINDI EXPERIMENT
 import { CornerFlourish, LotusMark, OrnamentDivider } from "./decor/Ornaments";
 import WeddingAtmosphere from "./decor/WeddingAtmosphere";
 import GoldDust from "./decor/GoldDust";
 import Illustration from "./ui/Illustration";
 
-const { final, couple, countdown, images } = weddingData;
-const target = new Date(countdown.target).getTime();
+const target = new Date(weddingData.countdown.target).getTime();
 
 const ease = [0.22, 1, 0.36, 1] as const;
 const film = [0.65, 0, 0.35, 1] as const;
@@ -17,6 +17,8 @@ const CORNERS = ["left-1.5 top-1.5", "right-1.5 top-1.5 rotate-90", "right-1.5 b
 
 /** Ticks once a second in isolation (only this row re-renders). */
 function Countdown() {
+  const { countdown } = useWedding();
+  const t = useT();
   const [now, setNow] = useState<number | null>(null);
   useEffect(() => {
     setNow(Date.now());
@@ -26,13 +28,13 @@ function Countdown() {
   const diff = now === null ? null : Math.max(0, target - now);
   if (diff === 0) return <p className="eyebrow text-gold">{countdown.arrived}</p>;
   const parts: [number | null, string][] = [
-    [diff === null ? null : Math.floor(diff / 86_400_000), "Days"],
-    [diff === null ? null : Math.floor(diff / 3_600_000) % 24, "Hours"],
-    [diff === null ? null : Math.floor(diff / 60_000) % 60, "Minutes"],
-    [diff === null ? null : Math.floor(diff / 1000) % 60, "Seconds"],
+    [diff === null ? null : Math.floor(diff / 86_400_000), t.days],
+    [diff === null ? null : Math.floor(diff / 3_600_000) % 24, t.hours],
+    [diff === null ? null : Math.floor(diff / 60_000) % 60, t.minutes],
+    [diff === null ? null : Math.floor(diff / 1000) % 60, t.seconds],
   ];
   return (
-    <div role="timer" aria-label="Time until the wedding" className="mx-auto grid max-w-md grid-cols-4">
+    <div role="timer" aria-label={t.timerLabel} className="mx-auto grid max-w-md grid-cols-4">
       {parts.map(([n, label], i) => (
         <div key={label} className={`flex flex-col items-center ${i > 0 ? "border-l border-gold/25" : ""}`}>
           <span className="gold-text font-serif text-[2.6rem] leading-none tabular-nums sm:text-5xl">
@@ -50,6 +52,7 @@ function Countdown() {
  * couple, names, date and a short message. It is the true end of the page.
  */
 export default function FinalSection() {
+  const { final, couple, countdown, images } = useWedding();
   const reduce = useReducedMotion();
   const at = (delay: number, y = 14) => ({
     hidden: { opacity: 0, y: reduce ? 0 : y },

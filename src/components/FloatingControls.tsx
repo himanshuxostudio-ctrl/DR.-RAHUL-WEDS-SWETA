@@ -3,11 +3,11 @@
 import { AnimatePresence, m } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { weddingData } from "@/data/weddingData";
+import { useT, useWedding } from "@/i18n/LanguageProvider"; // HINDI EXPERIMENT
+import LanguageToggle from "@/i18n/LanguageToggle"; // HINDI EXPERIMENT
 import { LotusMark } from "./decor/Ornaments";
 import { MusicToggle } from "./MusicPlayer";
 
-const { navigation, couple } = weddingData;
 
 /**
  * Slides the controls out of the way while the guest scrolls down (so they
@@ -75,6 +75,8 @@ function useAtClosing() {
  * folds away, leaving only the small music control (clear of "Scroll to Begin").
  */
 export default function FloatingControls({ visible }: { visible: boolean }) {
+  const { navigation, couple } = useWedding();
+  const t = useT();
   const [menu, setMenu] = useState(false);
   const away = useScrollAway();
   const closing = useAtClosing();
@@ -129,13 +131,13 @@ export default function FloatingControls({ visible }: { visible: boolean }) {
                     <button
                       ref={menuBtn}
                       type="button"
-                      aria-label="Open menu"
+                      aria-label={t.openMenu}
                       aria-expanded={menu}
                       onClick={() => setMenu(true)}
                       className="group flex h-10 items-center gap-2 whitespace-nowrap rounded-full pl-3.5 pr-3 text-[0.62rem] font-semibold uppercase tracking-[0.26em] text-gold-light transition hover:bg-gold/10 active:scale-95"
                     >
                       <Menu className="h-4 w-4 transition-transform duration-500 group-hover:rotate-90" aria-hidden />
-                      Menu
+                      {t.menu}
                     </button>
                     <span aria-hidden className="mx-0.5 h-5 w-px bg-gold/35" />
                   </m.div>
@@ -150,7 +152,7 @@ export default function FloatingControls({ visible }: { visible: boolean }) {
       <AnimatePresence>
         {menu && (
           <m.nav
-            aria-label="Invitation sections"
+            aria-label={t.navLabel}
             className="surface-maroon fixed inset-0 z-[85] flex flex-col items-center justify-center px-6"
             initial={{ clipPath: "circle(0% at calc(100% - 4rem) calc(100% - 2.5rem))" }}
             animate={{ clipPath: "circle(150% at calc(100% - 4rem) calc(100% - 2.5rem))" }}
@@ -159,15 +161,19 @@ export default function FloatingControls({ visible }: { visible: boolean }) {
           >
             <div aria-hidden className="jaali absolute inset-0 opacity-[0.05]" />
             <div aria-hidden className="absolute inset-4 border border-gold/30" />
-            <button type="button" aria-label="Close menu" onClick={() => setMenu(false)} className={`${round} absolute right-6 top-6`}>
+            <button type="button" aria-label={t.closeMenu} onClick={() => setMenu(false)} className={`${round} absolute right-6 top-6`}>
               <X className="h-5 w-5" aria-hidden />
             </button>
             <LotusMark className="relative mb-6 h-8 w-12" />
             <p className="eyebrow relative mb-8 text-gold">{couple.title}</p>
+            {/* HINDI EXPERIMENT: language switch, always reachable from the menu */}
+            <div className="absolute left-6 top-6">
+              <LanguageToggle inline />
+            </div>
             <ul className="relative space-y-1 text-center">
               <li>
                 <a ref={firstLink} href="#top" onClick={() => setMenu(false)} className="block px-4 py-1.5 font-serif text-3xl text-ivory transition hover:text-gold-light sm:text-4xl">
-                  Invitation
+                  {t.navInvitation}
                 </a>
               </li>
               {navigation.map((n, i) => (

@@ -11,6 +11,8 @@ import FloatingControls from "./FloatingControls";
 import HeroSection from "./HeroSection";
 import InvitationOpening from "./InvitationOpening";
 import { MusicProvider } from "./MusicPlayer";
+import { LanguageProvider } from "@/i18n/LanguageProvider"; // HINDI EXPERIMENT
+import LanguageToggle from "@/i18n/LanguageToggle"; // HINDI EXPERIMENT
 import { FloralDefs } from "./decor/florals";
 
 /**
@@ -34,6 +36,7 @@ export default function WeddingInvitation() {
   return (
     <LazyMotion features={domAnimation} strict>
     <MotionConfig reducedMotion="user">
+      <LanguageProvider>
       <MusicProvider>
         <ContentProtection />
         <FloralDefs />
@@ -45,7 +48,9 @@ export default function WeddingInvitation() {
           <FinalSection />
         </main>
         <FloatingControls visible={opened} />
+        <LanguageToggle />
       </MusicProvider>
+      </LanguageProvider>
     </MotionConfig>
     </LazyMotion>
   );

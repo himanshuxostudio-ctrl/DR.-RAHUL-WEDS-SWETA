@@ -9,6 +9,21 @@ Journey → With the Blessings of Our Families → The Celebrations (Chheka ·
 Matkor · Vivah) → The Wedding (venue, directions, calendar) → The Wait Is
 Almost Over (countdown) → closing.
 
+## Hindi version (experiment)
+
+A small **EN | हिंदी** switch (top-right, and inside the menu) shows the whole
+invitation in Hindi. English is always the default; Hindi appears only after a
+guest taps हिंदी, and their choice is remembered on that device.
+
+- All Hindi copy lives in `src/i18n/translations.ts` (written as wedding-card
+  copy, not word-for-word). Anything missing falls back to English.
+- Names, venue names, addresses, Maps links and calendar entries stay as in
+  `weddingData.ts`.
+- The Hindi font loads only when Hindi is chosen. After changing Hindi text,
+  run `npm run fonts`.
+- To switch it off without removing anything: set `HINDI_EXPERIMENT = false`
+  in `src/i18n/LanguageProvider.tsx` (English only, no switch).
+
 ## Opening (experiment)
 
 The site currently opens with an **experimental royal envelope**: ivory

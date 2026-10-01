@@ -2,7 +2,7 @@
 
 import { AnimatePresence, m, useReducedMotion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { weddingData } from "@/data/weddingData";
+import { useT, useWedding } from "@/i18n/LanguageProvider"; // HINDI EXPERIMENT
 import GoldDust from "./decor/GoldDust";
 import { CornerFlourish, LotusMark, Mandala } from "./decor/Ornaments";
 import { useMusic } from "./MusicPlayer";
@@ -10,7 +10,6 @@ import { useMusic } from "./MusicPlayer";
 const ease = [0.22, 1, 0.36, 1] as const;
 const film = [0.65, 0, 0.35, 1] as const;
 
-const { couple, invitation } = weddingData;
 
 /**
  * The royal card coming alive: frame draws, blessing, names, date — then the
@@ -19,6 +18,8 @@ const { couple, invitation } = weddingData;
 export default function InvitationOpening({ onOpen }: { onOpen: () => void }) {
   const reduce = useReducedMotion();
   const { begin } = useMusic();
+  const { couple, invitation } = useWedding();
+  const tr = useT();
   const [phase, setPhase] = useState<"card" | "opening" | "gone">("card");
   const t = (s: number) => (reduce ? 0 : s);
 
@@ -51,7 +52,7 @@ export default function InvitationOpening({ onOpen }: { onOpen: () => void }) {
           key="opening"
           role="dialog"
           aria-modal="true"
-          aria-label={`${couple.title} — wedding invitation`}
+          aria-label={tr.invitationDialog(couple.title)}
           className="fixed inset-0 z-[80] overflow-hidden [perspective:1800px]"
           exit={{ opacity: 0 }}
           transition={{ duration: 0.4 }}

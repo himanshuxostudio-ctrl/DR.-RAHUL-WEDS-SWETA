@@ -1,0 +1,57 @@
+/*
+ * HINDI EXPERIMENT — typography adjustments.
+ * Every rule is scoped to <html lang="hi">, so the English site is untouched.
+ */
+
+/* The full Hindi glyph set for translated text. Declared here (not preloaded),
+   so browsers only download it once Hindi is actually shown. */
+@font-face {
+  font-family: "Tiro Hindi i18n";
+  src: url("./tiro-hindi-i18n.woff2") format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
+
+/* Devanagari falls back to Tiro inside the existing Latin stacks
+   (Latin names keep Cormorant / Manrope). */
+html[lang="hi"] {
+  --font-serif: var(--font-cormorant), "Tiro Hindi i18n", var(--font-tiro), Georgia, serif;
+  --font-sans: var(--font-manrope), "Tiro Hindi i18n", var(--font-tiro), system-ui, sans-serif;
+  --font-deva: var(--font-tiro), "Tiro Hindi i18n", serif;
+  /* no fake italics / bold on Devanagari */
+  font-synthesis: none;
+}
+
+/* Wide letter-spacing breaks the shirorekha (headline) of Devanagari words. */
+html[lang="hi"] :is(.eyebrow, .btn-gold, [class*="tracking-"]) {
+  letter-spacing: 0.03em !important;
+}
+html[lang="hi"] .btn-gold {
+  font-size: 0.86rem;
+  font-weight: 400;
+}
+html[lang="hi"] .eyebrow {
+  font-size: calc(var(--text-eyebrow) * 1.25);
+  font-weight: 400;
+}
+
+/* Matras above and below need more line height than Latin display type. */
+html[lang="hi"] :is(h1, h2, h3, .serif-display) {
+  line-height: 1.22 !important;
+}
+/* Long Hindi headings break into even lines rather than leaving one word alone. */
+html[lang="hi"] :is(h1, h2, h3) {
+  text-wrap: balance;
+}
+
+/* Soft cross-fade while the language changes. */
+html.lang-switching :is(main, [role="dialog"], nav) {
+  animation: lang-fade 0.5s ease;
+}
+@keyframes lang-fade {
+  from { opacity: 0.35; }
+  to { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html.lang-switching :is(main, [role="dialog"], nav) { animation: none; }
+}

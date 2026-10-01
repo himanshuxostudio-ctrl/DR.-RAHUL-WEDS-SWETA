@@ -1,4 +1,7 @@
+"use client";
+
 import { MapPin } from "lucide-react";
+import { useT } from "@/i18n/LanguageProvider"; // HINDI EXPERIMENT
 
 export default function MapButton({
   href,
@@ -13,6 +16,7 @@ export default function MapButton({
   solid?: boolean;
   className?: string;
 }) {
+  const t = useT();
   return (
     <a
       href={href}
@@ -22,7 +26,7 @@ export default function MapButton({
     >
       <MapPin className="h-4 w-4" aria-hidden />
       {label}
-      <span className="sr-only">(opens Google Maps)</span>
+      <span className="sr-only">{t.opensMaps}</span>
     </a>
   );
 }

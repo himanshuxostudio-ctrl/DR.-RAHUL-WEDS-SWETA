@@ -39,7 +39,7 @@ const nextConfig: NextConfig = {
       split.cacheGroups = {
         ...(split.cacheGroups ?? {}),
         ic: {
-          test: /[\\/]src[\\/](components|data|lib)[\\/]/,
+          test: /[\\/]src[\\/](components|data|lib|i18n)[\\/]/,
           name: "ic",
           chunks: "all",
           enforce: true,

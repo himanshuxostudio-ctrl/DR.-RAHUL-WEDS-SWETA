@@ -12,10 +12,17 @@ import re
 import subprocess
 
 root = pathlib.Path(__file__).resolve().parent.parent
+# HINDI EXPERIMENT: the translations get their own, lazily loaded font (below),
+# so the always-loaded font stays tiny for English visitors.
+I18N_TEXT = root / "src/i18n/translations.ts"
+
 chars = set()
+all_chars = set()
 for path in (root / "src").rglob("*.ts*"):
     for run in re.findall(r"[ऀ-ॿ‌‍]+", path.read_text(encoding="utf-8")):
-        chars |= set(run)
+        all_chars |= set(run)
+        if path != I18N_TEXT:
+            chars |= set(run)
 
 subprocess.run(
     [
@@ -29,3 +36,18 @@ subprocess.run(
     check=True,
 )
 print(f"Subset to {len(chars)} characters: {''.join(sorted(chars))}")
+
+# HINDI EXPERIMENT: full-site Hindi font, downloaded only when Hindi is chosen.
+if I18N_TEXT.exists():
+    subprocess.run(
+        [
+            "pyftsubset",
+            str(root / "assets/fonts/tiro-devanagari-hindi-full.woff2"),
+            f"--text={''.join(sorted(all_chars))}",
+            "--layout-features=*",
+            "--flavor=woff2",
+            f"--output-file={root / 'src/i18n/tiro-hindi-i18n.woff2'}",
+        ],
+        check=True,
+    )
+    print(f"Hindi-mode font: {len(all_chars)} characters")

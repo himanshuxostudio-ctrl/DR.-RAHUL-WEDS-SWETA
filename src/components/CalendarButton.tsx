@@ -2,7 +2,8 @@
 
 import { CalendarPlus, Download } from "lucide-react";
 import { useEffect, useId, useRef, useState } from "react";
-import type { WeddingEvent } from "@/data/weddingData";
+import { weddingData, type WeddingEvent } from "@/data/weddingData";
+import { useT } from "@/i18n/LanguageProvider"; // HINDI EXPERIMENT
 import { downloadIcs, googleCalendarUrl } from "@/lib/calendar";
 
 /**
@@ -12,7 +13,7 @@ import { downloadIcs, googleCalendarUrl } from "@/lib/calendar";
  */
 export default function CalendarButton({
   events,
-  label = "Add to Calendar",
+  label,
   variant = "dark",
   compact = false,
   className = "",
@@ -24,6 +25,9 @@ export default function CalendarButton({
   compact?: boolean;
   className?: string;
 }) {
+  const t = useT();
+  // HINDI EXPERIMENT: calendar entries stay in English (addresses must match maps apps)
+  events = events.map((e) => weddingData.events.find((x) => x.id === e.id) ?? e);
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const menuId = useId();
@@ -59,11 +63,11 @@ export default function CalendarButton({
         aria-haspopup="menu"
         aria-expanded={open}
         aria-controls={menuId}
-        aria-label={compact && single ? `Add ${single.name} to calendar` : undefined}
+        aria-label={compact && single ? t.addEventToCalendar(single.name) : undefined}
         onClick={() => setOpen((o) => !o)}
       >
         <CalendarPlus className="h-4 w-4" aria-hidden />
-        {!compact && label}
+        {!compact && (label ?? t.addToCalendar)}
       </button>
       {open && (
         <div
@@ -75,7 +79,7 @@ export default function CalendarButton({
         >
           {single ? (
             <a role="menuitem" className={item} href={googleCalendarUrl(single)} target="_blank" rel="noopener noreferrer" onClick={() => setOpen(false)}>
-              <CalendarPlus className="h-4 w-4 text-gold-light" aria-hidden /> Google Calendar
+              <CalendarPlus className="h-4 w-4 text-gold-light" aria-hidden /> {t.googleCalendar}
             </a>
           ) : (
             events.map((ev) => (
@@ -93,7 +97,7 @@ export default function CalendarButton({
               setOpen(false);
             }}
           >
-            <Download className="h-4 w-4 text-gold-light" aria-hidden /> Apple / Outlook (.ics)
+            <Download className="h-4 w-4 text-gold-light" aria-hidden /> {t.appleOutlook}
           </button>
         </div>
       )}
