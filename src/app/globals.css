@@ -293,6 +293,11 @@ body.is-locked {
   from { opacity: 0.8; }
   to { opacity: 1; }
 }
+/* Off-screen atmosphere layers (data-idle, set by WeddingAtmosphere) pause
+   their looping motion; it resumes before the layer scrolls back into view. */
+[data-idle] :is(.petal, .atm-sway, .atm-float, .atm-breathe) {
+  animation-play-state: paused;
+}
 /* Background depth: softened, drifting slightly slower than the page. */
 .atm-bg {
   filter: blur(1.1px);

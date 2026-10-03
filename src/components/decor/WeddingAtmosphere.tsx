@@ -12,7 +12,9 @@
  * positioned, behind content, pointer-events: none — no effect on layout.
  * Mobile placements are reduced and pushed towards the edges.
  */
-import type { CSSProperties, ReactNode } from "react";
+"use client";
+
+import { useEffect, useRef, type CSSProperties, type ReactNode } from "react";
 import { BotanicalLine, FloralBranch, FloralCluster, GarlandArc, HangingString, JaimalaRing, LeafSpray } from "./florals";
 
 type Tone = "dark" | "light";
@@ -225,8 +227,18 @@ const MOTION: Record<Motion, string> = {
 export default function WeddingAtmosphere({ preset, bleed = false, className = "" }: { preset: AtmospherePreset; bleed?: boolean; className?: string }) {
   const p: Preset = PRESETS[preset];
   const box = bleed ? "-z-10 -top-8 -bottom-8 left-1/2 w-screen -translate-x-1/2" : "inset-0";
+  const ref = useRef<HTMLDivElement>(null);
+  // Pause the looping petals/motion while the layer is well off-screen (no
+  // visible difference; saves battery and GPU work on phones).
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || typeof IntersectionObserver === "undefined") return;
+    const io = new IntersectionObserver(([e]) => el.toggleAttribute("data-idle", !e.isIntersecting), { rootMargin: "300px 0px" });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
   return (
-    <div aria-hidden className={`pointer-events-none absolute overflow-hidden ${box} ${className}`} style={p.tone === "dark" ? FLORAL_DARK : LIGHT}>
+    <div ref={ref} aria-hidden className={`pointer-events-none absolute overflow-hidden ${box} ${className}`} style={p.tone === "dark" ? FLORAL_DARK : LIGHT}>
       {p.items.map((it, i) => (
         <div key={i} className={`absolute ${it.at}`}>
           {/* inner wrapper carries the scroll-driven parallax (bg only) */}

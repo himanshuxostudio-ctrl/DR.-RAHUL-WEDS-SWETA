@@ -87,7 +87,10 @@ export default function GoldDust({ density = 42, className = "" }: { density?: n
     const io = new IntersectionObserver(([entry]) => {
       const was = visible;
       visible = entry.isIntersecting && !document.hidden;
-      if (visible && !was && !reduce) raf = requestAnimationFrame(loop);
+      if (visible && !was && !reduce) {
+        cancelAnimationFrame(raf); // never run two loops at once
+        raf = requestAnimationFrame(loop);
+      }
     });
     io.observe(canvas);
     const ro = new ResizeObserver(resize);

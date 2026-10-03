@@ -93,6 +93,8 @@ export function MusicProvider({ children }: { children: ReactNode }) {
   const [unlocked, setUnlocked] = useState(false);
   const [playing, setPlaying] = useState(false);
 
+  const retrying = useRef(false);
+
   const ensureTrack = useCallback(() => {
     if (!track.current && src) track.current = createTrack(src);
     return track.current;
@@ -111,8 +113,10 @@ export function MusicProvider({ children }: { children: ReactNode }) {
     const t = ensureTrack();
     if (!t) return;
     void t.play().then((ok) => {
-      if (ok) return;
+      if (ok || retrying.current) return;
+      retrying.current = true;
       const retry = () => {
+        retrying.current = false;
         events.forEach((e) => window.removeEventListener(e, retry, true));
         if (playingRef.current) void t.play();
       };

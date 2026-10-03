@@ -28,7 +28,18 @@ const nextConfig: NextConfig = {
     minimumCacheTTL: 60 * 60 * 24 * 30,
   },
   async headers() {
-    return [{ source: "/:path*", headers: securityHeaders }];
+    // Static files in public/ keep their URLs if they are ever replaced, so
+    // cache them for a day (served instantly for a week while refreshing)
+    // rather than forever. Repeat visits skip re-checking the music, marks and
+    // icon on every load.
+    const staticCache = [{ key: "Cache-Control", value: "public, max-age=86400, stale-while-revalidate=604800" }];
+    return [
+      { source: "/:path*", headers: securityHeaders },
+      { source: "/audio/:path*", headers: staticCache },
+      { source: "/images/:path*", headers: staticCache },
+      { source: "/og/:path*", headers: staticCache },
+      { source: "/favicon.svg", headers: staticCache },
+    ];
   },
   // Production client build: gather the invitation's own modules (src/) into
   // one chunk, "ic", so scripts/obfuscate.mjs can obfuscate just that code and
