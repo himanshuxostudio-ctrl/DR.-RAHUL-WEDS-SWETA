@@ -96,8 +96,8 @@ export const weddingData = {
     {
       id: "chheka",
       index: "01",
-      name: "Chheka",
-      nameHindi: "छेका",
+      name: "Tilak",
+      nameHindi: "तिलक",
       date: "09 December 2026",
       weekday: "Wednesday",
       time: "6:00 PM",

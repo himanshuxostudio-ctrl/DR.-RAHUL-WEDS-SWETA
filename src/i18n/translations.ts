@@ -136,7 +136,7 @@ export const hindiContent = {
   },
   events: {
     chheka: {
-      name: "छेका",
+      name: "तिलक",
       date: "09 दिसंबर 2026",
       weekday: "बुधवार",
       time: "शाम 6:00 बजे",

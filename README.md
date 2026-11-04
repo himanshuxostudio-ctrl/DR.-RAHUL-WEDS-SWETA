@@ -5,7 +5,7 @@ TypeScript, Tailwind CSS v4 and Framer Motion.
 
 **Story (short, illustrated):** Invitation card → Opening (शुभ विवाह, names,
 date, the stage illustration) → Two Souls, One
-Journey → With the Blessings of Our Families → The Celebrations (Chheka ·
+Journey → With the Blessings of Our Families → The Celebrations (Tilak ·
 Matkor · Vivah) → The Wedding (venue, directions, calendar) → The Wait Is
 Almost Over (countdown) → closing.
 

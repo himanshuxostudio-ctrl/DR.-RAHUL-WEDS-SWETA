@@ -18,7 +18,7 @@ import { FloralDefs } from "./decor/florals";
 /**
  * The film, in order:
  * Opening invitation → Dr. Rahul & Sweta → Two Souls, One Journey (with
- * the families' blessings) → Vivah details (with Chheka · Matkor) → Thank You.
+ * the families' blessings) → Vivah details (with Tilak · Matkor) → Thank You.
  *
  * LazyMotion + `m` components ship only the animation features used here
  * (animations, variants, exit, in-view), keeping the initial bundle small.
