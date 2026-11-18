@@ -1,7 +1,7 @@
 "use client";
 
 import { m, useReducedMotion } from "framer-motion";
-import { useT, useWedding } from "@/i18n/LanguageProvider"; // HINDI EXPERIMENT
+import { useLang, useT, useWedding } from "@/i18n/LanguageProvider"; // HINDI EXPERIMENT
 import { LotusMark, OrnamentDivider } from "./decor/Ornaments";
 import SectionBridge from "./decor/SectionBridge";
 import WeddingAtmosphere from "./decor/WeddingAtmosphere";
@@ -34,6 +34,8 @@ export default function CoupleStory() {
   const { story, families, couple, images, invitation } = useWedding();
   const t = useT();
   const rise = useRise();
+  // Hindi shows no eyebrow/heading here (kept for screen readers only)
+  const hideTitle = useLang().lang === "hi";
 
   return (
     <section id="story" aria-labelledby="story-heading" className="surface-ivory grain relative overflow-hidden px-[var(--gutter)] pb-12 pt-16 lg:pb-24 lg:pt-28">
@@ -43,10 +45,12 @@ export default function CoupleStory() {
       {/* Two Souls, One Journey */}
       <m.div className="relative mx-auto grid max-w-5xl items-center gap-8 lg:grid-cols-[auto_1fr] lg:gap-16" {...inView}>
         <div className="text-center lg:order-2 lg:text-left">
-          <m.p variants={rise(0)} className="eyebrow text-gold-deep">
-            {story.eyebrow}
-          </m.p>
-          <m.h2 variants={rise(0.08)} id="story-heading" className="mt-3 font-serif text-[2.6rem] leading-[1.02] text-ink sm:text-6xl">
+          {!hideTitle && (
+            <m.p variants={rise(0)} className="eyebrow text-gold-deep">
+              {story.eyebrow}
+            </m.p>
+          )}
+          <m.h2 variants={rise(0.08)} id="story-heading" className={hideTitle ? "sr-only" : "mt-3 font-serif text-[2.6rem] leading-[1.02] text-ink sm:text-6xl"}>
             {story.titleA} <span className="block italic text-wine sm:inline lg:block">{story.titleB}</span>
           </m.h2>
           <m.div variants={rise(0.18)}>
