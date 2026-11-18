@@ -12,11 +12,13 @@
   font-display: swap;
 }
 
-/* Devanagari falls back to Tiro inside the existing Latin stacks
-   (Latin names keep Cormorant / Manrope). */
+/* Tiro leads both stacks so every Devanagari letter, headings and small
+   labels alike, uses the same typeface on every phone (otherwise iOS/Android
+   system fonts can step in for the small sans text). The font holds only
+   Devanagari glyphs, so Latin text and digits still use Cormorant / Manrope. */
 html[lang="hi"] {
-  --font-serif: var(--font-cormorant), "Tiro Hindi i18n", var(--font-tiro), Georgia, serif;
-  --font-sans: var(--font-manrope), "Tiro Hindi i18n", var(--font-tiro), system-ui, sans-serif;
+  --font-serif: "Tiro Hindi i18n", var(--font-cormorant), var(--font-tiro), Georgia, serif;
+  --font-sans: "Tiro Hindi i18n", var(--font-manrope), var(--font-tiro), system-ui, sans-serif;
   --font-deva: var(--font-tiro), "Tiro Hindi i18n", serif;
   /* no fake italics / bold on Devanagari */
   font-synthesis: none;

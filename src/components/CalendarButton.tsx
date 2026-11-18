@@ -26,6 +26,8 @@ export default function CalendarButton({
   className?: string;
 }) {
   const t = useT();
+  // the button's label uses the event name as shown on the page (Hindi in Hindi mode)
+  const shownName = events.length === 1 ? events[0].name : "";
   // HINDI EXPERIMENT: calendar entries stay in English (addresses must match maps apps)
   events = events.map((e) => weddingData.events.find((x) => x.id === e.id) ?? e);
   const [open, setOpen] = useState(false);
@@ -63,7 +65,7 @@ export default function CalendarButton({
         aria-haspopup="menu"
         aria-expanded={open}
         aria-controls={menuId}
-        aria-label={compact && single ? t.addEventToCalendar(single.name) : undefined}
+        aria-label={compact && single ? t.addEventToCalendar(shownName) : undefined}
         onClick={() => setOpen((o) => !o)}
       >
         <CalendarPlus className="h-4 w-4" aria-hidden />
